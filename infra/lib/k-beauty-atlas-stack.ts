@@ -8,7 +8,6 @@ import * as authorizers from "aws-cdk-lib/aws-apigatewayv2-authorizers";
 import * as budgets from "aws-cdk-lib/aws-budgets";
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import * as logs from "aws-cdk-lib/aws-logs";
@@ -72,17 +71,14 @@ export class KBeautyAtlasStack extends cdk.Stack {
     new ssm.StringParameter(this, "ContentTableParameter", { parameterName: "/k-beauty-atlas/content-table", stringValue: contentTable.tableName });
     new budgets.CfnBudget(this, "MonthlyBudget", { budget: { budgetName: "k-beauty-atlas-monthly", budgetLimit: { amount: Number(this.node.tryGetContext("budgetLimitUsd") ?? 20), unit: "USD" }, budgetType: "COST", timeUnit: "MONTHLY" } });
 
-    const githubProvider = new iam.OpenIdConnectProvider(this, "GitHubOidcProvider", { url: "https://token.actions.githubusercontent.com", clientIds: ["sts.amazonaws.com"], thumbprints: ["6938fd4d98bab03faadb97b34396831e3780aea1"] });
-    const githubRole = new iam.Role(this, "GitHubActionsRole", { roleName: "k-beauty-atlas-github-actions", assumedBy: new iam.WebIdentityPrincipal(githubProvider.openIdConnectProviderArn, { StringLike: { "token.actions.githubusercontent.com:sub": "repo:ekseh93/k-beauty-wiki:*" }, StringEquals: { "token.actions.githubusercontent.com:aud": "sts.amazonaws.com" } }), description: "Temporary deployment role for the K-Beauty Atlas GitHub Actions workflow" });
-    githubRole.addToPolicy(new iam.PolicyStatement({ actions: ["cloudformation:*", "lambda:*", "dynamodb:*", "s3:*", "cognito-idp:*", "apigateway:*", "apigatewayv2:*", "ssm:*", "logs:*", "amplify:*", "iam:PassRole"], resources: ["*"] }));
-
     const amplifyApp = new amplify.CfnApp(this, "AmplifyApp", { name: "k-beauty-atlas-japan", platform: "WEB_COMPUTE", repository: this.node.tryGetContext("githubRepository"), buildSpec: "version: 1\nfrontend:\n  phases:\n    preBuild:\n      commands:\n        - corepack enable\n        - pnpm install --frozen-lockfile\n    build:\n      commands:\n        - pnpm build\n  artifacts:\n    baseDirectory: .next\n    files:\n      - '**/*'\n  cache:\n    paths:\n      - node_modules/**/*\n" });
     new amplify.CfnBranch(this, "AmplifyMainBranch", { appId: amplifyApp.attrAppId, branchName: "main", enableAutoBuild: true, framework: "Next.js - SSR" });
 
     new cdk.CfnOutput(this, "ContentApiEndpoint", { value: httpApi.apiEndpoint });
     new cdk.CfnOutput(this, "AdminUserPoolId", { value: userPool.userPoolId });
     new cdk.CfnOutput(this, "AdminClientId", { value: userPoolClient.userPoolClientId });
-    new cdk.CfnOutput(this, "GitHubActionsRoleArn", { value: githubRole.roleArn });
+    const githubActionsRoleArn = this.node.tryGetContext("githubActionsRoleArn") ?? cdk.Stack.of(this).formatArn({ service: "iam", region: "", resource: "role", resourceName: "k-beauty-atlas-github-actions" });
+    new cdk.CfnOutput(this, "GitHubActionsRoleArn", { value: githubActionsRoleArn });
   }
 }
 

@@ -89,7 +89,7 @@ NEXT_PUBLIC_COGNITO_CLIENT_ID=
 CDK_DEFAULT_REGION=ap-northeast-1
 ```
 
-秘密情報、AWSアクセスキー、Cognitoシークレットはコミットしません。GitHub ActionsではAWS OIDCを使い、長期アクセスキーを保存しません。
+秘密情報、AWSアクセスキー、Cognitoシークレットはコミットしません。GitHub ActionsではAWS OIDCを使い、長期アクセスキーを保存しません。AWSルートユーザーは通常のデプロイに使いません。
 
 ## コマンド
 
@@ -127,12 +127,35 @@ tests/                       # Playwright E2E
 
 ## AWSデプロイ準備
 
+AWSリソースは東京リージョン（`ap-northeast-1`）を前提にします。GitHub Actions用のOIDCプロバイダーとロールはアカウント側で一度だけ作成し、CDKは既存ロールを参照します。ロールの信頼条件は `ekseh93/k-beauty-wiki` の `main` ブランチに限定しています。
+
+現在の接続先:
+
+- AWSアカウント: `490220201302`
+- GitHub Actionsロール: `arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions`
+- GitHub Actionsの権限: OIDCによる一時認証のみ（長期アクセスキーなし）
+
+GitHubリポジトリの Settings → Secrets and variables → Actions で、次のRepository secretを登録してください。
+
+- `AWS_ROLE_ARN`: `arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions`
+
+`AWS_REGION` はRepository variableとして `ap-northeast-1` を登録するか、未設定のまま既定値を使えます。
+
+AWSコンソールでのルートユーザー作業が終わったら、通常のローカル作業にはIAM Identity Centerのユーザーを使います。ローカルでは次のように設定します。
+
+```bash
+aws configure sso --profile kbeauty-dev
+aws sso login --profile kbeauty-dev
+```
+
+CDK BootstrapはGitHub Actionsの一時認証ロールで実行します。Bootstrap時にCDK管理用S3バケットとIAMロールが作成されます。初回デプロイ前にGitHub ActionsのCIが成功していることを確認してください。
+
 AWSアカウントと認証情報がない環境では、まずローカルテストとCDK synthまで実行します。実デプロイには以下を設定してください。
 
 1. AWS CLIとCDKの初期設定
 2. CDK bootstrap
-3. GitHub Actions用AWS OIDCプロバイダーとリポジトリ限定IAMロール
-4. GitHub Secretsの `AWS_ROLE_ARN` と `AWS_REGION`
+3. GitHub Actions用AWS OIDCプロバイダーとリポジトリ限定IAMロール（作成済み）
+4. GitHub Secretの `AWS_ROLE_ARN` と、必要ならRepository variableの `AWS_REGION`
 5. 必要に応じたS3・Cognito・DynamoDBの初期データ投入
 6. `pnpm cdk:deploy` またはGitHub Actionsによるデプロイ
 
