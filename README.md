@@ -148,12 +148,15 @@ aws sso login --profile kbeauty-dev
 
 CDK BootstrapはGitHub Actionsの一時認証ロールで実行します。Bootstrap時にCDK管理用S3バケットとIAMロールが作成されます。初回デプロイ前にGitHub ActionsのCIが成功していることを確認してください。
 
+Amplify Hosting은 GitHub 저장소 연결용 토큰이 필요합니다. `AMPLIFY_GITHUB_TOKEN` Repository secret이 없으면 백엔드 리소스만 배포하고 Amplify 리소스는 건너뜁니다. Amplify를 활성화할 때는 저장소 접근 권한이 있는 GitHub 토큰을 해당 secret으로 등록한 뒤 main에 다시 push합니다.
+
 AWSアカウントと認証情報がない環境では、まずローカルテストとCDK synthまで実行します。実デプロイには以下を設定してください。
 
 1. AWS CLIとCDKの初期設定
 2. CDK bootstrap
 3. GitHub Actions用AWS OIDCプロバイダーとリポジトリ限定IAMロール（作成済み）
 4. 필요하면 Repository variable `AWS_REGION`을 `ap-northeast-1`로 설정
+5. Amplify Hosting을 사용할 때 `AMPLIFY_GITHUB_TOKEN` Repository secret 등록
 5. 必要に応じたS3・Cognito・DynamoDBの初期データ投入
 6. `pnpm cdk:deploy` またはGitHub Actionsによるデプロイ
 

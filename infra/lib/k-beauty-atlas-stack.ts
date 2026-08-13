@@ -71,8 +71,11 @@ export class KBeautyAtlasStack extends cdk.Stack {
     new ssm.StringParameter(this, "ContentTableParameter", { parameterName: "/k-beauty-atlas/content-table", stringValue: contentTable.tableName });
     new budgets.CfnBudget(this, "MonthlyBudget", { budget: { budgetName: "k-beauty-atlas-monthly", budgetLimit: { amount: Number(this.node.tryGetContext("budgetLimitUsd") ?? 20), unit: "USD" }, budgetType: "COST", timeUnit: "MONTHLY" } });
 
-    const amplifyApp = new amplify.CfnApp(this, "AmplifyApp", { name: "k-beauty-atlas-japan", platform: "WEB_COMPUTE", repository: this.node.tryGetContext("githubRepository"), buildSpec: "version: 1\nfrontend:\n  phases:\n    preBuild:\n      commands:\n        - corepack enable\n        - pnpm install --frozen-lockfile\n    build:\n      commands:\n        - pnpm build\n  artifacts:\n    baseDirectory: .next\n    files:\n      - '**/*'\n  cache:\n    paths:\n      - node_modules/**/*\n" });
-    new amplify.CfnBranch(this, "AmplifyMainBranch", { appId: amplifyApp.attrAppId, branchName: "main", enableAutoBuild: true, framework: "Next.js - SSR" });
+    const amplifyGithubToken = process.env.AMPLIFY_GITHUB_TOKEN ?? this.node.tryGetContext("amplifyGithubToken");
+    if (amplifyGithubToken) {
+      const amplifyApp = new amplify.CfnApp(this, "AmplifyApp", { name: "k-beauty-atlas-japan", platform: "WEB_COMPUTE", accessToken: amplifyGithubToken, repository: this.node.tryGetContext("githubRepository"), buildSpec: "version: 1\nfrontend:\n  phases:\n    preBuild:\n      commands:\n        - corepack enable\n        - pnpm install --frozen-lockfile\n    build:\n      commands:\n        - pnpm build\n  artifacts:\n    baseDirectory: .next\n    files:\n      - '**/*'\n  cache:\n    paths:\n      - node_modules/**/*\n" });
+      new amplify.CfnBranch(this, "AmplifyMainBranch", { appId: amplifyApp.attrAppId, branchName: "main", enableAutoBuild: true, framework: "Next.js - SSR" });
+    }
 
     new cdk.CfnOutput(this, "ContentApiEndpoint", { value: httpApi.apiEndpoint });
     new cdk.CfnOutput(this, "AdminUserPoolId", { value: userPool.userPoolId });
