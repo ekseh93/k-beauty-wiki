@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  background: #f7f3ed;
+  color: #242323;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f7f3ed;
+  color: #242323;
+  font-family: var(--font-noto-sans-jp), "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: #e7b6a8;
+}
+
+.paper-grid {
+  background-image: linear-gradient(rgba(36, 35, 35, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 35, 35, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

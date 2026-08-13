@@ -1,0 +1,7 @@
+{
+  "app": "node -e \"process.env.TS_NODE_PROJECT='infra/tsconfig.json'; require('ts-node/register'); require('./infra/bin/k-beauty-atlas-japan.ts')\"",
+  "context": {
+    "githubRepository": "https://github.com/ekseh93/k-beauty-wiki.git",
+    "budgetLimitUsd": 20
+  }
+}
