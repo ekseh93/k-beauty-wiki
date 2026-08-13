@@ -135,9 +135,7 @@ AWSリソースは東京リージョン（`ap-northeast-1`）を前提にしま�
 - GitHub Actionsロール: `arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions`
 - GitHub Actionsの権限: OIDCによる一時認証のみ（長期アクセスキーなし）
 
-GitHubリポジトリの Settings → Secrets and variables → Actions で、次のRepository secretを登録してください。
-
-- `AWS_ROLE_ARN`: `arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions`
+GitHub Actions 워크플로에는 계정의 배포 역할 ARN을 직접 지정하며, 장기 AWS 액세스 키는 사용하지 않습니다. 기존에 등록한 `AWS_ROLE_ARN` secret은 남아 있어도 되지만 현재 워크플로에서는 사용하지 않습니다.
 
 `AWS_REGION` はRepository variableとして `ap-northeast-1` を登録するか、未設定のまま既定値を使えます。
 
@@ -155,7 +153,7 @@ AWSアカウントと認証情報がない環境では、まずローカルテ�
 1. AWS CLIとCDKの初期設定
 2. CDK bootstrap
 3. GitHub Actions用AWS OIDCプロバイダーとリポジトリ限定IAMロール（作成済み）
-4. GitHub Secretの `AWS_ROLE_ARN` と、必要ならRepository variableの `AWS_REGION`
+4. 필요하면 Repository variable `AWS_REGION`을 `ap-northeast-1`로 설정
 5. 必要に応じたS3・Cognito・DynamoDBの初期データ投入
 6. `pnpm cdk:deploy` またはGitHub Actionsによるデプロイ
 

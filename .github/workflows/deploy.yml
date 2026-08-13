@@ -28,4 +28,4 @@ jobs:
           role-to-assume: arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions
           aws-region: ${{ vars.AWS_REGION || 'ap-northeast-1' }}
       - run: pnpm exec cdk bootstrap aws://490220201302/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
-      - run: pnpm cdk:deploy -- --require-approval never
+      - run: pnpm exec cdk deploy --all --require-approval never
