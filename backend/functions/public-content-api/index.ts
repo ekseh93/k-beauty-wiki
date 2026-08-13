@@ -1,7 +1,7 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { corsHeaders, jsonResponse } from "../../shared/content";
+import { corsHeaders, jsonResponse, validateForPublish, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -22,6 +22,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   }));
 
   const items = (result.Items ?? []).filter((item) => {
+    if (item.isFixture === true || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
     if (kind && item.kind !== kind) return false;
     if (!query) return true;
     return [item.titleJa, item.koreanName, item.summary, ...(item.tags ?? []), ...(item.aliases ?? [])]

@@ -33,6 +33,12 @@ Amazon API Gateway HTTP API
   └─ maintenance-job     → DynamoDB / CloudWatch
 
 Amazon Cognito / S3 / CloudWatch / SSM Parameter Store / AWS Budgets
+
+## 콘텐츠 출처·권리 기준
+
+콘텐츠는 나무위키나 커뮤니티 원문을 복사하지 않고, 공식 API·서면 허가·명확한 이용 허용 범위가 확인된 출처를 우선 사용한다. 출처 URL, 확인일, 수집 방식, 권리 상태를 함께 기록하며 `needs-review`, `rejected`, `prohibited` 출처가 포함된 콘텐츠는 공개할 수 없다. 커뮤니티 리뷰는 원문 전체가 아니라 최소 인용 또는 다수 표본의 요약 지표로만 사용한다.
+
+세부 기준은 [콘텐츠 출처·권리 운영 정책](docs/content-rights-policy.md)을 참고한다.
 GitHub Actions ── OIDC ── AWS CDK
 ```
 
@@ -148,7 +154,7 @@ aws sso login --profile kbeauty-dev
 
 CDK BootstrapはGitHub Actionsの一時認証ロールで実行します。Bootstrap時にCDK管理用S3バケットとIAMロールが作成されます。初回デプロイ前にGitHub ActionsのCIが成功していることを確認してください。
 
-Amplify Hosting은 GitHub 저장소 연결용 토큰이 필요합니다. `AMPLIFY_GITHUB_TOKEN` Repository secret이 없으면 백엔드 리소스만 배포하고 Amplify 리소스는 건너뜁니다. Amplify를 활성화할 때는 저장소 접근 권한이 있는 GitHub 토큰을 해당 secret으로 등록한 뒤 main에 다시 push합니다.
+Amplify Hosting은 GitHub 저장소 연결용 토큰이 필요합니다. `AMPLIFY_GITHUB_TOKEN` Repository secret이 없으면 백엔드 리소스만 배포하고 Amplify 리소스는 건너뜁니다. Amplify를 활성화할 때는 저장소 접근 권한이 있는 GitHub 토큰을 해당 secret으로 등록한 뒤 main에 다시 push합니다. CDK는 Amplify 앱에 API Gateway URL과 Cognito User Pool·Client ID를 자동으로 주입하므로 별도 공개 환경 변수 secret은 필요하지 않습니다.
 
 AWSアカウントと認証情報がない環境では、まずローカルテストとCDK synthまで実行します。実デプロイには以下を設定してください。
 

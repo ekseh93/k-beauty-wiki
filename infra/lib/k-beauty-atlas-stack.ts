@@ -57,7 +57,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     contentTable.grantReadWriteData(adminApi);
     revisionTable.grantWriteData(adminApi);
     contentTable.grantReadWriteData(maintenanceJob);
-    correctionTable.grantWriteData(correctionApi);
+    correctionTable.grantReadWriteData(correctionApi);
     assetBucket.grantReadWrite(adminApi);
 
     const httpApi = new apigwv2.HttpApi(this, "ContentHttpApi", { apiName: "k-beauty-atlas-content-api", corsPreflight: { allowHeaders: ["content-type", "authorization"], allowMethods: [apigwv2.CorsHttpMethod.GET, apigwv2.CorsHttpMethod.POST, apigwv2.CorsHttpMethod.PUT, apigwv2.CorsHttpMethod.OPTIONS], allowOrigins: ["*"] } });
@@ -65,6 +65,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     httpApi.addRoutes({ path: "/corrections", methods: [apigwv2.HttpMethod.POST], integration: new integrations.HttpLambdaIntegration("CorrectionIntegration", correctionApi) });
     const adminAuthorizer = new authorizers.HttpUserPoolAuthorizer("AdminAuthorizer", userPool, { userPoolClients: [userPoolClient] });
     httpApi.addRoutes({ path: "/admin/content", methods: [apigwv2.HttpMethod.POST, apigwv2.HttpMethod.PUT], integration: new integrations.HttpLambdaIntegration("AdminContentIntegration", adminApi), authorizer: adminAuthorizer });
+    httpApi.addRoutes({ path: "/admin/corrections", methods: [apigwv2.HttpMethod.GET, apigwv2.HttpMethod.PUT], integration: new integrations.HttpLambdaIntegration("AdminCorrectionIntegration", correctionApi), authorizer: adminAuthorizer });
 
     new eventsRule(this, maintenanceJob);
     new ssm.StringParameter(this, "ContentApiUrlParameter", { parameterName: "/k-beauty-atlas/api-url", stringValue: httpApi.apiEndpoint });
@@ -73,7 +74,11 @@ export class KBeautyAtlasStack extends cdk.Stack {
 
     const amplifyGithubToken = process.env.AMPLIFY_GITHUB_TOKEN ?? this.node.tryGetContext("amplifyGithubToken");
     if (amplifyGithubToken) {
-      const amplifyApp = new amplify.CfnApp(this, "AmplifyApp", { name: "k-beauty-atlas-japan", platform: "WEB_COMPUTE", accessToken: amplifyGithubToken, repository: this.node.tryGetContext("githubRepository"), buildSpec: "version: 1\nfrontend:\n  phases:\n    preBuild:\n      commands:\n        - corepack enable\n        - pnpm install --frozen-lockfile\n    build:\n      commands:\n        - pnpm build\n  artifacts:\n    baseDirectory: .next\n    files:\n      - '**/*'\n  cache:\n    paths:\n      - node_modules/**/*\n" });
+      const amplifyApp = new amplify.CfnApp(this, "AmplifyApp", { name: "k-beauty-atlas-japan", platform: "WEB_COMPUTE", accessToken: amplifyGithubToken, repository: this.node.tryGetContext("githubRepository"), environmentVariables: [
+        { name: "NEXT_PUBLIC_CONTENT_API_URL", value: httpApi.apiEndpoint },
+        { name: "NEXT_PUBLIC_COGNITO_USER_POOL_ID", value: userPool.userPoolId },
+        { name: "NEXT_PUBLIC_COGNITO_CLIENT_ID", value: userPoolClient.userPoolClientId },
+      ], buildSpec: "version: 1\nfrontend:\n  phases:\n    preBuild:\n      commands:\n        - corepack enable\n        - pnpm install --frozen-lockfile\n    build:\n      commands:\n        - pnpm build\n  artifacts:\n    baseDirectory: .next\n    files:\n      - '**/*'\n  cache:\n    paths:\n      - node_modules/**/*\n" });
       new amplify.CfnBranch(this, "AmplifyMainBranch", { appId: amplifyApp.attrAppId, branchName: "main", enableAutoBuild: true, framework: "Next.js - SSR" });
     }
 
