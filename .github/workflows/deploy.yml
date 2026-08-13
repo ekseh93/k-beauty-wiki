@@ -25,7 +25,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::490220201302:role/k-beauty-atlas-github-actions
           aws-region: ${{ vars.AWS_REGION || 'ap-northeast-1' }}
       - run: pnpm exec cdk bootstrap aws://490220201302/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
       - run: pnpm cdk:deploy -- --require-approval never
