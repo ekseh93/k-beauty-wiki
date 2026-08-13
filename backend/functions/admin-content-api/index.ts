@@ -20,6 +20,10 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   const errors = validateForPublish(input);
   if (input.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
 
+  if (input.status === "published" && input.sources?.some((source) => source.rightsStatus !== "verified" && source.rightsStatus !== "reference-only")) {
+    return jsonResponse(422, { message: "Content cannot be published until every source has verified or reference-only rights", errors: ["source rights must be verified or reference-only"] });
+  }
+
   const now = new Date().toISOString();
   const item = { ...input, id: input.id ?? randomUUID(), createdAt: input.createdAt ?? now, updatedAt: now, status: input.status ?? "draft" };
   await documentClient.send(new PutCommand({ TableName: tableName, Item: item }));
