@@ -59,6 +59,17 @@ describe("validateForPublish", () => {
     );
   });
 
+  it("rejects unsupported source metadata values", () => {
+    const errors = validateForPublish({
+      ...validContent,
+      sources: [{ ...validContent.sources?.[0], sourceType: "copied" as never, rightsStatus: "unknown" as never, extractionMethod: "scrape" as never }],
+    });
+
+    expect(errors).toContain("sources[0].sourceType must be a supported value");
+    expect(errors).toContain("sources[0].rightsStatus must be a supported value");
+    expect(errors).toContain("sources[0].extractionMethod must be a supported value");
+  });
+
   it("requires at least five samples for community evidence", () => {
     const errors = validateForPublish({
       ...validContent,
