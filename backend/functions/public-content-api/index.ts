@@ -12,7 +12,7 @@ function stringList(value: unknown): string[] {
 export function filterPublicContentItems(items: Record<string, unknown>[], kind?: string, query = ""): Record<string, unknown>[] {
   const normalizedQuery = query.trim().toLocaleLowerCase("ja-JP");
   return items.filter((item) => {
-    if (item.isFixture === true || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
+    if (item.status !== "published" || item.isFixture === true || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
     if (kind && item.kind !== kind) return false;
     if (!normalizedQuery) return true;
     return [item.titleJa, item.koreanName, item.summary, ...stringList(item.tags), ...stringList(item.aliases)]
