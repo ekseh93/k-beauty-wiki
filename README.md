@@ -85,6 +85,16 @@ pnpm build
 pnpm cdk:synth
 ```
 
+### コンテンツ登録前の検証
+
+管理画面へ登録する前に、AWSへ保存せずローカルでコンテンツの状態を検証します。
+
+```bash
+pnpm validate:content --file=path/to/content.json
+```
+
+`review`は出典、最終確認日、基本本文などを要求し、`published`は公開用の全検証を通過する必要があります。運用基準は[`docs/content-registration.md`](./docs/content-registration.md)を参照してください。
+
 ## デプロイフロー
 
 1. GitHub ActionsがAWS OIDCでCDKバックエンドをデプロイします。
