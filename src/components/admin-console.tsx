@@ -385,7 +385,7 @@ export function AdminConsole() {
         <Field label="기준 가격" value={form.price} onChange={(value) => updateForm("price", value)} required />
         <Field label="통화" value={form.currency} onChange={(value) => updateForm("currency", value)} required />
         <Field label="용량당 가격" value={form.pricePerVolume} onChange={(value) => updateForm("pricePerVolume", value)} required />
-        <Field label="가격 조사일" type="date" value={form.priceCheckedAt} onChange={(value) => updateForm("priceCheckedAt", value)} required />
+        <Field label="가격 조사일" type="text" placeholder="YYYY-MM-DD" value={form.priceCheckedAt} onChange={(value) => updateForm("priceCheckedAt", value)} required />
         <TextAreaField label="주요 성분과 일반적인 역할 (성분 | 역할)" value={form.keyIngredients} onChange={(value) => updateForm("keyIngredients", value)} required placeholder="セラミド | 피부 장벽을 돕는 성분" />
         <TextAreaField label="피부 타입 또는 사용 목적" value={form.skinTypes} onChange={(value) => updateForm("skinTypes", value)} required />
         <TextAreaField label="사용 방법" value={form.usage} onChange={(value) => updateForm("usage", value)} required />
@@ -401,7 +401,7 @@ export function AdminConsole() {
         <SelectField label="출처 유형" value={form.sourceType} onChange={(value) => updateForm("sourceType", value as SourceType)} options={[{ value: "official-api", label: "공식 API" }, { value: "written-permission", label: "서면 허가" }, { value: "public-fact", label: "공개 사실" }, { value: "short-quote", label: "짧은 인용" }, { value: "manual-reference", label: "수동 참고" }, { value: "community-review", label: "커뮤니티 리뷰" }]} />
         <SelectField label="권리 상태" value={form.rightsStatus} onChange={(value) => updateForm("rightsStatus", value as RightsStatus)} options={[{ value: "verified", label: "검증됨" }, { value: "reference-only", label: "참고 전용" }, { value: "needs-review", label: "검토 필요" }, { value: "rejected", label: "사용 거부" }]} />
         <SelectField label="수집 방식" value={form.extractionMethod} onChange={(value) => updateForm("extractionMethod", value as ExtractionMethod)} options={[{ value: "api", label: "API" }, { value: "licensed-import", label: "허가된 가져오기" }, { value: "manual", label: "수동 입력" }, { value: "no-automation", label: "자동 수집 안 함" }]} />
-        <Field label="최종 확인일" type="date" value={form.lastVerifiedAt} onChange={(value) => updateForm("lastVerifiedAt", value)} required />
+        <Field label="최종 확인일" type="text" placeholder="YYYY-MM-DD" value={form.lastVerifiedAt} onChange={(value) => updateForm("lastVerifiedAt", value)} required />
       </div>
       {form.sourceType === "short-quote" && <label className="mt-4 block text-sm">짧은 인용문<textarea value={form.quote} onChange={(event) => updateForm("quote", event.target.value)} maxLength={500} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" placeholder="필요한 최소한의 인용만 입력하세요." /></label>}
     </div>
@@ -466,8 +466,8 @@ function CheckItem({ ok, label }: { ok: boolean; label: string }) {
   return <div className={`rounded-xl px-3 py-3 ${ok ? "bg-sage/15 text-ink/75" : "bg-blush/10 text-ink/60"}`}><span className="mr-2" aria-hidden="true">{ok ? "✓" : "—"}</span>{label}</div>;
 }
 
-function Field({ label, value, onChange, required, type = "text" }: { label: string; value: string; onChange: (value: string) => void; required?: boolean; type?: string }) {
-  return <label className="mt-4 block text-sm">{label}<input type={type} required={required} value={value} onChange={(event) => onChange(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-line bg-cream px-3 outline-none focus:border-ink/50" /></label>;
+function Field({ label, value, onChange, required, type = "text", placeholder }: { label: string; value: string; onChange: (value: string) => void; required?: boolean; type?: string; placeholder?: string }) {
+  return <label className="mt-4 block text-sm">{label}<input type={type} required={required} value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-line bg-cream px-3 outline-none focus:border-ink/50" /></label>;
 }
 
 function TextAreaField({ label, value, onChange, required, placeholder }: { label: string; value: string; onChange: (value: string) => void; required?: boolean; placeholder?: string }) {
