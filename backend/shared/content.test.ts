@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateForPublish, type ContentRecord } from "./content";
+import { validateContentWrite, validateForPublish, type ContentRecord } from "./content";
 
 const validContent: Partial<ContentRecord> = {
   kind: "skincare",
@@ -71,5 +71,29 @@ describe("validateForPublish", () => {
   it("requires structured product details before publication", () => {
     const errors = validateForPublish({ ...validContent, details: undefined });
     expect(errors).toContain("details for product content are required");
+  });
+});
+
+describe("validateContentWrite", () => {
+  it("accepts the supported content states and kinds", () => {
+    expect(validateContentWrite({ status: "review", kind: "treatment", sources: [], relatedSlugs: [] })).toEqual([]);
+  });
+
+  it("rejects unknown state, kind, and non-array fields", () => {
+    const errors = validateContentWrite({
+      status: "ready" as ContentRecord["status"],
+      kind: "other" as ContentRecord["kind"],
+      sources: "source" as unknown as ContentRecord["sources"],
+      relatedSlugs: "related" as unknown as ContentRecord["relatedSlugs"],
+    });
+
+    expect(errors).toEqual([
+      "status must be one of draft, review, published, archived",
+      "kind must be one of treatment, skincare, makeup",
+      "sources must be an array",
+      "relatedSlugs must be an array",
+    ]);
+
+    expect(validateContentWrite({ sources: [null as unknown as ContentRecord["sources"][number]] })).toContain("sources entries must be objects");
   });
 });
