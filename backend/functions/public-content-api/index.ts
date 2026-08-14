@@ -5,12 +5,28 @@ import { corsHeaders, jsonResponse, validateForPublish, type ContentRecord } fro
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
+function stringList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+export function filterPublicContentItems(items: Record<string, unknown>[], kind?: string, query = ""): Record<string, unknown>[] {
+  const normalizedQuery = query.trim().toLocaleLowerCase("ja-JP");
+  return items.filter((item) => {
+    if (item.isFixture === true || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
+    if (kind && item.kind !== kind) return false;
+    if (!normalizedQuery) return true;
+    return [item.titleJa, item.koreanName, item.summary, ...stringList(item.tags), ...stringList(item.aliases)]
+      .filter((value): value is string => typeof value === "string")
+      .join(" ").toLocaleLowerCase("ja-JP").includes(normalizedQuery);
+  });
+}
+
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   if (event.requestContext.http.method === "OPTIONS") return { statusCode: 204, headers: corsHeaders() };
   const tableName = process.env.CONTENT_TABLE_NAME;
   if (!tableName) return jsonResponse(503, { message: "Content API is not configured" });
 
-  const query = event.queryStringParameters?.q?.trim().toLocaleLowerCase("ja-JP") ?? "";
+  const query = event.queryStringParameters?.q ?? "";
   const kind = event.queryStringParameters?.kind;
   const result = await documentClient.send(new QueryCommand({
     TableName: tableName,
@@ -21,13 +37,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     ScanIndexForward: false,
   }));
 
-  const items = (result.Items ?? []).filter((item) => {
-    if (item.isFixture === true || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
-    if (kind && item.kind !== kind) return false;
-    if (!query) return true;
-    return [item.titleJa, item.koreanName, item.summary, ...(item.tags ?? []), ...(item.aliases ?? [])]
-      .join(" ").toLocaleLowerCase("ja-JP").includes(query);
-  });
+  const items = filterPublicContentItems((result.Items ?? []) as Record<string, unknown>[], kind, query);
 
   return jsonResponse(200, { items });
 };
