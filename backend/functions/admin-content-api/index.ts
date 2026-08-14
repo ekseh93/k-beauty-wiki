@@ -22,7 +22,16 @@ export function hasAdminGroup(claims: Record<string, unknown> | undefined, group
 }
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
-  if (!hasAdminGroup(event.requestContext.authorizer?.jwt?.claims)) {
+  const claims = event.requestContext.authorizer?.jwt?.claims;
+  if (!hasAdminGroup(claims)) {
+    const groupsClaim = claims?.["cognito:groups"];
+    console.warn("Admin group membership rejected", {
+      claimKeys: claims ? Object.keys(claims) : [],
+      groupsClaimType: typeof groupsClaim,
+      groupsClaimIsArray: Array.isArray(groupsClaim),
+      groupsClaim,
+      expectedGroup: process.env.ADMIN_GROUP_NAME ?? "admin",
+    });
     return jsonResponse(403, { message: "Admin group membership is required" });
   }
   const tableName = process.env.CONTENT_TABLE_NAME;
