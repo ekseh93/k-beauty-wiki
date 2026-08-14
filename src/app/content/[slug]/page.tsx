@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { fixtureContent, getContentBySlug, kindLabels } from "@/lib/content";
+import { fetchPublishedContentBySlug, fetchPublishedContents } from "@/lib/content-api";
+import { kindLabels } from "@/lib/content";
 
-export function generateStaticParams() { return fixtureContent.map((content) => ({ slug: content.slug })); }
+export const dynamicParams = true;
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const content = getContentBySlug(params.slug);
+export async function generateStaticParams() {
+  const contents = await fetchPublishedContents();
+  return contents.map((content) => ({ slug: content.slug }));
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const content = await fetchPublishedContentBySlug(params.slug);
   return content ? { title: content.titleJa, description: content.summary, alternates: { canonical: `/content/${content.slug}` } } : {};
 }
 
-export default function ContentDetailPage({ params }: { params: { slug: string } }) {
-  const content = getContentBySlug(params.slug);
+export default async function ContentDetailPage({ params }: { params: { slug: string } }) {
+  const content = await fetchPublishedContentBySlug(params.slug);
   if (!content) notFound();
 
-  const related = content.relatedSlugs.map(getContentBySlug).filter((item) => item !== undefined);
+  const allContents = await fetchPublishedContents();
+  const related = content.relatedSlugs.map((slug) => allContents.find((item) => item.slug === slug)).filter((item) => item !== undefined);
 
   return (
     <article className="mx-auto max-w-5xl px-5 py-12 lg:px-8 lg:py-16">

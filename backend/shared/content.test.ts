@@ -19,6 +19,21 @@ const validContent: Partial<ContentRecord> = {
     rightsStatus: "verified",
     extractionMethod: "api",
   }],
+  details: {
+    kind: "product",
+    brand: "ブランド",
+    productType: "保湿クリーム",
+    volume: "50 g",
+    price: "2500",
+    currency: "JPY",
+    pricePerVolume: "50 JPY/g",
+    keyIngredients: [{ name: "セラミド", role: "肌のうるおいを保つ成分" }],
+    skinTypes: ["乾燥肌"],
+    usage: ["適量を塗る"],
+    pros: ["使いやすい"],
+    considerations: ["肌に合わない場合は使用を中止する"],
+    priceCheckedAt: "2026-08-14",
+  },
 };
 
 describe("validateForPublish", () => {
@@ -51,5 +66,10 @@ describe("validateForPublish", () => {
     });
 
     expect(errors).toContain("reviewEvidence.sampleCount must be at least 5");
+  });
+
+  it("requires structured product details before publication", () => {
+    const errors = validateForPublish({ ...validContent, details: undefined });
+    expect(errors).toContain("details for product content are required");
   });
 });

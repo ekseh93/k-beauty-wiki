@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ContentExplorer } from "@/components/content-explorer";
-import { fixtureContent } from "@/lib/content";
+import { fetchPublishedContents } from "@/lib/content-api";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const contents = await fetchPublishedContents();
+  const usingFixtures = contents.some((content) => content.isFixture);
   return (
     <>
       <section className="paper-grid border-b border-line/70">
@@ -31,9 +33,9 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div><p className="text-xs uppercase tracking-[0.25em] text-ink/45">Explore</p><h2 className="mt-2 font-display text-3xl">いま読める項目</h2></div>
-          <span className="rounded-full bg-blush/25 px-3 py-1.5 text-xs text-ink/70">開発用fixtureを表示中</span>
+          <span className="rounded-full bg-blush/25 px-3 py-1.5 text-xs text-ink/70">{usingFixtures ? "開発用fixtureを表示中" : contents.length ? "出典確認済みコンテンツ" : "公開コンテンツ準備中"}</span>
         </div>
-        <ContentExplorer contents={fixtureContent} />
+        <ContentExplorer contents={contents} />
       </section>
     </>
   );

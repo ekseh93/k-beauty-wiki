@@ -31,6 +31,39 @@ export interface ReviewEvidence {
   sourceUrls: string[];
 }
 
+export interface TreatmentDetails {
+  kind: "treatment";
+  principle: string;
+  purpose: string;
+  suitableFor: string[];
+  consultOrAvoid: string[];
+  priceRange: string;
+  priceCondition: string;
+  duration: string;
+  downtime: string;
+  maintenance: string;
+  sideEffects: string[];
+  similarTreatments: string[];
+}
+
+export interface ProductDetails {
+  kind: "product";
+  brand: string;
+  productType: string;
+  volume: string;
+  price: string;
+  currency: string;
+  pricePerVolume: string;
+  keyIngredients: { name: string; role: string }[];
+  skinTypes: string[];
+  usage: string[];
+  pros: string[];
+  considerations: string[];
+  priceCheckedAt: string;
+}
+
+export type ContentDetails = TreatmentDetails | ProductDetails;
+
 export interface ContentRecord {
   id: string;
   kind: "treatment" | "skincare" | "makeup";
@@ -45,6 +78,7 @@ export interface ContentRecord {
   lastVerifiedAt?: string;
   sources: ContentSource[];
   reviewEvidence?: ReviewEvidence;
+  details?: ContentDetails;
   isFixture?: boolean;
   updatedAt: string;
   createdAt: string;
@@ -98,6 +132,40 @@ export function validateForPublish(content: Partial<ContentRecord>): string[] {
     if (!evidence.summary?.trim()) errors.push("reviewEvidence.summary is required");
     if (!evidence.sourceUrls?.length || evidence.sourceUrls.some((url) => !isHttpUrl(url))) {
       errors.push("reviewEvidence.sourceUrls must contain http(s) URLs");
+    }
+  }
+
+  if (content.kind === "treatment") {
+    const details = content.details;
+    if (!details || details.kind !== "treatment") {
+      errors.push("details for treatment content are required");
+    } else {
+      const requiredFields: (keyof TreatmentDetails)[] = ["principle", "purpose", "priceRange", "priceCondition", "duration", "downtime", "maintenance"];
+      for (const field of requiredFields) {
+        if (typeof details[field] !== "string" || !details[field].trim()) errors.push(`details.${field} is required`);
+      }
+      if (!details.suitableFor?.length) errors.push("details.suitableFor is required");
+      if (!details.consultOrAvoid?.length) errors.push("details.consultOrAvoid is required");
+      if (!details.sideEffects?.length) errors.push("details.sideEffects is required");
+      if (!details.similarTreatments?.length) errors.push("details.similarTreatments is required");
+    }
+  }
+
+  if (content.kind === "skincare" || content.kind === "makeup") {
+    const details = content.details;
+    if (!details || details.kind !== "product") {
+      errors.push("details for product content are required");
+    } else {
+      const requiredFields: (keyof ProductDetails)[] = ["brand", "productType", "volume", "price", "currency", "pricePerVolume", "priceCheckedAt"];
+      for (const field of requiredFields) {
+        if (typeof details[field] !== "string" || !details[field].trim()) errors.push(`details.${field} is required`);
+      }
+      if (!isDateOnly(details.priceCheckedAt)) errors.push("details.priceCheckedAt must be an ISO date (YYYY-MM-DD)");
+      if (!details.keyIngredients?.length) errors.push("details.keyIngredients is required");
+      if (!details.skinTypes?.length) errors.push("details.skinTypes is required");
+      if (!details.usage?.length) errors.push("details.usage is required");
+      if (!details.pros?.length) errors.push("details.pros is required");
+      if (!details.considerations?.length) errors.push("details.considerations is required");
     }
   }
 

@@ -64,7 +64,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     httpApi.addRoutes({ path: "/content", methods: [apigwv2.HttpMethod.GET], integration: new integrations.HttpLambdaIntegration("PublicContentIntegration", publicApi) });
     httpApi.addRoutes({ path: "/corrections", methods: [apigwv2.HttpMethod.POST], integration: new integrations.HttpLambdaIntegration("CorrectionIntegration", correctionApi) });
     const adminAuthorizer = new authorizers.HttpUserPoolAuthorizer("AdminAuthorizer", userPool, { userPoolClients: [userPoolClient] });
-    httpApi.addRoutes({ path: "/admin/content", methods: [apigwv2.HttpMethod.POST, apigwv2.HttpMethod.PUT], integration: new integrations.HttpLambdaIntegration("AdminContentIntegration", adminApi), authorizer: adminAuthorizer });
+    httpApi.addRoutes({ path: "/admin/content", methods: [apigwv2.HttpMethod.GET, apigwv2.HttpMethod.POST, apigwv2.HttpMethod.PUT], integration: new integrations.HttpLambdaIntegration("AdminContentIntegration", adminApi), authorizer: adminAuthorizer });
     httpApi.addRoutes({ path: "/admin/corrections", methods: [apigwv2.HttpMethod.GET, apigwv2.HttpMethod.PUT], integration: new integrations.HttpLambdaIntegration("AdminCorrectionIntegration", correctionApi), authorizer: adminAuthorizer });
 
     new eventsRule(this, maintenanceJob);
