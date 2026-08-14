@@ -8,7 +8,8 @@ const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
 export function hasAdminGroup(claims: Record<string, unknown> | undefined, groupName = process.env.ADMIN_GROUP_NAME ?? "admin"): boolean {
   const claim = claims?.["cognito:groups"];
-  const includesGroup = (values: unknown[]): boolean => values.some((value) => typeof value === "string" && value.trim().replace(/^['\"]|['\"]$/g, "") === groupName);
+  const normalizeGroup = (value: string): string => value.trim().replace(/^\[|\]$/g, "").replace(/^['\"]|['\"]$/g, "");
+  const includesGroup = (values: unknown[]): boolean => values.some((value) => typeof value === "string" && normalizeGroup(value) === groupName);
   if (Array.isArray(claim)) return includesGroup(claim);
   if (typeof claim !== "string") return false;
   try {
