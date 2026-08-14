@@ -10,6 +10,7 @@ describe("admin group authorization", () => {
     expect(hasAdminGroup({ "cognito:groups": '["editor","admin"]' })).toBe(true);
     expect(hasAdminGroup({ "cognito:groups": "editor,admin" })).toBe(true);
     expect(hasAdminGroup({ "cognito:groups": '"admin"' })).toBe(true);
+    expect(hasAdminGroup({ "cognito:groups": "[admin]" })).toBe(true);
   });
 
   it("rejects missing or unrelated groups", () => {

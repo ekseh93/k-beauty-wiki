@@ -8,7 +8,8 @@ const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
 export function hasAdminGroup(claims: Record<string, unknown> | undefined, groupName = process.env.ADMIN_GROUP_NAME ?? "admin"): boolean {
   const claim = claims?.["cognito:groups"];
-  const includesGroup = (values: unknown[]): boolean => values.some((value) => typeof value === "string" && value.trim().replace(/^['\"]|['\"]$/g, "") === groupName);
+  const normalizeGroup = (value: string): string => value.trim().replace(/^\[|\]$/g, "").replace(/^['\"]|['\"]$/g, "");
+  const includesGroup = (values: unknown[]): boolean => values.some((value) => typeof value === "string" && normalizeGroup(value) === groupName);
   if (Array.isArray(claim)) return includesGroup(claim);
   if (typeof claim !== "string") return false;
   try {
@@ -22,16 +23,7 @@ export function hasAdminGroup(claims: Record<string, unknown> | undefined, group
 }
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
-  const claims = event.requestContext.authorizer?.jwt?.claims;
-  if (!hasAdminGroup(claims)) {
-    const groupsClaim = claims?.["cognito:groups"];
-    console.warn("Admin group membership rejected", {
-      claimKeys: claims ? Object.keys(claims) : [],
-      groupsClaimType: typeof groupsClaim,
-      groupsClaimIsArray: Array.isArray(groupsClaim),
-      groupsClaim,
-      expectedGroup: process.env.ADMIN_GROUP_NAME ?? "admin",
-    });
+  if (!hasAdminGroup(event.requestContext.authorizer?.jwt?.claims)) {
     return jsonResponse(403, { message: "Admin group membership is required" });
   }
   const tableName = process.env.CONTENT_TABLE_NAME;
