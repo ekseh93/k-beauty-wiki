@@ -9,6 +9,7 @@ describe("admin group authorization", () => {
   it("accepts a serialized or comma-separated claim", () => {
     expect(hasAdminGroup({ "cognito:groups": '["editor","admin"]' })).toBe(true);
     expect(hasAdminGroup({ "cognito:groups": "editor,admin" })).toBe(true);
+    expect(hasAdminGroup({ "cognito:groups": '"admin"' })).toBe(true);
   });
 
   it("rejects missing or unrelated groups", () => {

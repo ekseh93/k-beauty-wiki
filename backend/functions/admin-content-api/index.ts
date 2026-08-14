@@ -8,15 +8,17 @@ const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
 export function hasAdminGroup(claims: Record<string, unknown> | undefined, groupName = process.env.ADMIN_GROUP_NAME ?? "admin"): boolean {
   const claim = claims?.["cognito:groups"];
-  if (Array.isArray(claim)) return claim.some((value) => value === groupName);
+  const includesGroup = (values: unknown[]): boolean => values.some((value) => typeof value === "string" && value.trim().replace(/^['\"]|['\"]$/g, "") === groupName);
+  if (Array.isArray(claim)) return includesGroup(claim);
   if (typeof claim !== "string") return false;
   try {
     const parsed = JSON.parse(claim) as unknown;
-    if (Array.isArray(parsed)) return parsed.some((value) => value === groupName);
+    if (Array.isArray(parsed)) return includesGroup(parsed);
+    if (typeof parsed === "string") return includesGroup(parsed.split(","));
   } catch {
     // HTTP API JWT claims can also arrive as a comma-separated string.
   }
-  return claim.split(",").map((value) => value.trim()).includes(groupName);
+  return includesGroup(claim.split(","));
 }
 
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
