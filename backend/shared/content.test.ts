@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateContentWrite, validateForPublish, type ContentRecord } from "./content";
+import { validateContentWrite, validateForPublish, validateForReview, type ContentRecord } from "./content";
 
 const validContent: Partial<ContentRecord> = {
   kind: "skincare",
@@ -88,6 +88,25 @@ describe("validateForPublish", () => {
   it("requires structured product details before publication", () => {
     const errors = validateForPublish({ ...validContent, details: undefined });
     expect(errors).toContain("details for product content are required");
+  });
+});
+
+describe("validateForReview", () => {
+  it("accepts source-backed review content without requiring product details", () => {
+    const reviewContent = { ...validContent, status: "review" as const, details: undefined };
+    expect(validateForReview(reviewContent)).toEqual([]);
+  });
+
+  it("rejects incomplete review content before it reaches DynamoDB", () => {
+    const errors = validateForReview({ status: "review", kind: "skincare", sources: [] });
+    expect(errors).toContain("titleJa is required");
+    expect(errors).toContain("at least one source is required");
+    expect(errors).toContain("lastVerifiedAt is required");
+  });
+
+  it("handles malformed source entries without throwing", () => {
+    expect(validateForReview({ ...validContent, sources: [null as never] })).toContain("sources[0] must be an object");
+    expect(validateForReview({ ...validContent, sources: "invalid" as never })).toContain("sources must be an array");
   });
 });
 

@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda";
-import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, type ContentRecord } from "../../shared/content";
+import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, validateForReview, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -55,8 +55,9 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   const input = parsed as Partial<ContentRecord>;
   const inputErrors = validateContentWrite(input);
   if (inputErrors.length > 0) return jsonResponse(422, { message: "Invalid content input", errors: inputErrors });
-  const errors = validateForPublish(input);
+  const errors = input.status === "published" ? validateForPublish(input) : input.status === "review" ? validateForReview(input) : [];
   if (input.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
+  if (input.status === "review" && errors.length > 0) return jsonResponse(422, { message: "Content cannot enter review", errors });
 
   if (input.status === "published" && input.sources?.some((source) => source.rightsStatus !== "verified" && source.rightsStatus !== "reference-only")) {
     return jsonResponse(422, { message: "Content cannot be published until every source has verified or reference-only rights", errors: ["source rights must be verified or reference-only"] });
