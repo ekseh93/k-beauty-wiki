@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { validateDraft } from "./content-draft";
+import { validateDraft } from "./content-draft.ts";
 
 function readOption(name: string): string | undefined {
   const prefix = `--${name}=`;
