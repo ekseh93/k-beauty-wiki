@@ -1,0 +1,71 @@
+{
+  "id": "review-cosrx-advanced-snail-96-mucin-power-essence",
+  "kind": "skincare",
+  "titleJa": "アドバンスド スネイル 96 ミュシン パワー エッセンス",
+  "koreanName": "어드벤스드 스네일 96 뮤신 파워 에센스",
+  "slug": "cosrx-advanced-snail-96-mucin-power-essence",
+  "summary": "COSRXが販売する、カタツムリ粘液ろ過物を主要成分として表示したエッセンス。公式表示と価格確認条件を分けて記録する検証待ちの登録案です。",
+  "body": [
+    "ブランド公式ページでは、96.3%のカタツムリ粘液ろ過物、1,000ppmのヒアルロン酸ナトリウム、100ml・30mlなどが表示されています。",
+    "使用方法は、洗顔と化粧水の後に少量を顔全体へ塗り、指先でなじませてから保湿剤を使う案内です。",
+    "韓国公式販売ページでは、すべての肌タイプ向けの製品仕様、全成分、使用上の注意が掲載されています。",
+    "肌に異常が出た場合や傷のある部位への使用については、公式の注意事項を優先し、必要に応じて専門家へ相談してください。"
+  ],
+  "tags": ["エッセンス", "スネイル", "保湿", "COSRX"],
+  "aliases": ["Advanced Snail 96 Mucin Power Essence", "스네일 96 에센스"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-14",
+  "sources": [
+    {
+      "title": "COSRX韓国公式商品ページ",
+      "url": "https://www.cosrx.co.kr/m/product.html?REFPP=board&branduid=196",
+      "checkedAt": "2026-08-14",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "COSRX Official product page",
+      "url": "https://www.cosrx.com/collections/serums-essences/products/advanced-snail-96-mucin-power-essence",
+      "checkedAt": "2026-08-14",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "COSRX",
+    "productType": "エッセンス",
+    "volume": "100ml",
+    "price": "23000",
+    "currency": "KRW",
+    "pricePerVolume": "230 KRW/ml",
+    "keyIngredients": [
+      { "name": "Snail Secretion Filtrate", "role": "ブランド公式が主要成分として表示" },
+      { "name": "Sodium Hyaluronate", "role": "ブランド公式が主要成分として表示" },
+      { "name": "Allantoin", "role": "ブランド公式が主要成分として表示" },
+      { "name": "Panthenol", "role": "ブランド公式が主要成分として表示" }
+    ],
+    "skinTypes": ["すべての肌タイプ（ブランド表示）"],
+    "usage": [
+      "洗顔と化粧水の後に少量を顔全体へ塗る",
+      "指先でやさしくなじませる",
+      "その後に保湿剤を使う"
+    ],
+    "pros": [
+      "韓国・グローバル公式ページで製品仕様と使用方法を確認できる",
+      "100mlの容量と韓国公式表示価格を記録できる"
+    ],
+    "considerations": [
+      "カタツムリ由来成分を含むため、動物由来成分を避ける人は成分表示を確認する",
+      "赤み、腫れ、かゆみなど異常がある場合は使用を中止し、公式注意事項に従う",
+      "日本での販売価格、送料、在庫は販売地域と時期によって変動する"
+    ],
+    "priceCheckedAt": "2026-08-14"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-14T07:40:42+09:00",
+  "updatedAt": "2026-08-14T07:40:42+09:00",
+  "relatedSlugs": []
+}

@@ -1,4 +1,4 @@
-import { isContentStatus, validateContentWrite, validateForPublish, type ContentRecord } from "../backend/shared/content";
+import { isContentStatus, validateContentWrite, validateForPublish, type ContentRecord } from "../backend/shared/content.ts";
 
 export interface DraftValidationResult {
   status: ContentRecord["status"] | "draft";
