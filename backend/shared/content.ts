@@ -118,6 +118,7 @@ export function validateContentWrite(content: Partial<ContentRecord>): string[] 
 
 export function validateForPublish(content: Partial<ContentRecord>): string[] {
   const errors: string[] = [];
+  if (!isContentKind(content.kind)) errors.push("kind is required and must be one of treatment, skincare, makeup");
   if (!content.titleJa?.trim()) errors.push("titleJa is required");
   if (!content.koreanName?.trim()) errors.push("koreanName is required");
   if (!content.slug?.trim()) errors.push("slug is required");

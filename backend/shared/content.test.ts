@@ -53,6 +53,12 @@ describe("validateForPublish", () => {
     expect(errors).toContain("sources[0] does not have publishable rights status");
   });
 
+  it("rejects a published item with an invalid content kind", () => {
+    expect(validateForPublish({ ...validContent, kind: "unknown" as ContentRecord["kind"] })).toContain(
+      "kind is required and must be one of treatment, skincare, makeup",
+    );
+  });
+
   it("requires at least five samples for community evidence", () => {
     const errors = validateForPublish({
       ...validContent,
