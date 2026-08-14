@@ -56,8 +56,9 @@ describe("filterPublicContentItems", () => {
         extractionMethod: "manual",
       }],
     });
+    const review = publishedProduct({ status: "review", slug: "review-cica-cream" });
 
-    expect(filterPublicContentItems([valid, fixture, unverified], "skincare", "centella")).toEqual([valid]);
+    expect(filterPublicContentItems([valid, fixture, unverified, review], "skincare", "centella")).toEqual([valid]);
     expect(filterPublicContentItems([valid], "makeup")).toEqual([]);
   });
 
