@@ -16,6 +16,10 @@ export type RightsStatus = "verified" | "reference-only" | "needs-review" | "rej
 
 export type ExtractionMethod = "api" | "licensed-import" | "manual" | "no-automation";
 
+const sourceTypes: SourceType[] = ["official-api", "written-permission", "public-fact", "short-quote", "manual-reference", "community-review", "prohibited"];
+const rightsStatuses: RightsStatus[] = ["verified", "reference-only", "needs-review", "rejected"];
+const extractionMethods: ExtractionMethod[] = ["api", "licensed-import", "manual", "no-automation"];
+
 export interface ContentSource {
   title: string;
   url: string;
@@ -96,6 +100,18 @@ export function isContentKind(value: unknown): value is ContentRecord["kind"] {
   return typeof value === "string" && contentKinds.includes(value as ContentRecord["kind"]);
 }
 
+export function isSourceType(value: unknown): value is SourceType {
+  return typeof value === "string" && sourceTypes.includes(value as SourceType);
+}
+
+export function isRightsStatus(value: unknown): value is RightsStatus {
+  return typeof value === "string" && rightsStatuses.includes(value as RightsStatus);
+}
+
+export function isExtractionMethod(value: unknown): value is ExtractionMethod {
+  return typeof value === "string" && extractionMethods.includes(value as ExtractionMethod);
+}
+
 export function validateContentWrite(content: Partial<ContentRecord>): string[] {
   const errors: string[] = [];
   if (content.status !== undefined && !isContentStatus(content.status)) {
@@ -137,9 +153,9 @@ export function validateForPublish(content: Partial<ContentRecord>): string[] {
     if (!source.title?.trim()) errors.push(`sources[${index}].title is required`);
     if (!isHttpUrl(source.url)) errors.push(`sources[${index}].url must be an http(s) URL`);
     if (!isDateOnly(source.checkedAt)) errors.push(`sources[${index}].checkedAt must be an ISO date (YYYY-MM-DD)`);
-    if (!source.sourceType) errors.push(`sources[${index}].sourceType is required`);
-    if (!source.rightsStatus) errors.push(`sources[${index}].rightsStatus is required`);
-    if (!source.extractionMethod) errors.push(`sources[${index}].extractionMethod is required`);
+    if (!isSourceType(source.sourceType)) errors.push(`sources[${index}].sourceType must be a supported value`);
+    if (!isRightsStatus(source.rightsStatus)) errors.push(`sources[${index}].rightsStatus must be a supported value`);
+    if (!isExtractionMethod(source.extractionMethod)) errors.push(`sources[${index}].extractionMethod must be a supported value`);
     if (source.sourceType === "prohibited") errors.push(`sources[${index}] is marked prohibited`);
     if (source.rightsStatus === "needs-review" || source.rightsStatus === "rejected") {
       errors.push(`sources[${index}] does not have publishable rights status`);
