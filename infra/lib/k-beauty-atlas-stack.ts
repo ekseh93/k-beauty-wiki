@@ -13,6 +13,8 @@ import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as ssm from "aws-cdk-lib/aws-ssm";
+import * as customResources from "aws-cdk-lib/custom-resources";
+import * as iam from "aws-cdk-lib/aws-iam";
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
@@ -41,6 +43,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     });
     const assetBucket = new s3.Bucket(this, "AssetBucket", { blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, encryption: s3.BucketEncryption.S3_MANAGED, enforceSSL: true, removalPolicy: cdk.RemovalPolicy.RETAIN });
     const userPool = new cognito.UserPool(this, "AdminUserPool", { userPoolName: "k-beauty-atlas-admin", selfSignUpEnabled: false, signInAliases: { email: true }, removalPolicy: cdk.RemovalPolicy.RETAIN });
+    const adminGroup = userPool.addGroup("AdminGroup", { groupName: "admin", description: "K-Beauty Atlas content administrators", precedence: 0 });
     const userPoolClient = userPool.addClient("AdminWebClient", { authFlows: { userSrp: true } });
 
     const createFunction = (id: string, entry: string, environment: Record<string, string>) => {
@@ -50,7 +53,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     };
 
     const publicApi = createFunction("PublicContentApi", "backend/functions/public-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, ALLOWED_ORIGIN: "*" });
-    const adminApi = createFunction("AdminContentApi", "backend/functions/admin-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, REVISION_TABLE_NAME: revisionTable.tableName, ALLOWED_ORIGIN: "*" });
+    const adminApi = createFunction("AdminContentApi", "backend/functions/admin-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, REVISION_TABLE_NAME: revisionTable.tableName, ADMIN_GROUP_NAME: "admin", ALLOWED_ORIGIN: "*" });
     const correctionApi = createFunction("CorrectionApi", "backend/functions/correction-api/index.ts", { CORRECTION_TABLE_NAME: correctionTable.tableName, ALLOWED_ORIGIN: "*" });
     const maintenanceJob = createFunction("MaintenanceJob", "backend/functions/maintenance-job/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName });
     contentTable.grantReadData(publicApi);
@@ -59,6 +62,15 @@ export class KBeautyAtlasStack extends cdk.Stack {
     contentTable.grantReadWriteData(maintenanceJob);
     correctionTable.grantReadWriteData(correctionApi);
     assetBucket.grantReadWrite(adminApi);
+
+    const adminEmail = process.env.ADMIN_EMAIL ?? this.node.tryGetContext("adminEmail");
+    if (adminEmail) {
+      const adminUserProvisioner = createFunction("AdminUserProvisioner", "backend/functions/admin-user-provisioner/index.ts", {});
+      adminUserProvisioner.addToRolePolicy(new iam.PolicyStatement({ actions: ["cognito-idp:AdminAddUserToGroup", "cognito-idp:AdminCreateUser", "cognito-idp:AdminGetUser"], resources: [userPool.userPoolArn] }));
+      const adminUserProvider = new customResources.Provider(this, "AdminUserProvider", { onEventHandler: adminUserProvisioner });
+      const adminUser = new cdk.CustomResource(this, "AdminUser", { serviceToken: adminUserProvider.serviceToken, properties: { userPoolId: userPool.userPoolId, email: adminEmail, groupName: "admin" } });
+      adminUser.node.addDependency(adminGroup);
+    }
 
     const httpApi = new apigwv2.HttpApi(this, "ContentHttpApi", { apiName: "k-beauty-atlas-content-api", corsPreflight: { allowHeaders: ["content-type", "authorization"], allowMethods: [apigwv2.CorsHttpMethod.GET, apigwv2.CorsHttpMethod.POST, apigwv2.CorsHttpMethod.PUT, apigwv2.CorsHttpMethod.OPTIONS], allowOrigins: ["*"] } });
     httpApi.addRoutes({ path: "/content", methods: [apigwv2.HttpMethod.GET], integration: new integrations.HttpLambdaIntegration("PublicContentIntegration", publicApi) });

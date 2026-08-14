@@ -12,10 +12,12 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "cdk:synth": "cdk synth",
-    "cdk:deploy": "cdk deploy --all"
+    "cdk:deploy": "cdk deploy --all",
+    "create:admin": "node --experimental-strip-types scripts/create-admin-user.ts"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.600.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.600.0",
     "@aws-sdk/lib-dynamodb": "^3.600.0",
     "amazon-cognito-identity-js": "^6.3.12",
     "aws-cdk-lib": "^2.160.0",
