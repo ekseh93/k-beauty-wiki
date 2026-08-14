@@ -1,5 +1,8 @@
 export type ContentStatus = "draft" | "review" | "published" | "archived";
 
+const contentStatuses: ContentStatus[] = ["draft", "review", "published", "archived"];
+const contentKinds: ContentRecord["kind"][] = ["treatment", "skincare", "makeup"];
+
 export type SourceType =
   | "official-api"
   | "written-permission"
@@ -83,6 +86,34 @@ export interface ContentRecord {
   updatedAt: string;
   createdAt: string;
   relatedSlugs: string[];
+}
+
+export function isContentStatus(value: unknown): value is ContentStatus {
+  return typeof value === "string" && contentStatuses.includes(value as ContentStatus);
+}
+
+export function isContentKind(value: unknown): value is ContentRecord["kind"] {
+  return typeof value === "string" && contentKinds.includes(value as ContentRecord["kind"]);
+}
+
+export function validateContentWrite(content: Partial<ContentRecord>): string[] {
+  const errors: string[] = [];
+  if (content.status !== undefined && !isContentStatus(content.status)) {
+    errors.push("status must be one of draft, review, published, archived");
+  }
+  if (content.kind !== undefined && !isContentKind(content.kind)) {
+    errors.push("kind must be one of treatment, skincare, makeup");
+  }
+  if (content.sources !== undefined && !Array.isArray(content.sources)) {
+    errors.push("sources must be an array");
+  }
+  if (Array.isArray(content.sources) && content.sources.some((source) => !source || typeof source !== "object" || Array.isArray(source))) {
+    errors.push("sources entries must be objects");
+  }
+  if (content.relatedSlugs !== undefined && !Array.isArray(content.relatedSlugs)) {
+    errors.push("relatedSlugs must be an array");
+  }
+  return errors;
 }
 
 export function validateForPublish(content: Partial<ContentRecord>): string[] {

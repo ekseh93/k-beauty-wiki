@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda";
-import { jsonResponse, validateForPublish, type ContentRecord } from "../../shared/content";
+import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -30,6 +30,9 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   const method = event.requestContext.http.method;
   if (method === "GET") {
     const requestedStatus = event.queryStringParameters?.status;
+    if (requestedStatus && !isContentStatus(requestedStatus)) {
+      return jsonResponse(400, { message: "Invalid content status filter" });
+    }
     const statuses = requestedStatus ? [requestedStatus] : ["draft", "review", "published", "archived"];
     const results = await Promise.all(statuses.map((status) => documentClient.send(new QueryCommand({
       TableName: tableName,
@@ -46,8 +49,12 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   if (method !== "PUT" && method !== "POST") return jsonResponse(405, { message: "Method not allowed" });
   if (!event.body) return jsonResponse(400, { message: "Request body is required" });
 
-  let input: Partial<ContentRecord>;
-  try { input = JSON.parse(event.body) as Partial<ContentRecord>; } catch { return jsonResponse(400, { message: "Request body must be valid JSON" }); }
+  let parsed: unknown;
+  try { parsed = JSON.parse(event.body); } catch { return jsonResponse(400, { message: "Request body must be valid JSON" }); }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return jsonResponse(400, { message: "Request body must be a JSON object" });
+  const input = parsed as Partial<ContentRecord>;
+  const inputErrors = validateContentWrite(input);
+  if (inputErrors.length > 0) return jsonResponse(422, { message: "Invalid content input", errors: inputErrors });
   const errors = validateForPublish(input);
   if (input.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
 
