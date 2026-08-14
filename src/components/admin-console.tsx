@@ -31,6 +31,10 @@ interface FormState {
   koreanName: string;
   slug: string;
   summary: string;
+  bodyText: string;
+  tags: string;
+  aliases: string;
+  caution: string;
   kind: ContentKind;
   status: ContentStatus;
   sourceTitle: string;
@@ -46,6 +50,29 @@ interface FormState {
   reviewCollectedAt: string;
   reviewSummary: string;
   reviewSourceUrls: string;
+  principle: string;
+  purpose: string;
+  suitableFor: string;
+  consultOrAvoid: string;
+  priceRange: string;
+  priceCondition: string;
+  duration: string;
+  downtime: string;
+  maintenance: string;
+  sideEffects: string;
+  similarTreatments: string;
+  brand: string;
+  productType: string;
+  volume: string;
+  price: string;
+  currency: string;
+  pricePerVolume: string;
+  keyIngredients: string;
+  skinTypes: string;
+  usage: string;
+  pros: string;
+  considerations: string;
+  priceCheckedAt: string;
 }
 
 const initialForm: FormState = {
@@ -53,6 +80,10 @@ const initialForm: FormState = {
   koreanName: "",
   slug: "",
   summary: "",
+  bodyText: "",
+  tags: "",
+  aliases: "",
+  caution: "",
   kind: "skincare",
   status: "draft",
   sourceTitle: "",
@@ -68,7 +99,57 @@ const initialForm: FormState = {
   reviewCollectedAt: "",
   reviewSummary: "",
   reviewSourceUrls: "",
+  principle: "",
+  purpose: "",
+  suitableFor: "",
+  consultOrAvoid: "",
+  priceRange: "",
+  priceCondition: "",
+  duration: "",
+  downtime: "",
+  maintenance: "",
+  sideEffects: "",
+  similarTreatments: "",
+  brand: "",
+  productType: "",
+  volume: "",
+  price: "",
+  currency: "JPY",
+  pricePerVolume: "",
+  keyIngredients: "",
+  skinTypes: "",
+  usage: "",
+  pros: "",
+  considerations: "",
+  priceCheckedAt: "",
 };
+
+function splitLines(value: string): string[] {
+  return value.split("\n").map((item) => item.trim()).filter(Boolean);
+}
+
+function splitComma(value: string): string[] {
+  return value.split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function parseIngredients(value: string): { name: string; role: string }[] {
+  return splitLines(value).map((line) => {
+    const [name, ...role] = line.split("|");
+    return { name: name.trim(), role: role.join("|").trim() };
+  }).filter((ingredient) => ingredient.name && ingredient.role);
+}
+
+interface AdminContentSummary {
+  id: string;
+  titleJa: string;
+  koreanName: string;
+  slug: string;
+  kind: ContentKind;
+  status: "draft" | "review" | "published" | "archived";
+  lastVerifiedAt?: string;
+  updatedAt: string;
+  sources?: { title: string; rightsStatus: RightsStatus }[];
+}
 
 export function AdminConsole() {
   const configured = Boolean(poolId && clientId && apiUrl);
@@ -125,6 +206,34 @@ export function AdminConsole() {
       summary: form.reviewSummary,
       sourceUrls: form.reviewSourceUrls.split("\n").map((url) => url.trim()).filter(Boolean),
     } : undefined;
+    const details = form.kind === "treatment" ? {
+      kind: "treatment" as const,
+      principle: form.principle,
+      purpose: form.purpose,
+      suitableFor: splitLines(form.suitableFor),
+      consultOrAvoid: splitLines(form.consultOrAvoid),
+      priceRange: form.priceRange,
+      priceCondition: form.priceCondition,
+      duration: form.duration,
+      downtime: form.downtime,
+      maintenance: form.maintenance,
+      sideEffects: splitLines(form.sideEffects),
+      similarTreatments: splitLines(form.similarTreatments),
+    } : {
+      kind: "product" as const,
+      brand: form.brand,
+      productType: form.productType,
+      volume: form.volume,
+      price: form.price,
+      currency: form.currency,
+      pricePerVolume: form.pricePerVolume,
+      keyIngredients: parseIngredients(form.keyIngredients),
+      skinTypes: splitLines(form.skinTypes),
+      usage: splitLines(form.usage),
+      pros: splitLines(form.pros),
+      considerations: splitLines(form.considerations),
+      priceCheckedAt: form.priceCheckedAt,
+    };
 
     try {
       const response = await fetch(`${apiUrl}/admin/content`, {
@@ -138,14 +247,16 @@ export function AdminConsole() {
           koreanName: form.koreanName,
           slug: form.slug,
           summary: form.summary,
+          body: splitLines(form.bodyText),
+          tags: splitComma(form.tags),
+          aliases: splitComma(form.aliases),
+          caution: form.caution,
           kind: form.kind,
           status: form.status,
-          body: [form.summary],
-          tags: [],
-          aliases: [],
           sources: [source],
           lastVerifiedAt: form.lastVerifiedAt,
           reviewEvidence,
+          details,
           isFixture: false,
           relatedSlugs: [],
         }),
@@ -191,6 +302,43 @@ export function AdminConsole() {
       <SelectField label="콘텐츠 유형" value={form.kind} onChange={(value) => updateForm("kind", value as ContentKind)} options={[{ value: "treatment", label: "시술" }, { value: "skincare", label: "스킨케어" }, { value: "makeup", label: "메이크업" }]} />
     </div>
     <label className="mt-4 block text-sm">일본어 요약<textarea required value={form.summary} onChange={(event) => updateForm("summary", event.target.value)} className="mt-2 min-h-24 w-full rounded-xl border border-line bg-cream px-3 py-2 outline-none focus:border-ink/50" /></label>
+    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <TextAreaField label="본문 문단 (한 줄에 하나)" value={form.bodyText} onChange={(value) => updateForm("bodyText", value)} required placeholder="출처를 확인한 설명을 문단별로 입력하세요." />
+      <TextAreaField label="주의사항" value={form.caution} onChange={(value) => updateForm("caution", value)} required placeholder="일반적인 주의사항과 의료정보 면책을 입력하세요." />
+      <Field label="태그 (쉼표로 구분)" value={form.tags} onChange={(value) => updateForm("tags", value)} />
+      <Field label="별칭 (쉼표로 구분)" value={form.aliases} onChange={(value) => updateForm("aliases", value)} />
+    </div>
+
+    <div className="mt-8 border-t border-line pt-6">
+      <h3 className="font-display text-xl">구조화된 상세 정보</h3>
+      <p className="mt-1 text-sm leading-6 text-ink/60">공개 콘텐츠는 유형에 맞는 상세 필드를 모두 채워야 합니다. 목록 입력은 한 줄에 하나씩 작성하세요.</p>
+      {form.kind === "treatment" ? <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Field label="원리" value={form.principle} onChange={(value) => updateForm("principle", value)} required />
+        <Field label="일반적인 목적" value={form.purpose} onChange={(value) => updateForm("purpose", value)} required />
+        <TextAreaField label="적합할 수 있는 대상" value={form.suitableFor} onChange={(value) => updateForm("suitableFor", value)} required />
+        <TextAreaField label="상담이 필요하거나 피해야 할 대상" value={form.consultOrAvoid} onChange={(value) => updateForm("consultOrAvoid", value)} required />
+        <Field label="가격 범위" value={form.priceRange} onChange={(value) => updateForm("priceRange", value)} required />
+        <Field label="가격 조사 조건" value={form.priceCondition} onChange={(value) => updateForm("priceCondition", value)} required />
+        <Field label="시술 시간" value={form.duration} onChange={(value) => updateForm("duration", value)} required />
+        <Field label="다운타임" value={form.downtime} onChange={(value) => updateForm("downtime", value)} required />
+        <Field label="유지 기간" value={form.maintenance} onChange={(value) => updateForm("maintenance", value)} required />
+        <TextAreaField label="일반적인 부작용과 주의사항" value={form.sideEffects} onChange={(value) => updateForm("sideEffects", value)} required />
+        <TextAreaField label="유사 시술" value={form.similarTreatments} onChange={(value) => updateForm("similarTreatments", value)} required />
+      </div> : <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Field label="브랜드" value={form.brand} onChange={(value) => updateForm("brand", value)} required />
+        <Field label="제품 유형" value={form.productType} onChange={(value) => updateForm("productType", value)} required />
+        <Field label="용량" value={form.volume} onChange={(value) => updateForm("volume", value)} required />
+        <Field label="기준 가격" value={form.price} onChange={(value) => updateForm("price", value)} required />
+        <Field label="통화" value={form.currency} onChange={(value) => updateForm("currency", value)} required />
+        <Field label="용량당 가격" value={form.pricePerVolume} onChange={(value) => updateForm("pricePerVolume", value)} required />
+        <Field label="가격 조사일" type="date" value={form.priceCheckedAt} onChange={(value) => updateForm("priceCheckedAt", value)} required />
+        <TextAreaField label="주요 성분과 일반적인 역할 (성분 | 역할)" value={form.keyIngredients} onChange={(value) => updateForm("keyIngredients", value)} required placeholder="セラミド | 피부 장벽을 돕는 성분" />
+        <TextAreaField label="피부 타입 또는 사용 목적" value={form.skinTypes} onChange={(value) => updateForm("skinTypes", value)} required />
+        <TextAreaField label="사용 방법" value={form.usage} onChange={(value) => updateForm("usage", value)} required />
+        <TextAreaField label="장점" value={form.pros} onChange={(value) => updateForm("pros", value)} required />
+        <TextAreaField label="고려사항" value={form.considerations} onChange={(value) => updateForm("considerations", value)} required />
+      </div>}
+    </div>
 
     <div className="mt-8 border-t border-line pt-6"><h3 className="font-display text-xl">출처와 권리</h3><p className="mt-1 text-sm leading-6 text-ink/60">권리 상태가 검증됨 또는 참고 전용이어야 published로 저장할 수 있습니다.</p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -211,7 +359,7 @@ export function AdminConsole() {
     <div className="mt-8 border-t border-line pt-6"><SelectField label="상태" value={form.status} onChange={(value) => updateForm("status", value as ContentStatus)} options={[{ value: "draft", label: "초안" }, { value: "review", label: "검수 대기" }, { value: "published", label: "공개" }]} />{form.status === "published" && <p className="mt-3 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">공개 시 백엔드가 필수 필드, 출처 URL, 확인일, 권리 상태, 리뷰 근거를 다시 검증합니다.</p>}</div>
     <button disabled={busy} className="mt-6 rounded-xl bg-ink px-5 py-3 text-sm text-white disabled:opacity-50">{busy ? "저장 중..." : "콘텐츠 저장"}</button>
     {message && <p className="mt-4 text-sm leading-6 text-ink/60">{message}</p>}
-  </form><ContentPreview form={form} /><CorrectionQueue apiUrl={apiUrl} session={session} /></>;
+  </form><ContentPreview form={form} /><ContentQueue apiUrl={apiUrl} session={session} /><CorrectionQueue apiUrl={apiUrl} session={session} /></>;
 }
 
 function ContentPreview({ form }: { form: FormState }) {
@@ -268,8 +416,42 @@ function Field({ label, value, onChange, required, type = "text" }: { label: str
   return <label className="mt-4 block text-sm">{label}<input type={type} required={required} value={value} onChange={(event) => onChange(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-line bg-cream px-3 outline-none focus:border-ink/50" /></label>;
 }
 
+function TextAreaField({ label, value, onChange, required, placeholder }: { label: string; value: string; onChange: (value: string) => void; required?: boolean; placeholder?: string }) {
+  return <label className="block text-sm">{label}<textarea required={required} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className="mt-2 min-h-24 w-full rounded-xl border border-line bg-cream px-3 py-2 outline-none focus:border-ink/50" /></label>;
+}
+
 function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: { value: string; label: string }[] }) {
   return <label className="block text-sm">{label}<select value={value} onChange={(event) => onChange(event.target.value)} className="mt-2 min-h-11 w-full rounded-xl border border-line bg-cream px-3 outline-none focus:border-ink/50">{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>;
+}
+
+function ContentQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUserSession }) {
+  const [items, setItems] = useState<AdminContentSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+
+  const loadContents = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${apiUrl}/admin/content`, { headers: { authorization: `Bearer ${session.getIdToken().getJwtToken()}` } });
+      const body = await response.json().catch(() => ({})) as { items?: AdminContentSummary[]; message?: string };
+      if (!response.ok) throw new Error(body.message ?? "콘텐츠 목록을 불러오지 못했습니다.");
+      setItems(body.items ?? []);
+      setMessage(body.items?.length ? "" : "등록된 콘텐츠가 없습니다.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "콘텐츠 목록을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }, [apiUrl, session]);
+
+  useEffect(() => { void loadContents(); }, [loadContents]);
+
+  return <section className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
+    <div className="flex flex-wrap items-center justify-between gap-4"><div><h2 className="font-display text-2xl">등록 콘텐츠</h2><p className="mt-1 text-sm text-ink/60">초안부터 공개까지 현재 저장된 콘텐츠와 출처 권리 상태를 확인합니다.</p></div><button type="button" onClick={() => void loadContents()} disabled={loading} className="rounded-xl border border-line px-4 py-2 text-sm disabled:opacity-50">새로고침</button></div>
+    {loading && <p className="mt-5 text-sm text-ink/60">콘텐츠를 불러오는 중...</p>}
+    {!loading && items.length === 0 && <p className="mt-5 rounded-xl bg-cream p-4 text-sm leading-6 text-ink/60">{message}</p>}
+    {items.length > 0 && <div className="mt-5 space-y-3">{items.map((item) => <article key={item.id} className="rounded-xl border border-line bg-cream/60 p-4"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs text-ink/50">{item.kind} · {item.slug}</p><h3 className="mt-1 font-medium">{item.titleJa}</h3><p className="mt-1 text-sm text-ink/55">{item.koreanName}</p></div><span className="rounded-full bg-white px-3 py-1 text-xs">{item.status}</span></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/55"><span>최종 확인일: {item.lastVerifiedAt ?? "미확인"}</span><span>수정일: {new Date(item.updatedAt).toLocaleString("ko-KR")}</span>{item.sources?.map((source) => <span key={`${item.id}-${source.title}`}>출처 권리: {source.rightsStatus}</span>)}</div></article>)}</div>}
+  </section>;
 }
 
 function CorrectionQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUserSession }) {

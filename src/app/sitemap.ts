@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
-import { fixtureContent } from "@/lib/content";
+import { fetchPublishedContents } from "@/lib/content-api";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://k-beauty-atlas-japan.example.com";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://main.d1ece7jdtq0bus.amplifyapp.com";
+  const contents = await fetchPublishedContents();
   return [
     { url: baseUrl, lastModified: new Date("2026-08-14") },
     { url: `${baseUrl}/content`, lastModified: new Date("2026-08-14") },
     { url: `${baseUrl}/policy`, lastModified: new Date("2026-08-14") },
     { url: `${baseUrl}/correction`, lastModified: new Date("2026-08-14") },
-    ...fixtureContent.map((content) => ({ url: `${baseUrl}/content/${content.slug}`, lastModified: new Date(content.updatedAt) })),
+    ...contents.map((content) => ({ url: `${baseUrl}/content/${content.slug}`, lastModified: new Date(content.updatedAt) })),
   ];
 }

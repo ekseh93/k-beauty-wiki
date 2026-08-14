@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda";
 import { jsonResponse, validateForPublish, type ContentRecord } from "../../shared/content";
 
@@ -12,6 +12,21 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   if (!tableName || !revisionTableName) return jsonResponse(503, { message: "Admin API is not configured" });
 
   const method = event.requestContext.http.method;
+  if (method === "GET") {
+    const requestedStatus = event.queryStringParameters?.status;
+    const statuses = requestedStatus ? [requestedStatus] : ["draft", "review", "published", "archived"];
+    const results = await Promise.all(statuses.map((status) => documentClient.send(new QueryCommand({
+      TableName: tableName,
+      IndexName: "status-updated-index",
+      KeyConditionExpression: "#status = :status",
+      ExpressionAttributeNames: { "#status": "status" },
+      ExpressionAttributeValues: { ":status": status },
+      ScanIndexForward: false,
+    }))));
+    const items = results.flatMap((result) => result.Items ?? []).sort((a, b) => String(b.updatedAt ?? "").localeCompare(String(a.updatedAt ?? "")));
+    return jsonResponse(200, { items });
+  }
+
   if (method !== "PUT" && method !== "POST") return jsonResponse(405, { message: "Method not allowed" });
   if (!event.body) return jsonResponse(400, { message: "Request body is required" });
 
