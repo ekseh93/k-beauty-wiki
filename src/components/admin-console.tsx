@@ -139,6 +139,11 @@ function parseIngredients(value: string): { name: string; role: string }[] {
   }).filter((ingredient) => ingredient.name && ingredient.role);
 }
 
+function adminAccessMessage(status: number, fallback: string): string {
+  if (status === 401 || status === 403) return "관리자 권한을 확인할 수 없습니다. Cognito 초대 계정으로 로그인했고 admin 그룹에 속해 있는지 확인하세요.";
+  return fallback;
+}
+
 interface AdminContentSummary {
   id: string;
   titleJa: string;
@@ -265,7 +270,7 @@ export function AdminConsole() {
       if (response.ok) {
         setMessage("콘텐츠를 저장했습니다. 공개 전 검수 상태를 확인하세요.");
       } else {
-        setMessage([responseBody.message ?? "콘텐츠 저장에 실패했습니다.", ...(responseBody.errors ?? [])].join(" "));
+        setMessage([adminAccessMessage(response.status, responseBody.message ?? "콘텐츠 저장에 실패했습니다."), ...(responseBody.errors ?? [])].join(" "));
       }
     } catch {
       setMessage("API에 연결하지 못했습니다. 환경 변수와 배포 상태를 확인하세요.");
@@ -434,7 +439,7 @@ function ContentQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUse
     try {
       const response = await fetch(`${apiUrl}/admin/content`, { headers: { authorization: `Bearer ${session.getIdToken().getJwtToken()}` } });
       const body = await response.json().catch(() => ({})) as { items?: AdminContentSummary[]; message?: string };
-      if (!response.ok) throw new Error(body.message ?? "콘텐츠 목록을 불러오지 못했습니다.");
+      if (!response.ok) throw new Error(adminAccessMessage(response.status, body.message ?? "콘텐츠 목록을 불러오지 못했습니다."));
       setItems(body.items ?? []);
       setMessage(body.items?.length ? "" : "등록된 콘텐츠가 없습니다.");
     } catch (error) {
@@ -467,7 +472,7 @@ function CorrectionQueue({ apiUrl, session }: { apiUrl: string; session: Cognito
     try {
       const response = await fetch(`${apiUrl}/admin/corrections`, { headers: { authorization: `Bearer ${session.getIdToken().getJwtToken()}` } });
       const body = await response.json().catch(() => ({})) as { items?: CorrectionRequest[]; message?: string };
-      if (!response.ok) throw new Error(body.message ?? "요청 목록을 불러오지 못했습니다.");
+      if (!response.ok) throw new Error(adminAccessMessage(response.status, body.message ?? "요청 목록을 불러오지 못했습니다."));
       const nextRequests = body.items ?? [];
       setRequests(nextRequests);
       setDraftStatuses(Object.fromEntries(nextRequests.map((request) => [request.id, request.status])));
@@ -492,7 +497,7 @@ function CorrectionQueue({ apiUrl, session }: { apiUrl: string; session: Cognito
         body: JSON.stringify({ id: request.id, status: draftStatuses[request.id], resolutionNote: notes[request.id] ?? "" }),
       });
       const body = await response.json().catch(() => ({})) as { message?: string };
-      if (!response.ok) throw new Error(body.message ?? "요청 상태를 저장하지 못했습니다.");
+      if (!response.ok) throw new Error(adminAccessMessage(response.status, body.message ?? "요청 상태를 저장하지 못했습니다."));
       setMessage("요청 처리 상태를 저장했습니다.");
       await loadRequests();
     } catch (error) {
