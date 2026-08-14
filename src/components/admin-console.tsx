@@ -161,7 +161,9 @@ export function AdminConsole() {
   const pool = useMemo(() => configured ? new CognitoUserPool({ UserPoolId: poolId, ClientId: clientId }) : null, [configured]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [session, setSession] = useState<CognitoUserSession | null>(null);
+  const [pendingPasswordUser, setPendingPasswordUser] = useState<CognitoUser | null>(null);
   const [form, setForm] = useState<FormState>(initialForm);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -182,8 +184,33 @@ export function AdminConsole() {
         setMessage("관리자 로그인에 성공했습니다.");
         setBusy(false);
       },
+      newPasswordRequired: () => {
+        setPendingPasswordUser(user);
+        setMessage("초대 계정의 임시 비밀번호가 확인되었습니다. 새 비밀번호를 설정하세요.");
+        setBusy(false);
+      },
       onFailure: (error) => {
         setMessage(`로그인에 실패했습니다: ${error.message}`);
+        setBusy(false);
+      },
+    });
+  }
+
+  function completePasswordChange(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!pendingPasswordUser) return;
+    setBusy(true);
+    setMessage("");
+    pendingPasswordUser.completeNewPasswordChallenge(newPassword, {}, {
+      onSuccess: (nextSession) => {
+        setSession(nextSession);
+        setPendingPasswordUser(null);
+        setNewPassword("");
+        setMessage("관리자 로그인에 성공했습니다.");
+        setBusy(false);
+      },
+      onFailure: (error) => {
+        setMessage(`새 비밀번호 설정에 실패했습니다: ${error.message}`);
         setBusy(false);
       },
     });
@@ -281,6 +308,16 @@ export function AdminConsole() {
 
   if (!configured) {
     return <div className="mt-8 rounded-2xl border border-blush/60 bg-blush/15 p-6 text-sm leading-7 text-ink/70">관리자 기능을 사용하려면 Cognito와 API 환경 변수인 <code>NEXT_PUBLIC_COGNITO_USER_POOL_ID</code>, <code>NEXT_PUBLIC_COGNITO_CLIENT_ID</code>, <code>NEXT_PUBLIC_CONTENT_API_URL</code>을 설정해야 합니다.</div>;
+  }
+
+  if (pendingPasswordUser && !session) {
+    return <form onSubmit={completePasswordChange} className="mt-8 max-w-md rounded-2xl border border-line bg-white/60 p-6">
+      <h2 className="font-display text-2xl">새 비밀번호 설정</h2>
+      <p className="mt-2 text-sm leading-6 text-ink/60">초대 메일의 임시 비밀번호를 확인했습니다. 새 비밀번호를 설정해야 관리자 화면에 들어갈 수 있습니다.</p>
+      <Field label="새 비밀번호" type="password" value={newPassword} onChange={setNewPassword} required />
+      <button disabled={busy} className="mt-5 w-full rounded-xl bg-ink px-4 py-3 text-sm text-white disabled:opacity-50">{busy ? "설정 중..." : "새 비밀번호 저장"}</button>
+      {message && <p className="mt-4 text-sm text-ink/60">{message}</p>}
+    </form>;
   }
 
   if (!session) {
