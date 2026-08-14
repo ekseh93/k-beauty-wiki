@@ -164,6 +164,7 @@ export function AdminConsole() {
   const [newPassword, setNewPassword] = useState("");
   const [session, setSession] = useState<CognitoUserSession | null>(null);
   const [pendingPasswordUser, setPendingPasswordUser] = useState<CognitoUser | null>(null);
+  const [pendingAttributes, setPendingAttributes] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormState>(initialForm);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -184,8 +185,14 @@ export function AdminConsole() {
         setMessage("관리자 로그인에 성공했습니다.");
         setBusy(false);
       },
-      newPasswordRequired: () => {
+      newPasswordRequired: (userAttributes, requiredAttributes) => {
+        const nextAttributes: Record<string, string> = {};
+        for (const attributeName of requiredAttributes ?? []) {
+          const value = userAttributes?.[attributeName];
+          if (typeof value === "string" && value.length > 0) nextAttributes[attributeName] = value;
+        }
         setPendingPasswordUser(user);
+        setPendingAttributes(nextAttributes);
         setMessage("초대 계정의 임시 비밀번호가 확인되었습니다. 새 비밀번호를 설정하세요.");
         setBusy(false);
       },
@@ -201,16 +208,21 @@ export function AdminConsole() {
     if (!pendingPasswordUser) return;
     setBusy(true);
     setMessage("");
-    pendingPasswordUser.completeNewPasswordChallenge(newPassword, {}, {
+    pendingPasswordUser.completeNewPasswordChallenge(newPassword, pendingAttributes, {
       onSuccess: (nextSession) => {
         setSession(nextSession);
         setPendingPasswordUser(null);
+        setPendingAttributes({});
         setNewPassword("");
         setMessage("관리자 로그인에 성공했습니다.");
         setBusy(false);
       },
       onFailure: (error) => {
         setMessage(`새 비밀번호 설정에 실패했습니다: ${error.message}`);
+        setBusy(false);
+      },
+      newPasswordRequired: () => {
+        setMessage("Cognito가 새 비밀번호를 다시 요구했습니다. 새 비밀번호를 다시 입력하세요.");
         setBusy(false);
       },
     });
