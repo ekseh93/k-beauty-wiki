@@ -11,7 +11,7 @@
 | COSRX Advanced Snail 96 | 한국 공식몰의 100ml·23,000원, 글로벌 공식 페이지의 96.3% 달팽이 점액 여과물·사용 순서·용량 | `review` 유지 |
 | Beauty of Joseon Relief Sun | 일본 공식 페이지의 SPF50+ PA++++, 3,200엔, 30% 쌀 추출물, 발효 곡물 추출물, 전성분, 사용법 | `review` 유지 |
 | Round Lab 자작나무 수분 선크림 50ml | 한국 공식 상품 페이지의 50ml·22,500원, 과거 동일 제품명 공식 자료의 SPF50+ PA++++ 및 시험 기록, 공식 FAQ의 이중 세안 권고, 과거 PRESS의 민감성 피부 관련 브랜드 평가 | `review` 유지 |
-| SKIN1004 Madagascar Centella Ampoule | 글로벌 공식 페이지의 용량별 USD 가격, 현행 전성분, 피부 타입 표시, 사용법 | `review` 유지 |
+| SKIN1004 Madagascar Centella Ampoule | 글로벌 공식 페이지의 현행 전성분·피부 타입·사용법, 일본 공식 목록의 100ml·55ml 엔화 가격 | `review` 유지 |
 
 ## 중요 정정
 
@@ -26,7 +26,7 @@ Round Lab의 첫 번째 보도자료는 `자작나무 수분 선쿠션`에 관�
 - 공식 글로벌 상품 페이지는 SPF 표기가 한국 상품과 달라 지역별 제형 차이 가능성이 있어 한국 제품 전성분 근거에서 제외했다.
 - Beauty of Joseon은 용량을 공식 상품 사양에서 추가 확인한 뒤 용량당 가격을 계산한다.
 - COSRX의 임상·효능 수치와 원문 리뷰는 별도 근거 검수 전까지 공개 콘텐츠에 사용하지 않는다.
-- SKIN1004는 글로벌 USD 가격과 일본 판매 지역의 현행 표시가 다를 수 있어 일본 가격·지역별 전성분 확인 전까지 공개하지 않는다.
+- SKIN1004는 일본 공식 목록의 가격은 확인했지만 개별 상품 URL이 404였고 일본 현행 전성분을 확인하지 못해 공개하지 않는다.
 
 ## 출처
 
@@ -42,3 +42,4 @@ Round Lab의 첫 번째 보도자료는 `자작나무 수분 선쿠션`에 관�
 - [Round Lab 글로벌 공식 상품 페이지](https://roundlab.com/products/round-lab-birch-moisturizing-sunscreen-spf-50-pa)
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/) — 선쿠션 자료로 확인되어 등록 대상의 근거에서 제외
 - [SKIN1004 글로벌 공식 상품 페이지](https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule)
+- [SKIN1004 일본 공식 상품 목록](https://skin1004japan.com/category/all/95/?page=3)
