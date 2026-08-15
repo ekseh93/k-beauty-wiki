@@ -150,11 +150,13 @@ interface AdminContentSummary {
   koreanName: string;
   slug: string;
   kind: ContentKind;
-  status: "draft" | "review" | "published" | "archived";
+  status: ContentStatus | "archived";
   lastVerifiedAt?: string;
   updatedAt: string;
   sources?: { title: string; rightsStatus: RightsStatus }[];
 }
+
+type AdminContentItem = AdminContentSummary & Record<string, unknown>;
 
 export function AdminConsole() {
   const configured = Boolean(poolId && clientId && apiUrl);
@@ -532,8 +534,10 @@ function SelectField({ label, value, onChange, options }: { label: string; value
 }
 
 function ContentQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUserSession }) {
-  const [items, setItems] = useState<AdminContentSummary[]>([]);
+  const [items, setItems] = useState<AdminContentItem[]>([]);
+  const [draftStatuses, setDraftStatuses] = useState<Record<string, AdminContentItem["status"]>>({});
   const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState("");
   const [message, setMessage] = useState("");
 
   const loadContents = useCallback(async () => {
@@ -542,8 +546,10 @@ function ContentQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUse
       const response = await fetch(`${apiUrl}/admin/content`, { headers: { authorization: `Bearer ${session.getIdToken().getJwtToken()}` } });
       const body = await response.json().catch(() => ({})) as { items?: AdminContentSummary[]; message?: string };
       if (!response.ok) throw new Error(adminAccessMessage(response.status, body.message ?? "콘텐츠 목록을 불러오지 못했습니다."));
-      setItems(body.items ?? []);
-      setMessage(body.items?.length ? "" : "등록된 콘텐츠가 없습니다.");
+      const nextItems = (body.items ?? []) as AdminContentItem[];
+      setItems(nextItems);
+      setDraftStatuses(Object.fromEntries(nextItems.map((item) => [item.id, item.status])));
+      setMessage(nextItems.length ? "" : "등록된 콘텐츠가 없습니다.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "콘텐츠 목록을 불러오지 못했습니다.");
     } finally {
@@ -551,13 +557,34 @@ function ContentQueue({ apiUrl, session }: { apiUrl: string; session: CognitoUse
     }
   }, [apiUrl, session]);
 
+  async function updateStatus(item: AdminContentItem) {
+    setBusyId(item.id);
+    setMessage("");
+    try {
+      const response = await fetch(`${apiUrl}/admin/content`, {
+        method: "PUT",
+        headers: { "content-type": "application/json", authorization: `Bearer ${session.getIdToken().getJwtToken()}` },
+        body: JSON.stringify({ ...item, status: draftStatuses[item.id] ?? item.status }),
+      });
+      const body = await response.json().catch(() => ({})) as { message?: string; errors?: string[] };
+      if (!response.ok) throw new Error([adminAccessMessage(response.status, body.message ?? "콘텐츠 상태를 저장하지 못했습니다."), ...(body.errors ?? [])].join(" "));
+      setMessage("콘텐츠 검수 상태를 저장했습니다.");
+      await loadContents();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "콘텐츠 상태를 저장하지 못했습니다.");
+    } finally {
+      setBusyId("");
+    }
+  }
+
   useEffect(() => { void loadContents(); }, [loadContents]);
 
   return <section className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
-    <div className="flex flex-wrap items-center justify-between gap-4"><div><h2 className="font-display text-2xl">등록 콘텐츠</h2><p className="mt-1 text-sm text-ink/60">초안부터 공개까지 현재 저장된 콘텐츠와 출처 권리 상태를 확인합니다.</p></div><button type="button" onClick={() => void loadContents()} disabled={loading} className="rounded-xl border border-line px-4 py-2 text-sm disabled:opacity-50">새로고침</button></div>
+    <div className="flex flex-wrap items-center justify-between gap-4"><div><h2 className="font-display text-2xl">등록 콘텐츠</h2><p className="mt-1 text-sm text-ink/60">초안부터 공개까지 현재 저장된 콘텐츠와 출처 권리 상태를 확인하고 검수 상태를 변경합니다.</p></div><button type="button" onClick={() => void loadContents()} disabled={loading} className="rounded-xl border border-line px-4 py-2 text-sm disabled:opacity-50">새로고침</button></div>
     {loading && <p className="mt-5 text-sm text-ink/60">콘텐츠를 불러오는 중...</p>}
     {!loading && items.length === 0 && <p className="mt-5 rounded-xl bg-cream p-4 text-sm leading-6 text-ink/60">{message}</p>}
-    {items.length > 0 && <div className="mt-5 space-y-3">{items.map((item) => <article key={item.id} className="rounded-xl border border-line bg-cream/60 p-4"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs text-ink/50">{item.kind} · {item.slug}</p><h3 className="mt-1 font-medium">{item.titleJa}</h3><p className="mt-1 text-sm text-ink/55">{item.koreanName}</p></div><span className="rounded-full bg-white px-3 py-1 text-xs">{item.status}</span></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/55"><span>최종 확인일: {item.lastVerifiedAt ?? "미확인"}</span><span>수정일: {new Date(item.updatedAt).toLocaleString("ko-KR")}</span>{item.sources?.map((source) => <span key={`${item.id}-${source.title}`}>출처 권리: {source.rightsStatus}</span>)}</div></article>)}</div>}
+    {items.length > 0 && <div className="mt-5 space-y-3">{items.map((item) => <article key={item.id} className="rounded-xl border border-line bg-cream/60 p-4"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs text-ink/50">{item.kind} · {item.slug}</p><h3 className="mt-1 font-medium">{item.titleJa}</h3><p className="mt-1 text-sm text-ink/55">{item.koreanName}</p></div><span className="rounded-full bg-white px-3 py-1 text-xs">{item.status}</span></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/55"><span>최종 확인일: {item.lastVerifiedAt ?? "미확인"}</span><span>수정일: {new Date(item.updatedAt).toLocaleString("ko-KR")}</span>{item.sources?.map((source) => <span key={`${item.id}-${source.title}`}>출처 권리: {source.rightsStatus}</span>)}</div><div className="mt-4 flex flex-wrap items-end gap-3"><label className="block min-w-44 text-sm">검수 상태<select aria-label={`${item.slug} 검수 상태`} value={draftStatuses[item.id] ?? item.status} onChange={(event) => setDraftStatuses((current) => ({ ...current, [item.id]: event.target.value as AdminContentItem["status"] }))} className="mt-2 min-h-10 w-full rounded-xl border border-line bg-white px-3"><option value="draft">초안</option><option value="review">검수 대기</option><option value="published">공개</option><option value="archived">보관</option></select></label><button type="button" onClick={() => void updateStatus(item)} disabled={busyId === item.id} className="min-h-10 rounded-xl bg-ink px-4 text-sm text-white disabled:opacity-50">{busyId === item.id ? "저장 중..." : "상태 저장"}</button></div></article>)}</div>}
+    {message && items.length > 0 && <p className="mt-4 text-sm text-ink/60">{message}</p>}
   </section>;
 }
 
