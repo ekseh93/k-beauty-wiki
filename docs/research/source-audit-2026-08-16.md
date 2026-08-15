@@ -1,26 +1,26 @@
 # Source audit — 2026-08-16
 
-이번 점검은 공개 후보 2건의 공식 출처를 다시 확인하고, 일본 사용자용 공개 조건을 충족하는지 판단한 기록이다. 출처 페이지의 문장을 전재하지 않고 사실과 편집 판단만 기록한다.
+이번 점검은 공개 후보 3건의 공식 출처를 다시 확인하고, 일본 사용자용 공개 조건을 충족하는지 판단한 기록이다. 출처 페이지의 문장을 전재하지 않고 사실과 편집 판단만 기록한다.
 
 ## Beauty of Joseon Relief Sun
 
-- 출처: [Beauty of Joseon 일본 공식 상품ページ](https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics)
-- 확인한 사실: 일본 공식 표시価格 `¥3,200`, `SPF50+ PA++++`, 30% 쌀エキス 안내, 전성분, 아침 사용법과 2〜3시간 간격 재도포 안내
-- 공개 판단: `review` 유지
-- 보류 이유: 해당 일본 상품 페이지는 `1-Pack`/`2-Pack` 선택지만 표시하고 ml 단위 용량을 확인할 수 없어 용량당 가격을 계산할 수 없음. 페이지와 variant에 따라 표시 가격이 3,200〜3,300엔으로 달라질 수 있어 가격도 확인일·variant 조건과 함께 관리해야 함
+- 출처: [Beauty of Joseon 일본 공식 상품ページ](https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics), [Beauty of Joseon 일본 공식 세트 페이지](https://jp.beautyofjoseon.com/products/relief-sun-duo-original-aqua-fresh)
+- 확인한 사실: 일본 공식 상품 페이지의 1-Pack 표시価格 `¥3,300`, `SPF50+ PA++++`, 30% 쌀エキス 안내, 전성분, 아침 사용법과 2〜3시간 간격 재도포 안내; 공식 세트 페이지에서 동일 Relief Sun 구성품 `50ml` 확인
+- 공개 판단: `published`
+- 공개 기록: 가격을 1-Pack 기준 `JPY 3,300`, 용량을 `50ml`, 용량당 가격을 `66 JPY/ml`로 기록했고, 1-Pack·2-Pack·세트·세일 variant에 따라 가격이 변동될 수 있음을 명시했다.
 - 권리 처리: 공식 페이지를 수동 참고 출처로만 사용하고 원문·사용자 리뷰를 복사하지 않음
 
 ## COSRX Advanced Snail 96 Mucin Power Essence
 
 - 출처: [サン・スマイル 일본 국내 유통 시작 발표](https://prtimes.jp/main/html/rd/p/000000485.000012773.html), [COSRX 공식楽天市場店](https://item.rakuten.co.jp/cosrx-official/snail_essence/), [COSRX 글로벌 공식 상품 페이지](https://www.cosrx.com/collections/serums-essences/products/advanced-snail-96-mucin-power-essence)
 - 확인한 사실: 일본 국내 유통 시작 발표에서 2026-08-10 판매 시작, `100ml`, `¥2,200` 확인; COSRX 공식楽天市場店에서 일본어 전성분·주의사항 확인; 글로벌 공식 페이지에서 제품 설명과 사용 순서 확인
-- 공개 판단: `published` 전환 후보
-- 공개 조건: 가격을 `JPY 2,200`, 용량을 `100ml`, 가격 조사일을 `2026-08-16`으로 기록하고, 일본 판매처·시기·재고·배송에 따라 변동될 수 있음을 명시한다. 임상·효능 홍보 표현은 공개 본문에서 제외한다.
+- 공개 판단: `published`
+- 공개 기록: 가격을 `JPY 2,200`, 용량을 `100ml`, 가격 조사일을 `2026-08-16`으로 기록했고, 일본 판매처·시기·재고·배송에 따라 변동될 수 있음을 명시했다. 임상·효능 홍보 표현은 공개 본문에서 제외했다.
 - 권리 처리: 공식·공식 유통사 페이지를 수동 참고 출처로만 사용하고 원문·사용자 리뷰를 복사하지 않음
 
 ## 편집 결론
 
-- 이번 점검에서 공개 상태로 전환한 항목은 없음
+- 이번 점검에서 Beauty of Joseon과 COSRX를 `published`로 전환했고, MISSHA는 기존 `published` 상태를 유지함
 - MISSHA M Cushion Foundation Neo Cover는 별도 공식 일본 출처 검수 기록에 따라 이미 `published` 상태
 - 다음 검수는 일본 공식 판매 조건 또는 일본 내 판매처의 합법적·확인 가능한 가격/용량 근거가 확보된 항목부터 진행
 

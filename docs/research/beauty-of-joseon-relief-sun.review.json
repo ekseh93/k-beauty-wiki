@@ -4,7 +4,7 @@
   "titleJa": "リリーフサン：ライス＋プロバイオティクス SPF50+ PA++++",
   "koreanName": "릴리프 선: 라이스 + 프로바이오틱스 SPF50+ PA++++",
   "slug": "beauty-of-joseon-relief-sun-rice-probiotics",
-  "summary": "Beauty of Joseon公式ページの表示をもとに、SPF表記、主な成分、使い方、価格条件を整理した検証待ちの日焼け止め登録案です。",
+  "summary": "Beauty of Joseon公式ページをもとに、容量・価格、SPF表記、成分、使い方と注意事項を整理した日焼け止め解説です。",
   "body": [
     "公式ページでは、SPF50+ PA++++と表示された、米エキスと発酵穀物エキスを含む日焼け止めとして案内されています。",
     "ブランド表示では、米エキスは30%とされ、発酵穀物エキスとともに保湿や肌を落ち着かせる目的で説明されています。成分の役割は一般的な範囲に限定して記載します。",
@@ -23,16 +23,24 @@
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
+    },
+    {
+      "title": "Beauty of Joseon日本公式セットページ",
+      "url": "https://jp.beautyofjoseon.com/products/relief-sun-duo-original-aqua-fresh",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
     }
   ],
   "details": {
     "kind": "product",
     "brand": "Beauty of Joseon",
     "productType": "日焼け止め",
-    "volume": "公式ページで容量表示を要再確認",
-    "price": "3200",
+    "volume": "50ml",
+    "price": "3300",
     "currency": "JPY",
-    "pricePerVolume": "容量確認後に算出",
+    "pricePerVolume": "66 JPY/ml",
     "keyIngredients": [
       { "name": "米エキス", "role": "公式ページでは30%配合・保湿目的で説明" },
       { "name": "発酵穀物エキス", "role": "公式ページでは肌を落ち着かせ、うるおいを与える目的で説明" },
@@ -46,11 +54,12 @@
     ],
     "pros": [
       "日本公式ページで日本円価格とSPF50+ PA++++の表示を確認できる",
+      "公式セットページでRelief Sunの50ml容量を確認できる",
       "米エキスと発酵穀物エキスを含む処方として情報を整理できる"
     ],
     "considerations": [
       "価格は確認日の日本公式ページ表示であり、セール・在庫・送料で変動する",
-      "容量と容量あたり価格は商品ページの仕様確認後に確定する",
+      "価格は1-Pack・セット・セールなどの条件で変動するため、variant条件を併記する",
       "日焼け止めの保護効果や肌への適合性には個人差がある"
     ],
     "priceCheckedAt": "2026-08-16"

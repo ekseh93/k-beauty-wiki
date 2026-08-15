@@ -4,9 +4,9 @@
 
 - 검토 대상: 제품 리뷰 초안 5건
 - 구조 검증: 5/5 통과
-- 편집 공개 결정: 2/5
-- 현재 상태: 2건은 `published`, 3건은 `review` 유지
-- 공개 콘텐츠: 2건
+- 편집 공개 결정: 3/5
+- 현재 상태: 3건은 `published`, 2건은 `review` 유지
+- 공개 콘텐츠: 3건
 - 커뮤니티 리뷰 인용: 없음
 - 추가 출처 점검: [source-audit-2026-08-16.md](./source-audit-2026-08-16.md)
 
@@ -17,7 +17,7 @@
 | 콘텐츠 | 판단 | 공개 보류 사유 |
 | --- | --- | --- |
 | COSRX Advanced Snail 96 Mucin Power Essence | `published` | 일본 국내 유통 시작 발표와 COSRX 공식 일본어 판매 페이지에서 100ml·2,200엔·전성분·주의사항을 확인하고 관리자 필드를 갱신함 |
-| Beauty of Joseon Relief Sun | `review` 유지 | 일본 공식 페이지는 확인했지만 용량과 용량당 가격이 확정되지 않음 |
+| Beauty of Joseon Relief Sun | `published` | 일본 공식 상품 페이지의 1-Pack ¥3,300과 공식 세트 페이지의 50ml 구성품 표시를 대조하고 관리자 필드를 갱신함 |
 | Round Lab Birch Juice Moisturizing Sunscreen | `review` 유지 | 한국 공식몰에서 50ml·가격은 확인했지만 현재 제품의 공식 성분·SPF 정보와 과거 갱신 자료의 동일성이 충분히 확인되지 않음 |
 | SKIN1004 Madagascar Centella Ampoule | `review` 유지 | 일본 공식 목록에서 용량·가격은 확인했지만 일본 판매 제품의 최신 전성분이 글로벌 공식 표시와 일치하는지 확정되지 않음 |
 | MISSHA M Cushion Foundation Neo Cover | `published` | 일본 공식 상품 페이지에서 색상·용량·SPF/PA·가격·전성분을 재확인했고, 필수 제품 필드와 주의사항을 검토함 |
@@ -39,11 +39,14 @@
 - COSRX Advanced Snail 96 Mucin Power Essence: `published`
 - 최종 확인일: 2026-08-16
 - 검토 기준: 일본 국내 유통 발표·COSRX 공식 일본어 판매 페이지, 제품 필드 완비, 출처 권리 표기 `reference-only`
+- Beauty of Joseon Relief Sun: `published`
+- 최종 확인일: 2026-08-16
+- 검토 기준: 일본 공식 상품·세트 페이지, 1-Pack 가격과 50ml 용량 대조, 출처 권리 표기 `reference-only`
 - 공개 후 공개 목록과 상세 페이지에서 확인하는 배포 검증을 진행한다.
 
 ## 다음 공개 조건
 
-각 항목은 다음 조건을 사람이 확인한 뒤에만 관리자 화면에서 `published`로 전환한다. 이번 검수에서는 MISSHA와 COSRX 항목이 이 조건을 충족했다.
+각 항목은 다음 조건을 사람이 확인한 뒤에만 관리자 화면에서 `published`로 전환한다. 이번 검수에서는 MISSHA, COSRX, Beauty of Joseon 항목이 이 조건을 충족했다.
 
 1. 일본 판매 페이지 또는 일본 사용자를 위한 가격·용량 조건 확인
 2. 현재 제품 패키지와 공식 페이지의 성분·기능 정보 일치 확인
