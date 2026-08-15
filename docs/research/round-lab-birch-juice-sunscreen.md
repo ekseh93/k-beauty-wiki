@@ -17,12 +17,12 @@
 
 ## 확인한 사실
 
-한국 공식 상품 페이지에서 제품명, 50ml 용량, 22,500원 판매가를 확인했다. 함께 확인했던 공식 보도자료는 같은 이름의 선크림이 아니라 별도 제품인 자작나무 수분 선쿠션에 관한 자료였으므로, 이 선크림의 SPF 근거로 사용하지 않는다.
+한국 공식 상품 페이지에서 제품명, 50ml 용량, 22,500원 판매가를 확인했다. 추가로 같은 제품명을 사용하는 공식 리뉴얼 자료와 공식 시험 요약문에서 SPF50+ PA++++ 및 자외선 차단 시험 관련 기록을 확인했지만, 과거 자료와 현재 판매 제품의 제형·표시가 같은지는 추가 확인이 필요하다.
 
 본문은 출처 문장을 복사하지 않고 다음처럼 요약한다.
 
 - 가격과 용량은 한국 공식몰의 확인일 표시로 기록한다.
-- SPF·PA 표기는 동일 제품의 현행 공식 사양을 직접 확인하기 전까지 기록하지 않는다.
+- SPF·PA 표기는 과거 공식 자료의 확인 사실과 현행 상품 표시의 확인 필요성을 분리해 기록한다.
 - 사용법, 전성분, 피부 타입별 적합성은 현재 확인한 페이지에서 충분히 구조화되지 않아 공개 전 추가 확인 대상으로 남긴다.
 - 리뷰 원문과 수상·광고성 표현은 첫 등록에 포함하지 않는다.
 
@@ -33,6 +33,20 @@
    - sourceType: `manual-reference`
    - rightsStatus: `reference-only`
    - extractionMethod: `manual`
+2. [Round Lab 공식 리뉴얼 정보](https://roundlab.co.kr/article/press/8/3087)
+   - 확인 항목: 동일 제품명, SPF50+ PA++++, 자외선 차단 지수 인체적용시험 안내
+   - 과거 리뉴얼 자료이므로 현행 상품 사양과의 일치 여부는 추가 확인 대상으로 남긴다.
+   - sourceType: `manual-reference`
+   - rightsStatus: `reference-only`
+   - extractionMethod: `manual`
+
+3. [Round Lab 공식 자외선 시험 요약문 PDF](https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%84%87%E1%AE%9C.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf)
+   - 확인 항목: 동일 제품명 시험품, ISO 24444 시험 방법, 2021년 시험 기간
+   - 과거 시험 자료이므로 현행 상품 사양과의 일치 여부는 추가 확인 대상으로 남긴다.
+   - sourceType: `manual-reference`
+   - rightsStatus: `reference-only`
+   - extractionMethod: `manual`
+
 ## 제품 불일치로 사용하지 않은 참고 자료
 
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/)
@@ -40,6 +54,6 @@
 
 ## 검수 메모
 
-- 사용법·전성분·피부 타입 정보가 보완되기 전에는 `published`로 전환하지 않는다.
+- 사용법·전성분·피부 타입·현행 SPF 표시가 보완되기 전에는 `published`로 전환하지 않는다.
 - 가격은 한국 판매가이며 일본 판매가, 배송비, 환율과 다르다.
 - 커뮤니티 리뷰 데이터는 포함하지 않았다. 리뷰 비교는 별도 출처 권리와 표본 검수 후 추가한다.

@@ -4,10 +4,11 @@
   "titleJa": "白樺水分サンクリーム 50ml",
   "koreanName": "자작나무 수분 선크림 50ml",
   "slug": "round-lab-birch-juice-moisturizing-sunscreen",
-  "summary": "Round Lab韓国公式商品ページをもとに、容量と韓国公式モール価格を整理した検証待ちの日焼け止め登録案です。",
+  "summary": "Round Lab韓国公式商品ページと同一製品名の過去の公式資料をもとに、容量、価格、紫外線防御表示の確認状況を整理した検証待ちの日焼け止め登録案です。",
   "body": [
     "韓国公式商品ページでは、50mlの『白樺水分サンクリーム』として販売価格22,500ウォンが表示されています。価格は確認日の韓国公式モール表示です。",
-    "同じブランドの公式プレス情報は別製品の『白樺水分サンクッション』に関する内容だったため、この商品の紫外線防御表示の根拠には使用していません。",
+    "同一製品名の公式リニューアル資料では、SPF50+ PA++++の表示と紫外線防御試験について案内されています。ただし資料は過去の製品仕様に関するもののため、現行商品の表示との一致は公開前に追加確認します。",
+    "公式試験概要には同一製品名の試験品、ISO 24444に基づく試験方法、2021年の試験期間が記載されています。試験結果の現行商品への適用は追加確認が必要です。",
     "使用方法、全成分、肌タイプ別の適合性は、公開前に現行の商品仕様と表示を追加確認する必要があります。"
   ],
   "tags": ["日焼け止め", "白樺", "Round Lab"],
@@ -18,6 +19,22 @@
     {
       "title": "Round Lab韓国公式商品ページ",
       "url": "https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式リニューアル情報",
+      "url": "https://roundlab.co.kr/article/press/8/3087/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式紫外線試験概要PDF",
+      "url": "https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%84%87%E1%AE%9C.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf",
       "checkedAt": "2026-08-16",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
@@ -36,10 +53,11 @@
     "skinTypes": [],
     "usage": [],
     "pros": [
-      "韓国公式商品ページで50mlの容量と韓国公式モール価格を確認できる"
+      "韓国公式商品ページで50mlの容量と韓国公式モール価格を確認できる",
+      "同一製品名の過去の公式資料でSPF50+ PA++++と紫外線防御試験の記載を確認できる"
     ],
     "considerations": [
-      "使用方法、全成分、肌タイプ別の適合性、同一商品のSPF表示は公開前に追加確認が必要",
+      "使用方法、全成分、肌タイプ別の適合性、現行商品のSPF表示は公開前に追加確認が必要",
       "価格は韓国公式モールの確認日表示であり、セール・送料・販売地域で変動する",
       "紫外線防御効果や肌への適合性には個人差がある"
     ],
