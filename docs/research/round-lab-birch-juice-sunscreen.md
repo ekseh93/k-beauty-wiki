@@ -23,7 +23,8 @@
 
 - 가격과 용량은 한국 공식몰의 확인일 표시로 기록한다.
 - SPF·PA 표기는 과거 공식 자료의 확인 사실과 현행 상품 표시의 확인 필요성을 분리해 기록한다.
-- 사용법, 전성분, 피부 타입별 적합성은 현재 확인한 페이지에서 충분히 구조화되지 않아 공개 전 추가 확인 대상으로 남긴다.
+- 공식 FAQ에서는 이 제품이 피부에 밀착되는 편이라 깨끗하고 안전한 클렌징을 위해 이중 세안을 권장한다고 안내한다. 다만 과거 FAQ의 안내이므로 현재 상품의 사용법으로 공개하기 전 재확인한다.
+- 과거 공식 PRESS에서는 소비자 조사 결과를 바탕으로 민감성 피부도 사용하기 편한 제품으로 소개했지만, 이는 브랜드 자료의 평가이며 개인의 피부 적합성을 보장하지 않는다. 현행 전성분과 피부 타입 표시는 아직 확인하지 않았다.
 - 리뷰 원문과 수상·광고성 표현은 첫 등록에 포함하지 않는다.
 
 ## 공식 출처
@@ -47,6 +48,20 @@
    - rightsStatus: `reference-only`
    - extractionMethod: `manual`
 
+4. [Round Lab 공식 FAQ](https://roundlab.co.kr/article/faq/2/3954/)
+   - 확인 항목: 자작나무 수분 선크림의 이중 세안 권고
+   - 과거 FAQ의 안내이므로 현행 상품 사용법으로 확정하지 않는다.
+   - sourceType: `manual-reference`
+   - rightsStatus: `reference-only`
+   - extractionMethod: `manual`
+
+5. [Round Lab 공식 PRESS](https://m.roundlab.co.kr/article/press/8/4072/)
+   - 확인 항목: 2022년 소비자 조사와 민감성 피부 관련 브랜드 소개
+   - 개인별 피부 적합성이나 현행 전성분의 근거로 사용하지 않는다.
+   - sourceType: `manual-reference`
+   - rightsStatus: `reference-only`
+   - extractionMethod: `manual`
+
 ## 제품 불일치로 사용하지 않은 참고 자료
 
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/)
@@ -54,6 +69,7 @@
 
 ## 검수 메모
 
-- 사용법·전성분·피부 타입·현행 SPF 표시가 보완되기 전에는 `published`로 전환하지 않는다.
+- 현행 전성분과 SPF 표시가 보완되기 전에는 `published`로 전환하지 않는다.
+- 과거 FAQ와 PRESS는 참고 근거로만 기록했으며, 현행 상품의 확정 정보나 개인별 적합성으로 사용하지 않는다.
 - 가격은 한국 판매가이며 일본 판매가, 배송비, 환율과 다르다.
 - 커뮤니티 리뷰 데이터는 포함하지 않았다. 리뷰 비교는 별도 출처 권리와 표본 검수 후 추가한다.

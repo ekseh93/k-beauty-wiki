@@ -9,7 +9,8 @@
     "韓国公式商品ページでは、50mlの『白樺水分サンクリーム』として販売価格22,500ウォンが表示されています。価格は確認日の韓国公式モール表示です。",
     "同一製品名の公式リニューアル資料では、SPF50+ PA++++の表示と紫外線防御試験について案内されています。ただし資料は過去の製品仕様に関するもののため、現行商品の表示との一致は公開前に追加確認します。",
     "公式試験概要には同一製品名の試験品、ISO 24444に基づく試験方法、2021年の試験期間が記載されています。試験結果の現行商品への適用は追加確認が必要です。",
-    "使用方法、全成分、肌タイプ別の適合性は、公開前に現行の商品仕様と表示を追加確認する必要があります。"
+    "公式FAQでは、密着力が高い製品として、きれいで安全なクレンジングのために二重洗顔を推奨しています。ただしFAQは過去の案内であり、現行商品の使用方法として公開する前に再確認します。",
+    "過去の公式PRESSでは、消費者調査をもとに敏感肌でも使いやすい製品として紹介されています。これはブランド資料の評価であり、個人の肌適合性を保証するものではありません。全成分と現行商品の肌タイプ表示は追加確認が必要です。"
   ],
   "tags": ["日焼け止め", "白樺", "Round Lab"],
   "aliases": ["Birch Juice Moisturizing Sunscreen", "Birch Sunscreen", "자작나무 선크림"],
@@ -39,6 +40,22 @@
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式FAQ（洗浄方法）",
+      "url": "https://roundlab.co.kr/article/faq/2/3954/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式PRESS（Glowpick survey）",
+      "url": "https://m.roundlab.co.kr/article/press/8/4072/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
     }
   ],
   "details": {
@@ -50,8 +67,8 @@
     "currency": "KRW",
     "pricePerVolume": "450 KRW/ml",
     "keyIngredients": [],
-    "skinTypes": [],
-    "usage": [],
+    "skinTypes": ["過去の公式PRESSでは敏感肌でも使いやすい製品として紹介されているが、現行商品の適合性は追加確認が必要"],
+    "usage": ["公式FAQでは、きれいで安全なクレンジングのために二重洗顔を推奨している（過去の案内・現行仕様は再確認が必要）"],
     "pros": [
       "韓国公式商品ページで50mlの容量と韓国公式モール価格を確認できる",
       "同一製品名の過去の公式資料でSPF50+ PA++++と紫外線防御試験の記載を確認できる"
