@@ -166,6 +166,20 @@ function parseAdditionalSources(value: string): { title: string; url: string }[]
   });
 }
 
+function isDateOnly(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+
+function isHttpUrl(value: string): boolean {
+  if (!value.trim()) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 function toStringValue(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
@@ -570,17 +584,47 @@ function ContentPreview({ form }: { form: FormState }) {
     form.koreanName.trim() &&
     form.slug.trim() &&
     form.summary.trim() &&
-    form.sourceTitle.trim() &&
-    form.sourceUrl.trim() &&
-    form.lastVerifiedAt,
+    splitLines(form.bodyText).length > 0 &&
+    form.caution.trim(),
   );
-  const rightsReady = form.rightsStatus === "verified" || form.rightsStatus === "reference-only";
+  const sourceRows = [
+    { title: form.sourceTitle, url: form.sourceUrl, checkedAt: form.lastVerifiedAt, rightsStatus: form.rightsStatus },
+    ...parseAdditionalSources(form.additionalSources).map((source) => ({ ...source, checkedAt: form.lastVerifiedAt, rightsStatus: form.rightsStatus })),
+  ];
+  const sourceReady = sourceRows.every((source) => source.title.trim() && isHttpUrl(source.url) && isDateOnly(source.checkedAt));
+  const rightsReady = sourceRows.length > 0 && sourceRows.every((source) => source.rightsStatus === "verified" || source.rightsStatus === "reference-only");
+  const reviewSourceUrls = splitLines(form.reviewSourceUrls);
   const reviewReady = !form.includeReviewEvidence || (
     Number(form.sampleCount) >= 5 &&
     Number(form.independentSourceCount) >= 1 &&
-    Boolean(form.reviewCollectedAt && form.reviewSummary.trim() && form.reviewSourceUrls.trim())
+    isDateOnly(form.reviewCollectedAt) &&
+    Boolean(form.reviewSummary.trim()) &&
+    reviewSourceUrls.length > 0 &&
+    reviewSourceUrls.every(isHttpUrl)
   );
-  const publishReady = requiredReady && rightsReady && reviewReady;
+  const listFieldsReady = form.kind === "treatment"
+    ? [form.suitableFor, form.consultOrAvoid, form.sideEffects, form.similarTreatments].every((value) => splitLines(value).length > 0)
+    : [form.skinTypes, form.usage, form.pros, form.considerations].every((value) => splitLines(value).length > 0);
+  const treatmentFieldsReady = form.kind !== "treatment" || [
+    form.principle,
+    form.purpose,
+    form.priceRange,
+    form.priceCondition,
+    form.duration,
+    form.downtime,
+    form.maintenance,
+  ].every((value) => value.trim());
+  const productFieldsReady = form.kind === "treatment" || [
+    form.brand,
+    form.productType,
+    form.volume,
+    form.price,
+    form.currency,
+    form.pricePerVolume,
+    form.priceCheckedAt,
+  ].every((value) => value.trim()) && isDateOnly(form.priceCheckedAt) && parseIngredients(form.keyIngredients).length > 0;
+  const detailsReady = listFieldsReady && treatmentFieldsReady && productFieldsReady;
+  const publishReady = requiredReady && sourceReady && rightsReady && reviewReady && detailsReady;
   const kindLabel = { treatment: "시술", skincare: "스킨케어", makeup: "메이크업" }[form.kind];
 
   return <section className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
@@ -602,8 +646,10 @@ function ContentPreview({ form }: { form: FormState }) {
     </div>
 
     <div className="mt-5 grid gap-2 text-sm sm:grid-cols-3">
-      <CheckItem ok={requiredReady} label="필수 필드와 최종 확인일" />
+      <CheckItem ok={requiredReady} label="기본 필수 필드" />
+      <CheckItem ok={sourceReady} label="출처 URL과 확인일 형식" />
       <CheckItem ok={rightsReady} label="출처 권리 상태" />
+      <CheckItem ok={detailsReady} label="구조화된 상세 필드" />
       <CheckItem ok={reviewReady} label="리뷰 근거 조건" />
     </div>
     {form.status === "published" && !publishReady && <p className="mt-4 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">현재 상태는 공개로 선택되었지만 검수 조건을 충족하지 않아 API에서 공개가 차단됩니다.</p>}
