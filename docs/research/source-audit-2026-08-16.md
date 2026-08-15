@@ -23,3 +23,19 @@
 - 이번 점검에서 공개 상태로 전환한 항목은 없음
 - MISSHA M Cushion Foundation Neo Cover는 별도 공식 일본 출처 검수 기록에 따라 이미 `published` 상태
 - 다음 검수는 일본 공식 판매 조건 또는 일본 내 판매처의 합법적·확인 가능한 가격/용량 근거가 확보된 항목부터 진행
+
+## Round Lab Birch Juice Moisturizing Sunscreen
+
+- 출처: [Round Lab 한국 공식 상품ページ](https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/), [Round Lab 공식 PRESS](https://m.roundlab.co.kr/board/press/8/?page=8)
+- 확인한 사실: 공식 상품 페이지에서 `50ml`, 판매가 `22,500원`, 배송비 조건 확인; 공식 PRESS에서 과거 리뉴얼 제품의 SPF50+ PA++++ 및 시험 관련 설명 확인
+- 공개 판단: `review` 유지
+- 보류 이유: 현재 상품 페이지에서 현행 제품의 SPF/PA와 전성분을 직접 확인하지 못했고, 과거 자료의 시험·성분 정보를 현재 제품에 그대로 적용할 수 없음
+- 권리 처리: 공식 페이지를 수동 참고 출처로만 사용하고 공식 PRESS의 홍보·시험 표현을 독립적인 효능 평가처럼 사용하지 않음
+
+## SKIN1004 Madagascar Centella Ampoule
+
+- 출처: [SKIN1004 일본 공식 상품 목록](https://skin1004japan.com/category/all/95/?page=3), [SKIN1004 글로벌 공식 상품ページ](https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule?variant=40788189773981)
+- 확인한 사실: 일본 공식 목록에서 `100ml ¥3,200`, `55ml ¥2,400`; 글로벌 공식에서 100ml·55ml·30ml 선택지, 전성분, 사용법, 피부 타입 안내 확인
+- 공개 판단: `review` 유지
+- 보류 이유: 일본 판매 제품의 현행 전성분이 글로벌 공식 표시와 동일한지 확인하지 못함. 일본 가격·용량 근거는 확보했지만, 지역별 제품 사양을 혼합해 공개하지 않음
+- 권리 처리: 공식 페이지를 수동 참고 출처로 기록하고 브랜드의 진정·보습 표현을 의학적 효능이나 사용자 평가로 확대하지 않음
