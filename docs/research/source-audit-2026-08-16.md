@@ -7,7 +7,7 @@
 - 출처: [Beauty of Joseon 일본 공식 상품ページ](https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics)
 - 확인한 사실: 일본 공식 표시価格 `¥3,200`, `SPF50+ PA++++`, 30% 쌀エキス 안내, 전성분, 아침 사용법과 2〜3시간 간격 재도포 안내
 - 공개 판단: `review` 유지
-- 보류 이유: 해당 일본 상품 페이지의 현재 텍스트에서 용량을 확인하지 못해 용량당 가격을 계산할 수 없음
+- 보류 이유: 해당 일본 상품 페이지는 `1-Pack`/`2-Pack` 선택지만 표시하고 ml 단위 용량을 확인할 수 없어 용량당 가격을 계산할 수 없음. 페이지와 variant에 따라 표시 가격이 3,200〜3,300엔으로 달라질 수 있어 가격도 확인일·variant 조건과 함께 관리해야 함
 - 권리 처리: 공식 페이지를 수동 참고 출처로만 사용하고 원문·사용자 리뷰를 복사하지 않음
 
 ## COSRX Advanced Snail 96 Mucin Power Essence
