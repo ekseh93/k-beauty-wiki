@@ -32,10 +32,35 @@ jobs:
           aws-region: ${{ vars.AWS_REGION || 'ap-northeast-1' }}
       - run: pnpm exec cdk bootstrap aws://490220201302/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
       - run: pnpm exec cdk deploy --all --require-approval never
-      - name: Start Amplify Hosting release
+      - name: Start or adopt Amplify Hosting release
         id: amplify-release
+        env:
+          GITHUB_SHA: ${{ github.sha }}
         run: |
-          job_id="$(aws amplify start-job --app-id d1ece7jdtq0bus --branch-name main --job-type RELEASE --query 'jobSummary.jobId' --output text)"
+          set +e
+          start_output="$(aws amplify start-job --app-id d1ece7jdtq0bus --branch-name main --job-type RELEASE --query 'jobSummary.jobId' --output text 2>&1)"
+          start_status=$?
+          set -e
+          if [ "$start_status" -eq 0 ]; then
+            job_id="$start_output"
+          elif echo "$start_output" | grep -q "already have pending or running jobs"; then
+            echo "An Amplify job is already running; waiting for the job for $GITHUB_SHA."
+            job_id=""
+            for attempt in {1..12}; do
+              job_id="$(aws amplify list-jobs --app-id d1ece7jdtq0bus --branch-name main --max-results 10 --query "jobSummaries[?commitId=='$GITHUB_SHA'] | [0].jobId" --output text)"
+              if [ -n "$job_id" ] && [ "$job_id" != "None" ]; then
+                break
+              fi
+              sleep 5
+            done
+          else
+            echo "$start_output"
+            exit "$start_status"
+          fi
+          if [ -z "$job_id" ] || [ "$job_id" = "None" ]; then
+            echo "Could not find an Amplify release job for $GITHUB_SHA."
+            exit 1
+          fi
           echo "Amplify release job: $job_id"
           echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
       - name: Wait for Amplify Hosting release
