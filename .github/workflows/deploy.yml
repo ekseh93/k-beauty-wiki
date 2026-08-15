@@ -32,3 +32,26 @@ jobs:
           aws-region: ${{ vars.AWS_REGION || 'ap-northeast-1' }}
       - run: pnpm exec cdk bootstrap aws://490220201302/ap-northeast-1 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
       - run: pnpm exec cdk deploy --all --require-approval never
+      - name: Start Amplify Hosting release
+        id: amplify-release
+        run: |
+          job_id="$(aws amplify start-job --app-id d1ece7jdtq0bus --branch-name main --job-type RELEASE --query 'jobSummary.jobId' --output text)"
+          echo "Amplify release job: $job_id"
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+      - name: Wait for Amplify Hosting release
+        env:
+          AMPLIFY_JOB_ID: ${{ steps.amplify-release.outputs.job_id }}
+        run: |
+          for attempt in {1..30}; do
+            status="$(aws amplify get-job --app-id d1ece7jdtq0bus --branch-name main --job-id "$AMPLIFY_JOB_ID" --query 'job.summary.status' --output text)"
+            echo "Amplify release status: $status"
+            if [ "$status" = "SUCCEED" ]; then
+              exit 0
+            fi
+            if [ "$status" = "FAILED" ] || [ "$status" = "CANCELLED" ]; then
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "Amplify release did not finish within the expected time."
+          exit 1
