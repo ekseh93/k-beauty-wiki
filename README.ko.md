@@ -100,8 +100,9 @@ pnpm validate:content --file=path/to/content.json
 1. GitHub Actions가 AWS OIDC로 CDK 백엔드를 배포합니다.
 2. 워크플로가 `main` 브랜치의 Amplify Hosting 릴리스를 명시적으로 시작합니다.
 3. `amplify.yml`에 따라 pnpm을 설치하고 Next.js를 빌드합니다.
-4. 워크플로가 Amplify 빌드 성공을 확인한 뒤 완료됩니다.
-5. Amplify가 빌드 결과를 공개 도메인에 배포합니다.
+4. 워크플로가 Amplify 작업 ID를 기록하고 빌드는 Amplify Hosting에서 계속 진행됩니다.
+5. 빌드 완료 후 호스팅 URL을 새로고침해 배포를 확인합니다.
+6. Amplify가 빌드 결과를 공개 도메인에 배포합니다.
 
 AWS 인증 정보와 장기 액세스 키는 저장소에 보관하지 않습니다. 관리자 접근은 Cognito와 IAM 정책으로 제한합니다. 관리자 계정 생성은 [`docs/admin-provisioning.md`](./docs/admin-provisioning.md)를 참고하세요.
 

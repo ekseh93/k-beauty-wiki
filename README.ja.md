@@ -100,8 +100,9 @@ pnpm validate:content --file=path/to/content.json
 1. GitHub ActionsがAWS OIDCでCDKバックエンドをデプロイします。
 2. ワークフローが`main`ブランチのAmplify Hostingリリースを明示的に開始します。
 3. `amplify.yml`に従ってpnpmをインストールし、Next.jsをビルドします。
-4. ワークフローがAmplifyビルドの成功を確認してから完了します。
-5. Amplifyがビルド結果を公開ドメインにデプロイします。
+4. ワークフローがAmplifyジョブIDを記録し、ビルドはAmplify Hostingで継続します。
+5. ビルド完了後にホスティングURLを再読み込みしてデプロイを確認します。
+6. Amplifyがビルド結果を公開ドメインにデプロイします。
 
 AWSの認証情報や長期アクセスキーをリポジトリに保存しません。管理画面へのアクセスはCognitoとIAMポリシーで制限します。管理者アカウントの作成は[`docs/admin-provisioning.md`](./docs/admin-provisioning.md)をご覧ください。
 

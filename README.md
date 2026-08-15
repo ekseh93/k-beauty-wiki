@@ -100,8 +100,9 @@ pnpm validate:content --file=path/to/content.json
 1. GitHub Actions deploys the CDK backend using AWS OIDC.
 2. The workflow explicitly starts an Amplify Hosting release for `main`.
 3. Amplify installs pnpm and builds Next.js according to `amplify.yml`.
-4. The workflow waits for a successful Amplify build before completing.
-5. Amplify publishes the build to the public domain.
+4. The workflow records the Amplify job ID; the build continues in Amplify Hosting.
+5. The deployment is verified through the hosted URL after the build completes.
+6. Amplify publishes the build to the public domain.
 
 AWS credentials and long-lived access keys are not stored in the repository. Admin access is restricted through Cognito and IAM policies. For administrator provisioning, see [`docs/admin-provisioning.md`](./docs/admin-provisioning.md).
 
