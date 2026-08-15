@@ -31,5 +31,5 @@ Round Lab의 첫 번째 보도자료는 `자작나무 수분 선쿠션`에 관�
 - [Beauty of Joseon 일본 공식 페이지](https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics)
 - [Round Lab 한국 공식 상품 페이지](https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/)
 - [Round Lab 공식 리뉴얼 정보](https://roundlab.co.kr/article/press/8/3087)
-- [Round Lab 공식 자외선 시험 요약문 PDF](https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%84%87%E1%AE%9C.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf)
+- [Round Lab 공식 자외선 시험 요약문 PDF](https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%85%AE.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf)
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/) — 선쿠션 자료로 확인되어 등록 대상의 근거에서 제외

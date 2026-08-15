@@ -40,7 +40,7 @@
    - rightsStatus: `reference-only`
    - extractionMethod: `manual`
 
-3. [Round Lab 공식 자외선 시험 요약문 PDF](https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%84%87%E1%AE%9C.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf)
+3. [Round Lab 공식 자외선 시험 요약문 PDF](https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%85%AE.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf)
    - 확인 항목: 동일 제품명 시험품, ISO 24444 시험 방법, 2021년 시험 기간
    - 과거 시험 자료이므로 현행 상품 사양과의 일치 여부는 추가 확인 대상으로 남긴다.
    - sourceType: `manual-reference`
