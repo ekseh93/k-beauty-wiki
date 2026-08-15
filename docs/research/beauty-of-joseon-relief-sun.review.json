@@ -14,12 +14,12 @@
   "tags": ["日焼け止め", "SPF50+", "PA++++", "ライス", "Beauty of Joseon"],
   "aliases": ["Relief Sun", "릴리프 선", "リリーフサン"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-15",
+  "lastVerifiedAt": "2026-08-16",
   "sources": [
     {
       "title": "Beauty of Joseon日本公式商品ページ",
       "url": "https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics",
-      "checkedAt": "2026-08-15",
+      "checkedAt": "2026-08-16",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -53,7 +53,7 @@
       "容量と容量あたり価格は商品ページの仕様確認後に確定する",
       "日焼け止めの保護効果や肌への適合性には個人差がある"
     ],
-    "priceCheckedAt": "2026-08-15"
+    "priceCheckedAt": "2026-08-16"
   },
   "isFixture": false,
   "createdAt": "2026-08-15T13:40:00+09:00",

@@ -14,12 +14,12 @@
   "tags": ["エッセンス", "スネイル", "保湿", "COSRX"],
   "aliases": ["Advanced Snail 96 Mucin Power Essence", "스네일 96 에센스"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-14",
+  "lastVerifiedAt": "2026-08-16",
   "sources": [
     {
       "title": "COSRX韓国公式商品ページ",
       "url": "https://www.cosrx.co.kr/m/product.html?REFPP=board&branduid=196",
-      "checkedAt": "2026-08-14",
+      "checkedAt": "2026-08-16",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -27,7 +27,7 @@
     {
       "title": "COSRX Official product page",
       "url": "https://www.cosrx.com/collections/serums-essences/products/advanced-snail-96-mucin-power-essence",
-      "checkedAt": "2026-08-14",
+      "checkedAt": "2026-08-16",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -62,7 +62,7 @@
       "赤み、腫れ、かゆみなど異常がある場合は使用を中止し、公式注意事項に従う",
       "日本での販売価格、送料、在庫は販売地域と時期によって変動する"
     ],
-    "priceCheckedAt": "2026-08-14"
+    "priceCheckedAt": "2026-08-16"
   },
   "isFixture": false,
   "createdAt": "2026-08-14T07:40:42+09:00",
