@@ -12,11 +12,11 @@
 
 ## COSRX Advanced Snail 96 Mucin Power Essence
 
-- 출처: [COSRX 한국 공식몰](https://www.cosrx.co.kr/m/product.html?REFPP=board&branduid=196), [COSRX 글로벌 공식 상품 페이지](https://www.cosrx.com/collections/serums-essences/products/advanced-snail-96-mucin-power-essence)
-- 확인한 사실: 한국 공식몰의 `100ml`, `23,000원`, 전성분, 사용상 주의사항; 글로벌 공식 페이지의 용량 선택지와 제품 설명
-- 공개 판단: `review` 유지
-- 보류 이유: 한국 공식 가격은 확인했지만 일본 판매 가격·배송·재고 조건이 아니므로 일본 사용자를 위한 가격 정보로 공개하지 않음
-- 권리 처리: 공식 페이지를 수동 참고 출처로 기록하고 브랜드 홍보 문구·임상 수치를 자체 평가처럼 사용하지 않음
+- 출처: [サン・スマイル 일본 국내 유통 시작 발표](https://prtimes.jp/main/html/rd/p/000000485.000012773.html), [COSRX 공식楽天市場店](https://item.rakuten.co.jp/cosrx-official/snail_essence/), [COSRX 글로벌 공식 상품 페이지](https://www.cosrx.com/collections/serums-essences/products/advanced-snail-96-mucin-power-essence)
+- 확인한 사실: 일본 국내 유통 시작 발표에서 2026-08-10 판매 시작, `100ml`, `¥2,200` 확인; COSRX 공식楽天市場店에서 일본어 전성분·주의사항 확인; 글로벌 공식 페이지에서 제품 설명과 사용 순서 확인
+- 공개 판단: `published` 전환 후보
+- 공개 조건: 가격을 `JPY 2,200`, 용량을 `100ml`, 가격 조사일을 `2026-08-16`으로 기록하고, 일본 판매처·시기·재고·배송에 따라 변동될 수 있음을 명시한다. 임상·효능 홍보 표현은 공개 본문에서 제외한다.
+- 권리 처리: 공식·공식 유통사 페이지를 수동 참고 출처로만 사용하고 원문·사용자 리뷰를 복사하지 않음
 
 ## 편집 결론
 

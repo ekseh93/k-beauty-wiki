@@ -4,7 +4,7 @@
   "titleJa": "アドバンスド スネイル 96 ミュシン パワー エッセンス",
   "koreanName": "어드벤스드 스네일 96 뮤신 파워 에센스",
   "slug": "cosrx-advanced-snail-96-mucin-power-essence",
-  "summary": "COSRXが販売する、カタツムリ粘液ろ過物を主要成分として表示したエッセンス。公式表示と価格確認条件を分けて記録する検証待ちの登録案です。",
+  "summary": "COSRXの日本向け販売情報をもとに、容量・価格、成分、使い方と注意事項を整理したエッセンス解説です。",
   "body": [
     "ブランド公式ページでは、96.3%のカタツムリ粘液ろ過物、1,000ppmのヒアルロン酸ナトリウム、100ml・30mlなどが表示されています。",
     "使用方法は、洗顔と化粧水の後に少量を顔全体へ塗り、指先でなじませてから保湿剤を使う案内です。",
@@ -31,6 +31,22 @@
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
+    },
+    {
+      "title": "サン・スマイル COSRX日本国内流通開始プレスリリース",
+      "url": "https://prtimes.jp/main/html/rd/p/000000485.000012773.html",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "COSRX公式楽天市場店 商品ページ",
+      "url": "https://item.rakuten.co.jp/cosrx-official/snail_essence/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
     }
   ],
   "details": {
@@ -38,9 +54,9 @@
     "brand": "COSRX",
     "productType": "エッセンス",
     "volume": "100ml",
-    "price": "23000",
-    "currency": "KRW",
-    "pricePerVolume": "230 KRW/ml",
+    "price": "2200",
+    "currency": "JPY",
+    "pricePerVolume": "22 JPY/ml",
     "keyIngredients": [
       { "name": "Snail Secretion Filtrate", "role": "ブランド公式が主要成分として表示" },
       { "name": "Sodium Hyaluronate", "role": "ブランド公式が主要成分として表示" },
@@ -54,8 +70,8 @@
       "その後に保湿剤を使う"
     ],
     "pros": [
-      "韓国・グローバル公式ページで製品仕様と使用方法を確認できる",
-      "100mlの容量と韓国公式表示価格を記録できる"
+      "日本向け販売価格と100mlの容量を、国内流通開始情報と公式販売ページで確認できる",
+      "韓国・グローバル公式ページで製品仕様と使用方法を確認できる"
     ],
     "considerations": [
       "カタツムリ由来成分を含むため、動物由来成分を避ける人は成分表示を確認する",
