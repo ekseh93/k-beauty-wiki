@@ -2,7 +2,7 @@
 
 ## 범위
 
-현재 `review` 상태인 스킨케어 초안 4건의 공식 출처와 필수 정보를 재확인했다. 모든 자료는 원문을 복사하지 않고 요약했으며, 커뮤니티 리뷰는 이번 검증에 포함하지 않았다.
+현재 `review` 상태인 스킨케어 초안 4건과 메이크업 초안 1건의 공식 출처와 필수 정보를 재확인했다. 모든 자료는 원문을 복사하지 않고 요약했으며, 커뮤니티 리뷰는 이번 검증에 포함하지 않았다.
 
 ## 검증 결과
 
@@ -12,6 +12,7 @@
 | Beauty of Joseon Relief Sun | 일본 공식 페이지의 SPF50+ PA++++, 3,200엔, 30% 쌀 추출물, 발효 곡물 추출물, 전성분, 사용법 | `review` 유지 |
 | Round Lab 자작나무 수분 선크림 50ml | 한국 공식 상품 페이지의 50ml·22,500원, 과거 동일 제품명 공식 자료의 SPF50+ PA++++ 및 시험 기록, 공식 FAQ의 이중 세안 권고, 과거 PRESS의 민감성 피부 관련 브랜드 평가 | `review` 유지 |
 | SKIN1004 Madagascar Centella Ampoule | 글로벌 공식 페이지의 현행 전성분·피부 타입·사용법, 일본 공식 목록의 100ml·55ml 엔화 가격 | `review` 유지 |
+| MISSHA M 쿠션 파운데이션 네오커버 | 일본 공식 페이지의 15g·2색·SPF50+ PA+++·본체/리필 가격·전성분·사용 주의사항 | `review` 유지 |
 
 ## 중요 정정
 
@@ -27,6 +28,7 @@ Round Lab의 첫 번째 보도자료는 `자작나무 수분 선쿠션`에 관�
 - Beauty of Joseon은 용량을 공식 상품 사양에서 추가 확인한 뒤 용량당 가격을 계산한다.
 - COSRX의 임상·효능 수치와 원문 리뷰는 별도 근거 검수 전까지 공개 콘텐츠에 사용하지 않는다.
 - SKIN1004는 일본 공식 목록의 가격은 확인했지만 개별 상품 URL이 404였고 일본 현행 전성분을 확인하지 못해 공개하지 않는다.
+- MISSHA 네오커버는 공식 페이지의 SPF/PA 표시와 사용 주의사항을 확인했지만, 리뷰 원문을 포함하지 않고 `review` 상태로 유지한다.
 
 ## 출처
 
@@ -43,3 +45,4 @@ Round Lab의 첫 번째 보도자료는 `자작나무 수분 선쿠션`에 관�
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/) — 선쿠션 자료로 확인되어 등록 대상의 근거에서 제외
 - [SKIN1004 글로벌 공식 상품 페이지](https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule)
 - [SKIN1004 일본 공식 상품 목록](https://skin1004japan.com/category/all/95/?page=3)
+- [MISSHA JAPAN 공식 쿠션 파운데이션 페이지](https://www.misshajp.com/shop/pages/mcushion.aspx/)
