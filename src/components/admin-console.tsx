@@ -169,6 +169,18 @@ export function AdminConsole() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
+  useEffect(() => {
+    if (!pool) return;
+    const currentUser = pool.getCurrentUser();
+    if (!currentUser) return;
+    currentUser.getSession((error: Error | null, currentSession: CognitoUserSession | null) => {
+      if (!error && currentSession?.isValid()) {
+        setSession(currentSession);
+        setMessage("저장된 관리자 세션을 복원했습니다.");
+      }
+    });
+  }, [pool]);
+
   function updateForm<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
   }
