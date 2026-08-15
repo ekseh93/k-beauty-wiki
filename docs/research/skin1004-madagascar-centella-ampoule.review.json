@@ -1,0 +1,57 @@
+{
+  "id": "review-skin1004-madagascar-centella-ampoule",
+  "kind": "skincare",
+  "titleJa": "マダガスカルセンテラ アンプル",
+  "koreanName": "마다가스카르 센텔라 앰플",
+  "slug": "skin1004-madagascar-centella-ampoule",
+  "summary": "SKIN1004公式商品ページの現行表示をもとに、容量・価格、表示成分、使い方を整理した検証待ちの登録案です。",
+  "body": [
+    "SKIN1004公式商品ページでは、マダガスカル産ツボクサエキスを特徴成分とするアンプルとして案内されています。",
+    "公式ページの現行表示では、100ml・55ml・30mlの容量別価格と、全成分表示が掲載されています。価格と成分は販売地域や仕様変更によって変わる可能性があるため、確認日を併記します。",
+    "使い方は、適量を肌に均一に塗り、なじませる方法として案内されています。肌への適合性は個人差があるため、異常を感じた場合は使用を中止してください。"
+  ],
+  "tags": ["アンプル", "ツボクサ", "保湿", "SKIN1004"],
+  "aliases": ["Centella Ampoule", "Madagascar Centella Ampoule", "센텔라 앰플"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-16",
+  "sources": [
+    {
+      "title": "SKIN1004公式商品ページ（グローバル）",
+      "url": "https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "SKIN1004",
+    "productType": "アンプル",
+    "volume": "100ml / 55ml / 30ml",
+    "price": "100ml US$19.80 / 55ml US$13.50 / 30ml US$9.50",
+    "currency": "USD",
+    "pricePerVolume": "100ml 기준 US$0.198/ml、55ml 기준 US$0.245/ml、30ml 기준 US$0.317/ml（公式表示価格から算出）",
+    "keyIngredients": [
+      { "name": "ツボクサエキス（Centella Asiatica Extract）", "role": "公式ページでは肌を穏やかに整える目的の特徴成分として説明" },
+      { "name": "グリセリン", "role": "化粧品で一般的に保湿目的で使われる成分" }
+    ],
+    "skinTypes": ["公式ページでは普通肌・混合肌・乾燥肌向けとして表示"],
+    "usage": ["適量を肌に均一に塗る", "肌になじむように軽くパッティングする"],
+    "pros": [
+      "公式ページで容量別価格と全成分表示を確認できる",
+      "日本語ユーザー向けに商品名、使い方、確認日を整理しやすい"
+    ],
+    "considerations": [
+      "価格は米国向け公式ページの確認時表示で、為替・地域・セール・送料によって変動する",
+      "日本向け販売価格や日本語公式表示は別途確認が必要",
+      "成分表示や製品仕様は更新される可能性があるため、購入前に販売地域の現行表示を確認する",
+      "肌への適合性には個人差がある"
+    ],
+    "priceCheckedAt": "2026-08-16"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-16T07:00:00+09:00",
+  "updatedAt": "2026-08-16T07:00:00+09:00",
+  "relatedSlugs": []
+}
