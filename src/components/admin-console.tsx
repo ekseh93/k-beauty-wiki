@@ -42,6 +42,7 @@ interface FormState {
   sourceType: SourceType;
   rightsStatus: RightsStatus;
   extractionMethod: ExtractionMethod;
+  additionalSources: string;
   quote: string;
   lastVerifiedAt: string;
   includeReviewEvidence: boolean;
@@ -91,6 +92,7 @@ const initialForm: FormState = {
   sourceType: "official-api",
   rightsStatus: "needs-review",
   extractionMethod: "api",
+  additionalSources: "",
   quote: "",
   lastVerifiedAt: "",
   includeReviewEvidence: false,
@@ -154,6 +156,13 @@ interface AdminContentSummary {
   lastVerifiedAt?: string;
   updatedAt: string;
   sources?: { title: string; rightsStatus: RightsStatus }[];
+}
+
+function parseAdditionalSources(value: string): { title: string; url: string }[] {
+  return splitLines(value).map((line) => {
+    const [title, ...urlParts] = line.split("|");
+    return { title: title.trim(), url: urlParts.join("|").trim() };
+  });
 }
 
 type AdminContentItem = AdminContentSummary & Record<string, unknown>;
@@ -296,6 +305,13 @@ export function AdminConsole() {
       extractionMethod: form.extractionMethod,
       ...(form.quote.trim() ? { quote: form.quote.trim() } : {}),
     };
+    const additionalSources = parseAdditionalSources(form.additionalSources).map((additionalSource) => ({
+      ...additionalSource,
+      checkedAt: form.lastVerifiedAt,
+      sourceType: form.sourceType,
+      rightsStatus: form.rightsStatus,
+      extractionMethod: form.extractionMethod,
+    }));
     const reviewEvidence = form.includeReviewEvidence ? {
       sampleCount: Number(form.sampleCount),
       independentSourceCount: Number(form.independentSourceCount),
@@ -350,7 +366,7 @@ export function AdminConsole() {
           caution: form.caution,
           kind: form.kind,
           status: form.status,
-          sources: [source],
+          sources: [source, ...additionalSources],
           lastVerifiedAt: form.lastVerifiedAt,
           reviewEvidence,
           details,
@@ -466,6 +482,7 @@ export function AdminConsole() {
         <SelectField label="수집 방식" value={form.extractionMethod} onChange={(value) => updateForm("extractionMethod", value as ExtractionMethod)} options={[{ value: "api", label: "API" }, { value: "licensed-import", label: "허가된 가져오기" }, { value: "manual", label: "수동 입력" }, { value: "no-automation", label: "자동 수집 안 함" }]} />
         <Field label="최종 확인일" type="text" placeholder="YYYY-MM-DD" value={form.lastVerifiedAt} onChange={(value) => updateForm("lastVerifiedAt", value)} required />
       </div>
+      <TextAreaField label="추가 출처 (출처 제목 | URL, 한 줄에 하나)" value={form.additionalSources} onChange={(value) => updateForm("additionalSources", value)} placeholder="COSRX Official product page | https://www.cosrx.com/..." />
       {form.sourceType === "short-quote" && <label className="mt-4 block text-sm">짧은 인용문<textarea value={form.quote} onChange={(event) => updateForm("quote", event.target.value)} maxLength={500} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" placeholder="필요한 최소한의 인용만 입력하세요." /></label>}
     </div>
 
