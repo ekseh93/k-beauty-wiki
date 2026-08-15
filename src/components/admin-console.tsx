@@ -163,6 +163,12 @@ export function AdminConsole() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [session, setSession] = useState<CognitoUserSession | null>(null);
+  const [currentUser, setCurrentUser] = useState<CognitoUser | null>(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [replacementPassword, setReplacementPassword] = useState("");
+  const [replacementPasswordConfirmation, setReplacementPasswordConfirmation] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordBusy, setPasswordBusy] = useState(false);
   const [pendingPasswordUser, setPendingPasswordUser] = useState<CognitoUser | null>(null);
   const [pendingAttributes, setPendingAttributes] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormState>(initialForm);
@@ -176,6 +182,7 @@ export function AdminConsole() {
     currentUser.getSession((error: Error | null, currentSession: CognitoUserSession | null) => {
       if (!error && currentSession?.isValid()) {
         setSession(currentSession);
+        setCurrentUser(currentUser);
         setMessage("저장된 관리자 세션을 복원했습니다.");
       }
     });
@@ -194,6 +201,7 @@ export function AdminConsole() {
     user.authenticateUser(new AuthenticationDetails({ Username: email, Password: password }), {
       onSuccess: (nextSession) => {
         setSession(nextSession);
+        setCurrentUser(user);
         setMessage("관리자 로그인에 성공했습니다.");
         setBusy(false);
       },
@@ -223,6 +231,7 @@ export function AdminConsole() {
     pendingPasswordUser.completeNewPasswordChallenge(newPassword, pendingAttributes, {
       onSuccess: (nextSession) => {
         setSession(nextSession);
+        setCurrentUser(pendingPasswordUser);
         setPendingPasswordUser(null);
         setPendingAttributes({});
         setNewPassword("");
@@ -237,6 +246,28 @@ export function AdminConsole() {
         setMessage("Cognito가 새 비밀번호를 다시 요구했습니다. 새 비밀번호를 다시 입력하세요.");
         setBusy(false);
       },
+    });
+  }
+
+  function changePassword(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!currentUser) return;
+    if (replacementPassword !== replacementPasswordConfirmation) {
+      setPasswordMessage("새 비밀번호와 확인 값이 일치하지 않습니다.");
+      return;
+    }
+    setPasswordBusy(true);
+    setPasswordMessage("");
+    currentUser.changePassword(currentPassword, replacementPassword, (error) => {
+      if (error) {
+        setPasswordMessage(`비밀번호 변경에 실패했습니다: ${error.message}`);
+      } else {
+        setCurrentPassword("");
+        setReplacementPassword("");
+        setReplacementPasswordConfirmation("");
+        setPasswordMessage("관리자 비밀번호를 변경했습니다.");
+      }
+      setPasswordBusy(false);
     });
   }
 
@@ -355,7 +386,17 @@ export function AdminConsole() {
     </form>;
   }
 
-  return <><form onSubmit={saveContent} className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
+  return <><form onSubmit={changePassword} className="mt-8 max-w-2xl rounded-2xl border border-line bg-white/60 p-6">
+    <h2 className="font-display text-2xl">관리자 비밀번호 변경</h2>
+    <p className="mt-2 text-sm leading-6 text-ink/60">현재 비밀번호를 확인한 뒤 새 비밀번호로 Cognito 계정을 변경합니다. 비밀번호는 저장하지 않습니다.</p>
+    <div className="mt-4 grid gap-4 sm:grid-cols-3">
+      <Field label="현재 비밀번호" type="password" value={currentPassword} onChange={setCurrentPassword} required />
+      <Field label="새 비밀번호" type="password" value={replacementPassword} onChange={setReplacementPassword} required />
+      <Field label="새 비밀번호 확인" type="password" value={replacementPasswordConfirmation} onChange={setReplacementPasswordConfirmation} required />
+    </div>
+    <button disabled={passwordBusy} className="mt-5 rounded-xl bg-ink px-5 py-3 text-sm text-white disabled:opacity-50">{passwordBusy ? "변경 중..." : "비밀번호 변경"}</button>
+    {passwordMessage && <p className="mt-4 text-sm leading-6 text-ink/60">{passwordMessage}</p>}
+  </form><form onSubmit={saveContent} className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div><h2 className="font-display text-2xl">콘텐츠 등록</h2><p className="mt-1 text-sm text-ink/60">출처 권리와 검수 근거를 입력해야 공개할 수 있습니다.</p></div>
       <span className="rounded-full bg-sage/25 px-3 py-1 text-xs">Cognito 인증 완료</span>
