@@ -58,6 +58,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
     const maintenanceJob = createFunction("MaintenanceJob", "backend/functions/maintenance-job/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName });
     contentTable.grantReadData(publicApi);
     contentTable.grantReadWriteData(adminApi);
+    revisionTable.grantReadData(adminApi);
     revisionTable.grantWriteData(adminApi);
     contentTable.grantReadWriteData(maintenanceJob);
     correctionTable.grantReadWriteData(correctionApi);

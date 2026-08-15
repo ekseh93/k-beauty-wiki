@@ -22,6 +22,10 @@ export function hasAdminGroup(claims: Record<string, unknown> | undefined, group
   return includesGroup(claim.split(","));
 }
 
+export function sortRevisions(items: Record<string, unknown>[]): Record<string, unknown>[] {
+  return [...items].sort((a, b) => String(b.createdAt ?? "").localeCompare(String(a.createdAt ?? "")));
+}
+
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   const claims = event.requestContext.authorizer?.jwt?.claims;
   if (!hasAdminGroup(claims)) {
@@ -41,6 +45,16 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
 
   const method = event.requestContext.http.method;
   if (method === "GET") {
+    const revisionsFor = event.queryStringParameters?.revisionsFor;
+    if (revisionsFor) {
+      const result = await documentClient.send(new QueryCommand({
+        TableName: revisionTableName,
+        KeyConditionExpression: "#id = :id",
+        ExpressionAttributeNames: { "#id": "id" },
+        ExpressionAttributeValues: { ":id": revisionsFor },
+      }));
+      return jsonResponse(200, { items: sortRevisions((result.Items ?? []) as Record<string, unknown>[]) });
+    }
     const requestedStatus = event.queryStringParameters?.status;
     if (requestedStatus && !isContentStatus(requestedStatus)) {
       return jsonResponse(400, { message: "Invalid content status filter" });

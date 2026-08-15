@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hasAdminGroup } from "./index";
+import { hasAdminGroup, sortRevisions } from "./index";
 
 describe("admin group authorization", () => {
   it("accepts an array claim containing admin", () => {
@@ -16,5 +16,14 @@ describe("admin group authorization", () => {
   it("rejects missing or unrelated groups", () => {
     expect(hasAdminGroup(undefined)).toBe(false);
     expect(hasAdminGroup({ "cognito:groups": ["editor"] })).toBe(false);
+  });
+});
+
+describe("revision history", () => {
+  it("sorts revisions from newest to oldest", () => {
+    expect(sortRevisions([
+      { revisionId: "old", createdAt: "2026-08-14T01:00:00.000Z" },
+      { revisionId: "new", createdAt: "2026-08-15T01:00:00.000Z" },
+    ]).map((item) => item.revisionId)).toEqual(["new", "old"]);
   });
 });
