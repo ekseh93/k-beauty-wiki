@@ -1,0 +1,62 @@
+{
+  "id": "review-beauty-of-joseon-relief-sun",
+  "kind": "skincare",
+  "titleJa": "リリーフサン：ライス＋プロバイオティクス SPF50+ PA++++",
+  "koreanName": "릴리프 선: 라이스 + 프로바이오틱스 SPF50+ PA++++",
+  "slug": "beauty-of-joseon-relief-sun-rice-probiotics",
+  "summary": "Beauty of Joseon公式ページの表示をもとに、SPF表記、主な成分、使い方、価格条件を整理した検証待ちの日焼け止め登録案です。",
+  "body": [
+    "公式ページでは、SPF50+ PA++++と表示された、米エキスと発酵穀物エキスを含む日焼け止めとして案内されています。",
+    "ブランド表示では、米エキスは30%とされ、発酵穀物エキスとともに保湿や肌を落ち着かせる目的で説明されています。成分の役割は一般的な範囲に限定して記載します。",
+    "使用方法は、朝のスキンケアの最後に十分量を塗り、日中は2〜3時間ごとの再塗布が案内されています。",
+    "日焼け止めの保護効果は塗布量、汗や摩擦、再塗布の有無などで変わります。肌に異常がある場合や妊娠中の使用は、公式注意事項と専門家の助言を優先してください。"
+  ],
+  "tags": ["日焼け止め", "SPF50+", "PA++++", "ライス", "Beauty of Joseon"],
+  "aliases": ["Relief Sun", "릴리프 선", "リリーフサン"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-15",
+  "sources": [
+    {
+      "title": "Beauty of Joseon日本公式商品ページ",
+      "url": "https://jp.beautyofjoseon.com/products/relief-sun-rice-probiotics",
+      "checkedAt": "2026-08-15",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "Beauty of Joseon",
+    "productType": "日焼け止め",
+    "volume": "公式ページで容量表示を要再確認",
+    "price": "3200",
+    "currency": "JPY",
+    "pricePerVolume": "容量確認後に算出",
+    "keyIngredients": [
+      { "name": "米エキス", "role": "公式ページでは30%配合・保湿目的で説明" },
+      { "name": "発酵穀物エキス", "role": "公式ページでは肌を落ち着かせ、うるおいを与える目的で説明" },
+      { "name": "ナイアシンアミド", "role": "公式成分表示に含まれる成分" }
+    ],
+    "skinTypes": ["公式比較表では全肌タイプ向けとして表示"],
+    "usage": [
+      "朝のスキンケアの最後に十分量を塗る",
+      "日中は2〜3時間ごとの再塗布を検討する",
+      "汗や摩擦の後は状態を確認して再塗布する"
+    ],
+    "pros": [
+      "日本公式ページで日本円価格とSPF50+ PA++++の表示を確認できる",
+      "米エキスと発酵穀物エキスを含む処方として情報を整理できる"
+    ],
+    "considerations": [
+      "価格は確認日の日本公式ページ表示であり、セール・在庫・送料で変動する",
+      "容量と容量あたり価格は商品ページの仕様確認後に確定する",
+      "日焼け止めの保護効果や肌への適合性には個人差がある"
+    ],
+    "priceCheckedAt": "2026-08-15"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-15T13:40:00+09:00",
+  "updatedAt": "2026-08-15T13:40:00+09:00",
+  "relatedSlugs": []
+}
