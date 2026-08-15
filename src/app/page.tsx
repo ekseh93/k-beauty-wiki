@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ContentExplorer } from "@/components/content-explorer";
 import { fetchPublishedContents } from "@/lib/content-api";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const contents = await fetchPublishedContents();
   const usingFixtures = contents.some((content) => content.isFixture);

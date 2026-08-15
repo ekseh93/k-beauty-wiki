@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ContentExplorer } from "@/components/content-explorer";
 import { fetchPublishedContents } from "@/lib/content-api";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = { title: "コンテンツを探す", alternates: { canonical: "/content" } };
 
 export default async function ContentPage() {

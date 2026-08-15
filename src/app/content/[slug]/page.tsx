@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { fetchPublishedContentBySlug, fetchPublishedContents } from "@/lib/content-api";
 import { kindLabels } from "@/lib/content";
 
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

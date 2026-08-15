@@ -16,7 +16,7 @@ export async function fetchPublishedContents(): Promise<AtlasContent[]> {
   if (!apiUrl) return process.env.NODE_ENV === "development" ? fixtureContent : [];
 
   try {
-    const response = await fetch(`${apiUrl}/content`, { next: { revalidate: 60 } });
+    const response = await fetch(`${apiUrl}/content`, { cache: "no-store" });
     if (!response.ok) throw new Error(`Content API responded with ${response.status}`);
     const body = await response.json() as ContentResponse;
     const items = body.items ?? [];
