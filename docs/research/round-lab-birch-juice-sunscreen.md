@@ -62,6 +62,13 @@
    - rightsStatus: `reference-only`
    - extractionMethod: `manual`
 
+6. [Round Lab 공식 PRESS 목록](https://m.roundlab.co.kr/board/gallery/list.html?board_no=8&page=6)
+   - 확인 항목: 2021년 동일 제품 설명에서 자작나무 수액과 히알루론산계 보습 성분 언급
+   - 과거 제품 설명이므로 현행 전성분과의 일치 여부는 확인하지 않았다.
+   - sourceType: `manual-reference`
+   - rightsStatus: `reference-only`
+   - extractionMethod: `manual`
+
 ## 제품 불일치로 사용하지 않은 참고 자료
 
 - [Round Lab 공식 보도자료](https://m.roundlab.co.kr/article/press/8/4137/)
@@ -71,5 +78,6 @@
 
 - 현행 전성분과 SPF 표시가 보완되기 전에는 `published`로 전환하지 않는다.
 - 과거 FAQ와 PRESS는 참고 근거로만 기록했으며, 현행 상품의 확정 정보나 개인별 적합성으로 사용하지 않는다.
+- 공식 글로벌 상품 페이지는 SPF 표기가 한국 상품과 달라 지역별 제형이 다를 수 있으므로 한국 제품의 전성분으로 합치지 않았다.
 - 가격은 한국 판매가이며 일본 판매가, 배송비, 환율과 다르다.
 - 커뮤니티 리뷰 데이터는 포함하지 않았다. 리뷰 비교는 별도 출처 권리와 표본 검수 후 추가한다.

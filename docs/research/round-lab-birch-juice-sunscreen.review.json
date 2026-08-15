@@ -56,6 +56,14 @@
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式PRESS一覧（2021年製品説明）",
+      "url": "https://m.roundlab.co.kr/board/gallery/list.html?board_no=8&page=6",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
     }
   ],
   "details": {
@@ -66,7 +74,10 @@
     "price": "22500",
     "currency": "KRW",
     "pricePerVolume": "450 KRW/ml",
-    "keyIngredients": [],
+    "keyIngredients": [
+      { "name": "白樺樹液", "role": "過去の公式PRESSで配合素材として説明されているが、現行全成分との一致は未確認" },
+      { "name": "ヒアルロン酸系保湿成分", "role": "過去の公式PRESSで配合素材として説明されているが、現行全成分との一致は未確認" }
+    ],
     "skinTypes": ["過去の公式PRESSでは敏感肌でも使いやすい製品として紹介されているが、現行商品の適合性は追加確認が必要"],
     "usage": ["公式FAQでは、きれいで安全なクレンジングのために二重洗顔を推奨している（過去の案内・現行仕様は再確認が必要）"],
     "pros": [
