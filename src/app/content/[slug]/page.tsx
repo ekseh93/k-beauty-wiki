@@ -50,10 +50,13 @@ export default async function ContentDetailPage({ params }: { params: { slug: st
       <div className="mt-14 grid gap-6 md:grid-cols-2">
         {content.kind === "treatment" ? <>
           <InfoBlock title="基本情報" rows={[["原理", content.principle], ["一般的な目的", content.purpose], ["価格範囲", content.priceRange], ["調査条件", content.priceCondition], ["所要時間", content.duration], ["ダウンタイム", content.downtime], ["維持期間", content.maintenance]]} />
-          <ListBlock title="相談・注意" items={[...content.consultOrAvoid, ...content.sideEffects]} />
+          <ListBlock title="適している可能性がある人" items={content.suitableFor} />
+          <ListBlock title="相談・避けたいケース" items={[...content.consultOrAvoid, ...content.sideEffects]} />
+          <ListBlock title="類似施術" items={content.similarTreatments} />
         </> : <>
           <InfoBlock title="商品情報" rows={[["ブランド", content.brand], ["タイプ", content.productType], ["容量", content.volume], ["価格", `${content.price} ${content.currency}`], ["容量あたり価格", content.pricePerVolume], ["価格調査日", content.priceCheckedAt]]} />
           <ListBlock title="成分と使い方" items={[...content.keyIngredients.map((ingredient) => `${ingredient.name}：${ingredient.role}`), ...content.usage]} />
+          <ListBlock title="メリットと考慮点" items={[...content.pros, ...content.considerations]} />
         </>}
       </div>
 
