@@ -1,0 +1,61 @@
+{
+  "id": "review-round-lab-birch-juice-sunscreen",
+  "kind": "skincare",
+  "titleJa": "白樺水分サンクリーム 50ml",
+  "koreanName": "자작나무 수분 선크림 50ml",
+  "slug": "round-lab-birch-juice-moisturizing-sunscreen",
+  "summary": "Round Lab公式商品ページと公式プレス情報をもとに、容量、価格、紫外線防御表示を整理した検証待ちの日焼け止め登録案です。",
+  "body": [
+    "韓国公式商品ページでは、50mlの『白樺水分サンクリーム』として販売価格22,500ウォンが表示されています。価格は確認日の韓国公式モール表示です。",
+    "公式プレス情報では、製品の紫外線防御表示をSPF50+ PA++++として案内しています。広告・受賞表現は本文の評価根拠として使用していません。",
+    "使用方法、全成分、肌タイプ別の適合性は、公開前に現行の商品仕様と表示を追加確認する必要があります。"
+  ],
+  "tags": ["日焼け止め", "SPF50+", "PA++++", "白樺", "Round Lab"],
+  "aliases": ["Birch Juice Moisturizing Sunscreen", "Birch Sunscreen", "자작나무 선크림"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-15",
+  "sources": [
+    {
+      "title": "Round Lab韓国公式商品ページ",
+      "url": "https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/",
+      "checkedAt": "2026-08-15",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "Round Lab公式プレス情報",
+      "url": "https://m.roundlab.co.kr/article/press/8/4137/",
+      "checkedAt": "2026-08-15",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "Round Lab",
+    "productType": "日焼け止め",
+    "volume": "50ml",
+    "price": "22500",
+    "currency": "KRW",
+    "pricePerVolume": "450 KRW/ml",
+    "keyIngredients": [],
+    "skinTypes": [],
+    "usage": [],
+    "pros": [
+      "公式商品ページで50mlの容量と韓国公式モール価格を確認できる",
+      "公式プレス情報でSPF50+ PA++++の表示を確認できる"
+    ],
+    "considerations": [
+      "使用方法、全成分、肌タイプ別の適合性は公開前に追加確認が必要",
+      "価格は韓国公式モールの確認日表示であり、セール・送料・販売地域で変動する",
+      "紫外線防御効果や肌への適合性には個人差がある"
+    ],
+    "priceCheckedAt": "2026-08-15"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-15T13:55:00+09:00",
+  "updatedAt": "2026-08-15T13:55:00+09:00",
+  "relatedSlugs": []
+}
