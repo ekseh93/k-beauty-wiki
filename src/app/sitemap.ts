@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: baseUrl, lastModified: new Date("2026-08-14") },
     { url: `${baseUrl}/content`, lastModified: new Date("2026-08-14") },
     { url: `${baseUrl}/policy`, lastModified: new Date("2026-08-14") },
+    { url: `${baseUrl}/ranking`, lastModified: new Date("2026-08-16") },
     { url: `${baseUrl}/correction`, lastModified: new Date("2026-08-14") },
     ...contents.map((content) => ({ url: `${baseUrl}/content/${content.slug}`, lastModified: new Date(content.updatedAt) })),
   ];

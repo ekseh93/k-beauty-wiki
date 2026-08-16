@@ -26,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <nav className="flex items-center gap-4 text-sm text-ink/70 sm:gap-6" aria-label="メインナビゲーション">
               <Link className="transition hover:text-ink" href="/content">探す</Link>
               <Link className="transition hover:text-ink" href="/policy">編集方針</Link>
+              <Link className="transition hover:text-ink" href="/ranking">評価基準</Link>
               <Link className="rounded-full border border-ink/20 px-3 py-1.5 transition hover:border-ink/50 hover:bg-white/40" href="/admin">
                 管理者
               </Link>
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <p>© 2026 K-Beauty Atlas Japan · 開発中のMVP</p>
             <div className="flex gap-4">
               <Link href="/policy" className="hover:text-ink">免責・編集方針</Link>
+              <Link href="/ranking" className="hover:text-ink">評価基準</Link>
               <Link href="/correction" className="hover:text-ink">訂正依頼</Link>
             </div>
           </div>
