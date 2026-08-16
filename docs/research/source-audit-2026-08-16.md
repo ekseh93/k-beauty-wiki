@@ -26,17 +26,19 @@
 
 ## Round Lab Birch Juice Moisturizing Sunscreen
 
-- 출처: [Round Lab 한국 공식 상품ページ](https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/), [Round Lab 공식 PRESS](https://m.roundlab.co.kr/board/press/8/?page=8), [Round Lab 글로벌 공식 상품ページ](https://roundlab.com/products/round-lab-birch-moisturizing-sunscreen-spf-50-pa)
+- 출처: [Round Lab 한국 공식 상품ページ](https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/), [Round Lab 공식 PRESS](https://m.roundlab.co.kr/board/press/8/?page=8), [Round Lab 글로벌 공식 상품ページ](https://roundlab.com/products/round-lab-birch-moisturizing-sunscreen-spf-50-pa), [Round Lab 일본향 판매 페이지](https://plus-q.jp/products/roundlab-birch-juice-moisturizing-suncream)
 - 확인한 사실: 한국 공식 상품 페이지에서 `50ml`, 판매가 `22,500원`, 배송비 조건 확인; 공식 PRESS에서 과거 리뉴얼 제품의 SPF50+ PA++++ 및 시험 관련 설명 확인. 글로벌 공식 페이지는 별도 상품명 `Birch Moisturizing Sunscreen UVLock SPF45+`와 50ml 전성분을 표시함
 - 공개 판단: `review` 유지
 - 보류 이유: 글로벌 공식 페이지는 `Birch Moisturizing Sunscreen UVLock SPF45+`라는 별도 표기와 전성분을 사용하므로 한국 공식 상품과 동일성 확인 전까지 한국 제품 정보로 사용하지 않음
 - 보류 이유: 현재 상품 페이지에서 현행 제품의 SPF/PA와 전성분을 직접 확인하지 못했고, 과거 자료의 시험·성분 정보를 현재 제품에 그대로 적용할 수 없음
+- 일본향 판매 페이지에서 50ml·SPF50+ PA++++·일본어 전성분·사용법을 확인했지만, 판매처 정보의 권리 범위와 브랜드 공식 현행 정보와의 일치 여부를 추가 확인한다.
+- 리뷰 근거 후보: [Glowpick 제품별 리뷰·랭킹 페이지](https://www.glowpick.com/brands/6094?cate1Id=9&cate2Id=41&monthTerm=24)에서 평점·리뷰 수와 공개 리뷰 페이지를 확인했지만, 이용약관과 재사용 권한을 확인하기 전까지 리뷰 원문·프로필·댓글은 수집하지 않음
 - 권리 처리: 공식 페이지를 수동 참고 출처로만 사용하고 공식 PRESS의 홍보·시험 표현을 독립적인 효능 평가처럼 사용하지 않음
 
 ## SKIN1004 Madagascar Centella Ampoule
 
-- 출처: [SKIN1004 일본 공식 상품 목록](https://skin1004japan.com/category/all/95/?page=3), [SKIN1004 글로벌 공식 상품ページ](https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule?variant=40788189773981)
+- 출처: [SKIN1004 일본 공식 상품 목록](https://skin1004japan.com/category/all/95/?page=3), [SKIN1004 일본 공식 100ml 상품ページ](https://skin1004japan.com/product/%E3%83%9E%E3%83%80%E3%82%AC%E3%82%B9%E3%82%AB%E3%83%AB-%E3%82%BB%E3%83%B3%E3%83%86%E3%83%A9-%E3%82%A2%E3%83%B3%E3%83%97%E3%83%AB-100ml/18/), [SKIN1004 글로벌 공식 상품ページ](https://www.skin1004.com/products/skin1004-madagascar-centella-ampoule?variant=40788189773981)
 - 확인한 사실: 일본 공식 목록에서 `100ml ¥3,200`, `55ml ¥2,400`; 글로벌 공식에서 100ml `US$19.80`, 55ml `US$13.50`, 30ml `US$9.50` 선택지, 전성분, 사용법, 피부 타입 안내 확인
 - 공개 판단: `review` 유지
-- 보류 이유: 일본 판매 제품의 현행 전성분이 글로벌 공식 표시와 동일한지 확인하지 못함. 일본 공식 목록의 100ml 상세 링크는 검색 색인에는 남아 있지만 현재 직접 열람 시 404를 반환함. 일본 가격·용량 근거는 확보했지만, 지역별 제품 사양을 혼합해 공개하지 않음
+- 보류 이유: 일본 공식 100ml 개별 페이지에서 3,200엔·품절 상태는 확인했지만 현행 전성분을 확인하지 못함. 글로벌 공식 표시를 일본 제품에 그대로 적용할 수 없고, 지역별 제품 사양을 혼합해 공개하지 않음
 - 권리 처리: 공식 페이지를 수동 참고 출처로 기록하고 브랜드의 진정·보습 표현을 의학적 효능이나 사용자 평가로 확대하지 않음
