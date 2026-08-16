@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { filterPublicContentItems } from "./index";
+import { filterPublicContentItems, sanitizePublicContentItem } from "./index";
 
 function publishedProduct(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
@@ -65,5 +65,36 @@ describe("filterPublicContentItems", () => {
   it("handles malformed searchable fields without exposing the item", () => {
     const valid = publishedProduct({ tags: "skincare", aliases: null });
     expect(filterPublicContentItems([valid], undefined, "cica")).toEqual([valid]);
+  });
+});
+
+describe("sanitizePublicContentItem", () => {
+  it("removes source quotes and keeps only approved review evidence metadata", () => {
+    const item = publishedProduct({
+      sources: [{
+        title: "Community source",
+        url: "https://example.com/community",
+        checkedAt: "2026-08-14",
+        sourceType: "community-review",
+        rightsStatus: "reference-only",
+        extractionMethod: "no-automation",
+        quote: "raw review text must not be public",
+      }],
+      reviewEvidence: {
+        platform: "Example community",
+        sampleCount: 5,
+        independentSourceCount: 1,
+        reviewCountAtCollection: 20,
+        reviewWindow: "2026-01~2026-08",
+        collectedAt: "2026-08-14",
+        summary: "Independent summary",
+        sourceUrls: ["https://example.com/community"],
+      },
+    });
+
+    const sanitized = sanitizePublicContentItem(item);
+    expect(sanitized.sources).toEqual([{ title: "Community source", url: "https://example.com/community", checkedAt: "2026-08-14" }]);
+    expect(sanitized).not.toHaveProperty("quote");
+    expect(sanitized.reviewEvidence).toMatchObject({ platform: "Example community", sampleCount: 5, reviewCountAtCollection: 20 });
   });
 });

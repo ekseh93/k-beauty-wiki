@@ -9,6 +9,34 @@ function stringList(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 }
 
+export function sanitizePublicContentItem(item: Record<string, unknown>): Record<string, unknown> {
+  const sources = Array.isArray(item.sources) ? item.sources
+    .filter((source): source is Record<string, unknown> => Boolean(source) && typeof source === "object" && !Array.isArray(source))
+    .map((source) => ({
+      title: source.title,
+      url: source.url,
+      checkedAt: source.checkedAt,
+    })) : [];
+  const reviewEvidence = item.reviewEvidence;
+  const safeReviewEvidence = reviewEvidence && typeof reviewEvidence === "object" && !Array.isArray(reviewEvidence)
+    ? {
+      platform: (reviewEvidence as Record<string, unknown>).platform,
+      sampleCount: (reviewEvidence as Record<string, unknown>).sampleCount,
+      independentSourceCount: (reviewEvidence as Record<string, unknown>).independentSourceCount,
+      reviewCountAtCollection: (reviewEvidence as Record<string, unknown>).reviewCountAtCollection,
+      reviewWindow: (reviewEvidence as Record<string, unknown>).reviewWindow,
+      collectedAt: (reviewEvidence as Record<string, unknown>).collectedAt,
+      summary: (reviewEvidence as Record<string, unknown>).summary,
+      sourceUrls: stringList((reviewEvidence as Record<string, unknown>).sourceUrls),
+    } : undefined;
+
+  return {
+    ...item,
+    sources,
+    ...(safeReviewEvidence ? { reviewEvidence: safeReviewEvidence } : {}),
+  };
+}
+
 export function filterPublicContentItems(items: Record<string, unknown>[], kind?: string, query = ""): Record<string, unknown>[] {
   const normalizedQuery = query.trim().toLocaleLowerCase("ja-JP");
   return items.filter((item) => {
@@ -39,5 +67,5 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
   const items = filterPublicContentItems((result.Items ?? []) as Record<string, unknown>[], kind, query);
 
-  return jsonResponse(200, { items });
+  return jsonResponse(200, { items: items.map(sanitizePublicContentItem) });
 };

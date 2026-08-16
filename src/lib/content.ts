@@ -7,6 +7,17 @@ export interface ContentSource {
   checkedAt: string;
 }
 
+export interface ReviewEvidenceSummary {
+  platform: string;
+  sampleCount: number;
+  independentSourceCount: number;
+  reviewCountAtCollection: number;
+  reviewWindow: string;
+  collectedAt: string;
+  summary: string;
+  sourceUrls: string[];
+}
+
 export interface BaseContent {
   id: string;
   kind: ContentKind;
@@ -22,6 +33,7 @@ export interface BaseContent {
   updatedAt: string;
   lastVerifiedAt: string;
   sources: ContentSource[];
+  reviewEvidence?: ReviewEvidenceSummary;
   relatedSlugs: string[];
   isFixture: boolean;
   caution: string;
