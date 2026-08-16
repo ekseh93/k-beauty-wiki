@@ -121,6 +121,51 @@ describe("validateForPublish", () => {
     expect(errors).toContain("reviewEvidence.sourceUrls must also be listed in sources: https://example.com/community-post");
   });
 
+  it("requires review evidence to use community-review source records", () => {
+    const errors = validateForReview({
+      ...validContent,
+      status: "review",
+      reviewEvidence: {
+        platform: "테스트 플랫폼",
+        sampleCount: 5,
+        independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
+        collectedAt: "2026-08-14",
+        summary: "원문을 복사하지 않은 집계 요약입니다.",
+        sourceUrls: ["https://example.com/product"],
+      },
+    });
+
+    expect(errors).toContain("reviewEvidence requires a community-review source");
+    expect(errors).toContain("reviewEvidence.sourceUrls must refer to community-review sources: https://example.com/product");
+  });
+
+  it("does not allow independent source count to exceed evidence URLs", () => {
+    const errors = validateForReview({
+      ...validContent,
+      status: "review",
+      sources: [{
+        ...validContent.sources?.[0],
+        sourceType: "community-review",
+        rightsStatus: "reference-only",
+        extractionMethod: "no-automation",
+      }],
+      reviewEvidence: {
+        platform: "테스트 플랫폼",
+        sampleCount: 5,
+        independentSourceCount: 2,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
+        collectedAt: "2026-08-14",
+        summary: "원문을 복사하지 않은 집계 요약입니다.",
+        sourceUrls: ["https://example.com/product"],
+      },
+    });
+
+    expect(errors).toContain("reviewEvidence.independentSourceCount must not exceed sourceUrls count");
+  });
+
   it("rejects duplicate review evidence URLs", () => {
     const errors = validateForReview({
       ...validContent,

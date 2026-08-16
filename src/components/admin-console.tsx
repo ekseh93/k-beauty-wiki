@@ -645,20 +645,23 @@ function ContentPreview({ form }: { form: FormState }) {
   const reviewSourceUrls = splitLines(form.reviewSourceUrls);
   const hasCommunityReviewSource = sourceRows.some((source) => source.sourceType === "community-review");
   const sourceUrlSet = new Set(sourceRows.map((source) => source.url.trim()));
+  const communitySourceUrlSet = new Set(sourceRows.filter((source) => source.sourceType === "community-review").map((source) => source.url.trim()));
   const reviewReady = (!hasCommunityReviewSource && !form.includeReviewEvidence) || (
     form.includeReviewEvidence &&
+    hasCommunityReviewSource &&
     Boolean(form.reviewPlatform.trim()) &&
     Number.isInteger(Number(form.sampleCount)) &&
     Number(form.sampleCount) >= 5 &&
     Number.isInteger(Number(form.independentSourceCount)) &&
     Number(form.independentSourceCount) >= 1 &&
+    Number(form.independentSourceCount) <= reviewSourceUrls.length &&
     Number.isInteger(Number(form.reviewCountAtCollection)) &&
     Number(form.reviewCountAtCollection) >= Number(form.sampleCount) &&
     Boolean(form.reviewWindow.trim()) &&
     isDateOnly(form.reviewCollectedAt) &&
     Boolean(form.reviewSummary.trim()) &&
     reviewSourceUrls.length > 0 &&
-    reviewSourceUrls.every((url) => isHttpUrl(url) && sourceUrlSet.has(url))
+    reviewSourceUrls.every((url) => isHttpUrl(url) && sourceUrlSet.has(url) && communitySourceUrlSet.has(url))
   );
   const listFieldsReady = form.kind === "treatment"
     ? [form.suitableFor, form.consultOrAvoid, form.sideEffects, form.similarTreatments].every((value) => splitLines(value).length > 0)

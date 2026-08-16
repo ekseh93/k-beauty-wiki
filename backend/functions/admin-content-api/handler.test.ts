@@ -79,6 +79,22 @@ describe("admin content handler review workflow", () => {
     expect(mocks.send).not.toHaveBeenCalled();
   });
 
+  it("rejects review evidence that is not linked to a community-review source", async () => {
+    const response = await handler(eventFor({
+      ...reviewPayload,
+      sources: [{
+        ...source,
+        sourceType: "official-api" as const,
+      }],
+    }));
+    const body = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(422);
+    expect(body.message).toBe("Content cannot enter review");
+    expect(body.errors).toContain("reviewEvidence requires a community-review source");
+    expect(mocks.send).not.toHaveBeenCalled();
+  });
+
   it("rejects publication when a source still needs rights review before DynamoDB writes", async () => {
     const response = await handler(eventFor({
       ...reviewPayload,

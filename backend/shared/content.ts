@@ -184,6 +184,9 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
   if (hasCommunityReviewSource && !content.reviewEvidence) {
     errors.push("reviewEvidence is required when a community-review source is included");
   }
+  if (content.reviewEvidence && !hasCommunityReviewSource) {
+    errors.push("reviewEvidence requires a community-review source");
+  }
   if (content.reviewEvidence !== undefined) {
     errors.push(...validateReviewEvidence(content.reviewEvidence));
     errors.push(...validateReviewEvidenceSourceLinks(content.reviewEvidence, sources));
@@ -265,6 +268,9 @@ function validateReviewEvidence(evidence: unknown): string[] {
   if (Array.isArray(candidate.sourceUrls) && new Set(candidate.sourceUrls).size !== candidate.sourceUrls.length) {
     errors.push("reviewEvidence.sourceUrls must not contain duplicates");
   }
+  if (Number.isInteger(candidate.independentSourceCount) && Array.isArray(candidate.sourceUrls) && candidate.independentSourceCount > candidate.sourceUrls.length) {
+    errors.push("reviewEvidence.independentSourceCount must not exceed sourceUrls count");
+  }
   return errors;
 }
 
@@ -275,9 +281,15 @@ function validateReviewEvidenceSourceLinks(evidence: unknown, sources: unknown[]
   const sourceUrls = new Set(sources
     .filter((source): source is ContentSource => Boolean(source) && typeof source === "object" && !Array.isArray(source))
     .map((source) => source.url));
+  const communitySourceUrls = new Set(sources
+    .filter((source): source is ContentSource => Boolean(source) && typeof source === "object" && !Array.isArray(source) && source.sourceType === "community-review")
+    .map((source) => source.url));
   return evidenceSourceUrls
-    .filter((url) => !sourceUrls.has(url))
-    .map((url) => `reviewEvidence.sourceUrls must also be listed in sources: ${url}`);
+    .flatMap((url) => {
+      if (!sourceUrls.has(url)) return [`reviewEvidence.sourceUrls must also be listed in sources: ${url}`];
+      if (!communitySourceUrls.has(url)) return [`reviewEvidence.sourceUrls must refer to community-review sources: ${url}`];
+      return [];
+    });
 }
 
 function isNonEmptyString(value: unknown): value is string {
