@@ -18,8 +18,8 @@
 | --- | --- | --- |
 | COSRX Advanced Snail 96 Mucin Power Essence | `published` | 일본 국내 유통 시작 발표와 COSRX 공식 일본어 판매 페이지에서 100ml·2,200엔·전성분·주의사항을 확인하고 관리자 필드를 갱신함 |
 | Beauty of Joseon Relief Sun | `published` | 일본 공식 상품 페이지의 1-Pack ¥3,300과 공식 세트 페이지의 50ml 구성품 표시를 대조하고 관리자 필드를 갱신함 |
-| Round Lab Birch Juice Moisturizing Sunscreen | `review` 유지 | 한국 공식몰에서 50ml·가격은 확인했지만 현재 제품의 공식 성분·SPF 정보와 과거 갱신 자료의 동일성이 충분히 확인되지 않음 |
-| SKIN1004 Madagascar Centella Ampoule | `review` 유지 | 일본 공식 목록에서 용량·가격은 확인했지만 일본 판매 제품의 최신 전성분이 글로벌 공식 표시와 일치하는지 확정되지 않음 |
+| Round Lab Birch Juice Moisturizing Sunscreen | `review` 유지 | 한국 공식몰에서 50ml·가격은 확인했지만 글로벌 페이지는 별도 UVLock SPF45+ 상품으로 표시되어 한국 제품의 현행 성분·SPF와 동일성이 확인되지 않음 |
+| SKIN1004 Madagascar Centella Ampoule | `review` 유지 | 글로벌 공식 페이지의 현행 정보는 확인했지만 일본 공식 목록의 개별 페이지가 열리지 않아 일본 판매 제품의 최신 전성분이 글로벌 표시와 일치하는지 확정되지 않음 |
 | MISSHA M Cushion Foundation Neo Cover | `published` | 일본 공식 상품 페이지에서 색상·용량·SPF/PA·가격·전성분을 재확인했고, 필수 제품 필드와 주의사항을 검토함 |
 
 ## 출처·저작권 처리
