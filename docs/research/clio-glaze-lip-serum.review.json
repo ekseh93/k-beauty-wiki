@@ -1,0 +1,81 @@
+{
+  "id": "review-clio-glaze-lip-serum",
+  "kind": "makeup",
+  "titleJa": "グレーズ リップ セラム",
+  "koreanName": "글레이즈 립 세럼 8g",
+  "slug": "clio-glaze-lip-serum",
+  "summary": "CLIO日本公式オンラインショップ、公式発売資料、日本国内正規取扱販売ページをもとに、容量、価格、使用方法、全成分、注意事項を整理した検証待ちのリップセラム登録案です。色展開と色別成分の対応は公開前に追加確認します。",
+  "body": [
+    "CLIO日本公式オンラインショップでは、『グレーズ リップ セラム』を8g・1,540円（税込）で掲載しています。公式発売資料では2026年2月25日発売のオンライン販売限定商品として案内されています。価格、在庫、販売条件は確認日によって変わる可能性があります。",
+    "CLIOの公式発売資料では、ヒアルロン酸Naとクランベリー果実エキスを皮膚コンディショニング成分として案内しています。保湿や血色感に関する表現はブランドの商品説明として扱い、個人の結果を保証する表現には使用しません。",
+    "日本国内の正規取扱販売ページでは、適量を出して唇に塗布する使用方法、8gの内容量、全成分を確認できます。掲載成分にはヒマシ油、ヒアルロン酸Na、クランベリー果実エキス、着色成分などが含まれます。",
+    "使用中または使用後に赤み、はれ、かゆみ、刺激、色抜け、黒ずみなどの異常が現れた場合は使用を中止し、専門家へ相談する注意事項を確認しました。色展開と色別の成分差を公式ページ上で十分に対応付けられないため、対象色を確定するまで公開しません。"
+  ],
+  "tags": ["リップセラム", "リップメイク", "保湿", "CLIO"],
+  "aliases": ["Glaze Lip Serum", "글레이즈 립 세럼", "クリオ グレーズリップセラム"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-16",
+  "sources": [
+    {
+      "title": "CLIO日本公式オンラインショップ商品ページ",
+      "url": "https://m.cliocosmetic.jp/product/%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%BA-%E3%83%AA%E3%83%83%E3%83%97-%E3%82%BB%E3%83%A9%E3%83%A0/284/category/97/display/1/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "CLIO日本公式発売資料（シュガーアフタヌーンコレクション）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000097.000056098.html",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "アインズ＆トルペ正規取扱商品ページ",
+      "url": "https://webstore.ainztulpe.jp/item/10454/",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "CLIO",
+    "productType": "リップセラム",
+    "volume": "8g",
+    "price": "1,540 JPY（税込・確認時表示）",
+    "currency": "JPY",
+    "pricePerVolume": "192.5 JPY/g（確認時表示）",
+    "keyIngredients": [
+      { "name": "ヒアルロン酸Na", "role": "CLIO公式発売資料で皮膚コンディショニング成分として案内" },
+      { "name": "クランベリー果実エキス", "role": "CLIO公式発売資料で皮膚コンディショニング成分として案内" },
+      { "name": "ヒマシ油", "role": "日本国内正規取扱ページの全成分で確認" }
+    ],
+    "skinTypes": [
+      "唇用のリップケア兼ポイントメイク製品",
+      "唇に傷や異常がある場合は使用せず、商品表示を優先する"
+    ],
+    "usage": [
+      "適量を出して唇に塗布する"
+    ],
+    "pros": [
+      "CLIO日本公式オンラインショップで8gと税込価格を確認できる",
+      "公式発売資料と日本国内正規取扱ページで主要成分、使用方法、全成分、注意事項を補助確認できる"
+    ],
+    "considerations": [
+      "色展開と色別全成分の対応を追加確認するまで公開しない",
+      "保湿や血色感に関するブランド表現を個人の効果保証として扱わない",
+      "異常が現れた場合は使用を中止し、必要に応じて専門家へ相談する",
+      "公式ショップや販売ページのユーザーレビューを収集・転載しない",
+      "価格、在庫、送料、オンライン限定条件、対象色は確認日・販売地域・購入条件により変動する"
+    ],
+    "priceCheckedAt": "2026-08-16"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-16T17:45:00+09:00",
+  "updatedAt": "2026-08-16T17:45:00+09:00",
+  "relatedSlugs": []
+}
