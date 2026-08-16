@@ -63,3 +63,29 @@ jobs:
           fi
           echo "Amplify release job: $job_id"
           echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+      - name: Wait for Amplify Hosting release
+        env:
+          AMPLIFY_JOB_ID: ${{ steps.amplify-release.outputs.job_id }}
+        run: |
+          for attempt in {1..36}; do
+            status="$(aws amplify get-job \
+              --app-id d1ece7jdtq0bus \
+              --branch-name main \
+              --job-id "$AMPLIFY_JOB_ID" \
+              --query 'job.summary.status' \
+              --output text \
+              --no-cli-pager)"
+            echo "Amplify release status (attempt $attempt/36): $status"
+            case "$status" in
+              SUCCEED)
+                exit 0
+                ;;
+              FAILED|CANCELLED)
+                echo "Amplify release failed with status: $status"
+                exit 1
+                ;;
+            esac
+            sleep 10
+          done
+          echo "Timed out waiting for Amplify release job $AMPLIFY_JOB_ID."
+          exit 1
