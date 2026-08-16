@@ -13,6 +13,7 @@
     "test:e2e": "playwright test",
     "validate:content": "node --experimental-strip-types scripts/validate-content-draft.ts",
     "validate:content:all": "node --experimental-strip-types scripts/validate-content-drafts.ts",
+    "audit:editorial": "node --experimental-strip-types scripts/audit-editorial-candidates.ts",
     "cdk:synth": "cdk synth",
     "cdk:deploy": "cdk deploy --all",
     "create:admin": "node --experimental-strip-types scripts/create-admin-user.ts"

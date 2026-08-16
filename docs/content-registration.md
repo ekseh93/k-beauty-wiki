@@ -22,6 +22,14 @@ pnpm validate:content --file=path/to/content.json
 pnpm validate:content:all
 ```
 
+공개 승인 후보를 점검할 때는 다음 감사 명령을 실행한다. 각 초안을 `published`로 전환한다고 가정해 구조화된 상세 필드·출처 권리·리뷰 근거 승인 조건의 미충족 항목을 출력한다. `automatedPublishChecksPassed`가 true여도 `manualApprovalRequired`가 true이고 `publicPublicationAllowed`는 false이므로, 파일·DynamoDB·공개 상태는 변경하지 않는다.
+
+```powershell
+pnpm audit:editorial
+```
+
+자동 검사가 통과해도 자동 공개 승인이 아니다. 일본 현행 패키지와 판매 조건, 출처 접근 가능성·권리 범위, 주의사항, 편집자 승인과 리비전 기록을 사람이 확인한 뒤에만 관리자 화면에서 `published`로 저장한다.
+
 관리자 API도 동일한 공개 경계를 적용한다. `review` 상태는 기본 필드, 출처, 최종 확인일, 출처 메타데이터가 없으면 DynamoDB에 저장하지 않으며, `published` 상태는 구조화된 상세 정보와 공개 가능한 권리 상태까지 추가로 통과해야 한다. 공개 API는 `published`이면서 전체 공개 검증을 통과한 콘텐츠만 반환한다.
 
 실제 출처를 확인하지 않은 콘텐츠는 JSON 파일을 만들거나 공개하지 않는다. 커뮤니티 리뷰를 사용할 때는 원문을 복사하지 않고, 권리 상태와 최소 5개 게시글 표본·독립 출처·수집일·요약 근거를 별도로 기록한다.
