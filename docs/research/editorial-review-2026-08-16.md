@@ -21,7 +21,7 @@
 | Round Lab Birch Juice Moisturizing Sunscreen | `review` 유지 | 일본향 판매 페이지에서 50ml·SPF/PA·일본어 전성분을 보강했지만 판매처 정보의 권리 범위와 공식 현행 정보의 동일성을 추가 확인해야 함 |
 | SKIN1004 Madagascar Centella Ampoule | `review` 유지 | 일본 공식 100ml 페이지의 3,200엔·품절은 확인했지만 일본 현행 전성분이 없어 글로벌 표시와의 일치성을 확정할 수 없음 |
 | Torriden Dive-In Serum | `review` 유지 | 일본 공식 현행 페이지에서 50ml·80ml 가격, 전성분, 시리즈 안내를 재확인했지만 구체적인 사용 순서·사용량·주의사항은 충분히 확인되지 않아 공개하지 않음 |
-| Anua Heartleaf 77 Hyaluron Soothing Toner | `review` 유지 | 일본 공식 페이지에서 용량·가격·전성분·사용법은 확인했지만 시험 결과와 권장 대상은 개인별 효과를 보장하지 않으므로 편집 검수를 거쳐야 함 |
+| Anua Heartleaf 77 Hyaluron Soothing Toner | `review` 유지 | 일본 공식 현행 페이지에서 용량·가격·전성분·사용법·보관 주의사항·시험 한계를 재확인했지만 제품 동일성 확인과 편집자 승인이 남아 공개하지 않음 |
 | innisfree Green Tea Seed Hyaluronic Serum | `review` 유지 | 일본 공식 페이지에서 80mL·가격·사용법·주의사항을 확인했지만 시험·랭킹·권장 피부 표시는 브랜드 자료이므로 독립적인 공개 평가와 분리해 검수해야 함 |
 | innisfree Retinol PDRN Advanced Serum | `review` 유지 | 일본 공식 페이지에서 25mL·가격·주요 성분·기본 사용법은 확인했지만 레티놀 사용 빈도·병용·자외선 대책의 상세 근거가 부족하고 시술·체험담 표현을 독립 평가와 분리해야 함 |
 | LANEIGE Gel Cream Skin Lotion | `review` 유지 | 일본 공식 페이지에서 170mL·전성분·주의사항을 확인하고 국내 판매가를 보조 확인했지만 공식 페이지에 구체적 사용량·도포법과 직판 가격이 없어 추가 검수가 필요함 |
