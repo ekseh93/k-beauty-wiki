@@ -89,6 +89,7 @@ describe("sanitizePublicContentItem", () => {
         collectedAt: "2026-08-14",
         summary: "Independent summary",
         sourceUrls: ["https://example.com/community"],
+        approvalStatus: "approved",
       },
     });
 
@@ -96,5 +97,13 @@ describe("sanitizePublicContentItem", () => {
     expect(sanitized.sources).toEqual([{ title: "Community source", url: "https://example.com/community", checkedAt: "2026-08-14" }]);
     expect(sanitized).not.toHaveProperty("quote");
     expect(sanitized.reviewEvidence).toMatchObject({ platform: "Example community", sampleCount: 5, reviewCountAtCollection: 20 });
+  });
+
+  it("does not expose review evidence that is pending editorial approval", () => {
+    const sanitized = sanitizePublicContentItem(publishedProduct({
+      reviewEvidence: { approvalStatus: "pending", summary: "pending" },
+    }));
+
+    expect(sanitized).not.toHaveProperty("reviewEvidence");
   });
 });

@@ -10,6 +10,8 @@ function stringList(value: unknown): string[] {
 }
 
 export function sanitizePublicContentItem(item: Record<string, unknown>): Record<string, unknown> {
+  const publicItem = { ...item };
+  delete publicItem.reviewEvidence;
   const sources = Array.isArray(item.sources) ? item.sources
     .filter((source): source is Record<string, unknown> => Boolean(source) && typeof source === "object" && !Array.isArray(source))
     .map((source) => ({
@@ -18,7 +20,7 @@ export function sanitizePublicContentItem(item: Record<string, unknown>): Record
       checkedAt: source.checkedAt,
     })) : [];
   const reviewEvidence = item.reviewEvidence;
-  const safeReviewEvidence = reviewEvidence && typeof reviewEvidence === "object" && !Array.isArray(reviewEvidence)
+  const safeReviewEvidence = reviewEvidence && typeof reviewEvidence === "object" && !Array.isArray(reviewEvidence) && (reviewEvidence as Record<string, unknown>).approvalStatus === "approved"
     ? {
       platform: (reviewEvidence as Record<string, unknown>).platform,
       sampleCount: (reviewEvidence as Record<string, unknown>).sampleCount,
@@ -31,7 +33,7 @@ export function sanitizePublicContentItem(item: Record<string, unknown>): Record
     } : undefined;
 
   return {
-    ...item,
+    ...publicItem,
     sources,
     ...(safeReviewEvidence ? { reviewEvidence: safeReviewEvidence } : {}),
   };
