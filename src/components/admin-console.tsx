@@ -12,6 +12,7 @@ type ContentStatus = "draft" | "review" | "published";
 type SourceType = "official-api" | "written-permission" | "public-fact" | "short-quote" | "manual-reference" | "community-review";
 type RightsStatus = "verified" | "reference-only" | "needs-review" | "rejected";
 type ExtractionMethod = "api" | "licensed-import" | "manual" | "no-automation";
+type ReviewApprovalStatus = "pending" | "approved" | "rejected";
 type CorrectionStatus = "open" | "in_review" | "resolved" | "rejected";
 
 interface CorrectionRequest {
@@ -54,6 +55,8 @@ interface FormState {
   reviewCollectedAt: string;
   reviewSummary: string;
   reviewSourceUrls: string;
+  reviewApprovalStatus: ReviewApprovalStatus;
+  reviewApprovalNote: string;
   principle: string;
   purpose: string;
   suitableFor: string;
@@ -107,6 +110,8 @@ const initialForm: FormState = {
   reviewCollectedAt: "",
   reviewSummary: "",
   reviewSourceUrls: "",
+  reviewApprovalStatus: "pending",
+  reviewApprovalNote: "",
   principle: "",
   purpose: "",
   suitableFor: "",
@@ -371,6 +376,8 @@ export function AdminConsole() {
       collectedAt: form.reviewCollectedAt,
       summary: form.reviewSummary,
       sourceUrls: form.reviewSourceUrls.split("\n").map((url) => url.trim()).filter(Boolean),
+      approvalStatus: form.reviewApprovalStatus,
+      ...(form.reviewApprovalNote.trim() ? { approvalNote: form.reviewApprovalNote.trim() } : {}),
     } : undefined;
     const details = form.kind === "treatment" ? {
       kind: "treatment" as const,
@@ -484,6 +491,8 @@ export function AdminConsole() {
       reviewCollectedAt: toStringValue(reviewEvidence.collectedAt),
       reviewSummary: toStringValue(reviewEvidence.summary),
       reviewSourceUrls: toStringList(reviewEvidence.sourceUrls).join("\n"),
+      reviewApprovalStatus: reviewEvidence.approvalStatus === "approved" || reviewEvidence.approvalStatus === "rejected" ? reviewEvidence.approvalStatus : "pending",
+      reviewApprovalNote: toStringValue(reviewEvidence.approvalNote),
       brand: toStringValue(details.brand),
       productType: toStringValue(details.productType),
       volume: toStringValue(details.volume),
@@ -613,7 +622,7 @@ export function AdminConsole() {
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={form.includeReviewEvidence} onChange={(event) => updateForm("includeReviewEvidence", event.target.checked)} className="mt-1" /><span><strong>커뮤니티 리뷰 집계 근거 추가</strong><span className="mt-1 block text-ink/60">원문 전체가 아니라 5건 이상의 경험담을 요약한 경우에만 사용합니다.</span></span></label>
-      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="플랫폼" value={form.reviewPlatform} onChange={(value) => updateForm("reviewPlatform", value)} required placeholder="例: Glowpick" /><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="확인 당시 전체 리뷰 수" type="number" value={form.reviewCountAtCollection} onChange={(value) => updateForm("reviewCountAtCollection", value)} required /><Field label="리뷰 기간 또는 확인 불가 사유" value={form.reviewWindow} onChange={(value) => updateForm("reviewWindow", value)} required placeholder="例: 2026-01~2026-08 / 확인 불가" /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /><span className="mt-1 block text-xs text-ink/55">근거 URL은 위 출처 목록에도 같은 URL을 등록해야 합니다.</span></label></div>}
+      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="플랫폼" value={form.reviewPlatform} onChange={(value) => updateForm("reviewPlatform", value)} required placeholder="例: Glowpick" /><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="확인 당시 전체 리뷰 수" type="number" value={form.reviewCountAtCollection} onChange={(value) => updateForm("reviewCountAtCollection", value)} required /><Field label="리뷰 기간 또는 확인 불가 사유" value={form.reviewWindow} onChange={(value) => updateForm("reviewWindow", value)} required placeholder="例: 2026-01~2026-08 / 확인 불가" /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><SelectField label="편집 승인 상태" value={form.reviewApprovalStatus} onChange={(value) => updateForm("reviewApprovalStatus", value as ReviewApprovalStatus)} options={[{ value: "pending", label: "승인 대기" }, { value: "approved", label: "편집 승인" }, { value: "rejected", label: "승인 거부" }]} /><Field label="승인·거부 메모" value={form.reviewApprovalNote} onChange={(value) => updateForm("reviewApprovalNote", value)} placeholder="검수 판단의 근거를 간단히 기록하세요." /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /><span className="mt-1 block text-xs text-ink/55">근거 URL은 위 출처 목록에도 같은 URL을 등록해야 합니다. 승인자와 승인 시각은 서버가 기록합니다.</span></label></div>}
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><SelectField label="상태" value={form.status} onChange={(value) => updateForm("status", value as ContentStatus)} options={[{ value: "draft", label: "초안" }, { value: "review", label: "검수 대기" }, { value: "published", label: "공개" }]} />{form.status === "published" && <p className="mt-3 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">공개 시 백엔드가 필수 필드, 출처 URL, 확인일, 권리 상태, 리뷰 근거를 다시 검증합니다.</p>}</div>
@@ -685,7 +694,8 @@ function ContentPreview({ form }: { form: FormState }) {
     form.priceCheckedAt,
   ].every((value) => value.trim()) && isDateOnly(form.priceCheckedAt) && parseIngredients(form.keyIngredients).length > 0;
   const detailsReady = listFieldsReady && treatmentFieldsReady && productFieldsReady;
-  const publishReady = requiredReady && sourceReady && rightsReady && reviewReady && detailsReady;
+  const reviewApprovalReady = !form.includeReviewEvidence || form.reviewApprovalStatus === "approved";
+  const publishReady = requiredReady && sourceReady && rightsReady && reviewReady && reviewApprovalReady && detailsReady;
   const kindLabel = { treatment: "시술", skincare: "스킨케어", makeup: "메이크업" }[form.kind];
 
   return <section className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
@@ -712,6 +722,7 @@ function ContentPreview({ form }: { form: FormState }) {
       <CheckItem ok={rightsReady} label="출처 권리 상태" />
       <CheckItem ok={detailsReady} label="구조화된 상세 필드" />
       <CheckItem ok={reviewReady} label="리뷰 근거 조건" />
+      <CheckItem ok={reviewApprovalReady} label="리뷰 편집 승인" />
     </div>
     {form.status === "published" && !publishReady && <p className="mt-4 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">현재 상태는 공개로 선택되었지만 검수 조건을 충족하지 않아 API에서 공개가 차단됩니다.</p>}
   </section>;

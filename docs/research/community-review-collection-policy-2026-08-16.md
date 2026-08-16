@@ -29,6 +29,9 @@
 | reviewCountAtCollection | 확인 당시 전체 리뷰 수 |
 | reviewWindow | 리뷰 작성 기간 또는 확인 불가 여부 |
 | summary | 원문을 재현하지 않는 자체 요약 |
+| approvalStatus | `pending`, `approved`, `rejected` 편집 승인 상태 |
+| approvalNote | 승인 또는 거부 판단 메모 |
+| approvedAt / approvedBy | 서버가 기록하는 승인 시각과 관리자 식별자 |
 
 관리자 화면과 백엔드는 `platform`, `sampleCount`, `independentSourceCount`, `reviewCountAtCollection`, `reviewWindow`, `collectedAt`, `summary`, `sourceUrls`를 함께 확인한다. 전체 리뷰 수가 실제 표본 수보다 작거나 플랫폼·기간 메타데이터가 없으면 검수 입력이 완료되지 않은 것으로 처리한다. `reviewEvidence`는 반드시 하나 이상의 `community-review` 출처와 연결해야 하며, 근거 URL은 해당 출처 목록에 포함되고 독립 출처 수보다 적을 수 없다.
 
@@ -44,6 +47,7 @@
 4. 평점·리뷰 수의 기준일, 플랫폼, 표본 범위를 함께 표시한다.
 5. 리뷰의 개인 경험과 브랜드 공식 정보, 편집자의 해석을 문장 단위로 구분한다.
 6. 커뮤니티 리뷰만으로 효능·안전성·의료적 결론을 만들지 않는다.
+7. `approvalStatus: approved`가 아니면 공개하지 않으며, 승인 시각과 관리자를 서버 감사 기록에 남긴다.
 
 ## 이번 조사 후보
 

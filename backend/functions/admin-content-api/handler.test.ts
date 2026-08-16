@@ -69,6 +69,18 @@ describe("admin content handler review workflow", () => {
     expect(mocks.send).toHaveBeenCalledTimes(2);
   });
 
+  it("stamps the authenticated administrator when evidence is approved", async () => {
+    const response = await handler(eventFor({
+      ...reviewPayload,
+      reviewEvidence: { ...reviewPayload.reviewEvidence, approvalStatus: "approved" as const },
+    }));
+    const body = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(200);
+    expect(body.item.reviewEvidence).toMatchObject({ approvalStatus: "approved", approvedBy: "test-admin" });
+    expect(new Date(body.item.reviewEvidence.approvedAt).toISOString()).toBe(body.item.reviewEvidence.approvedAt);
+  });
+
   it("rejects community review content without evidence before DynamoDB writes", async () => {
     const response = await handler(eventFor({ ...reviewPayload, reviewEvidence: undefined }));
     const body = JSON.parse(response.body);

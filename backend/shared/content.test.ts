@@ -88,6 +88,32 @@ describe("validateForPublish", () => {
     expect(errors).toContain("reviewEvidence.sampleCount must be at least 5");
   });
 
+  it("requires explicit editorial approval before publication", () => {
+    const errors = validateForPublish({
+      ...validContent,
+      sources: [{
+        ...validContent.sources?.[0],
+        url: "https://example.com/community-post",
+        sourceType: "community-review",
+        rightsStatus: "reference-only",
+        extractionMethod: "no-automation",
+      }],
+      reviewEvidence: {
+        platform: "테스트 플랫폼",
+        sampleCount: 5,
+        independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
+        collectedAt: "2026-08-14",
+        summary: "원문을 복사하지 않은 집계 요약입니다.",
+        sourceUrls: ["https://example.com/community-post"],
+        approvalStatus: "pending",
+      },
+    });
+
+    expect(errors).toContain("reviewEvidence.approvalStatus must be approved before publication");
+  });
+
   it("requires evidence when a community-review source is included", () => {
     const errors = validateForPublish({
       ...validContent,

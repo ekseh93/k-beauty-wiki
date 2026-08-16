@@ -30,6 +30,8 @@ export interface ContentSource {
   quote?: string;
 }
 
+export type ReviewApprovalStatus = "pending" | "approved" | "rejected";
+
 export interface ReviewEvidence {
   platform: string;
   sampleCount: number;
@@ -39,6 +41,10 @@ export interface ReviewEvidence {
   collectedAt: string;
   summary: string;
   sourceUrls: string[];
+  approvalStatus?: ReviewApprovalStatus;
+  approvalNote?: string;
+  approvedAt?: string;
+  approvedBy?: string;
 }
 
 export interface TreatmentDetails {
@@ -113,6 +119,10 @@ export function isRightsStatus(value: unknown): value is RightsStatus {
 
 export function isExtractionMethod(value: unknown): value is ExtractionMethod {
   return typeof value === "string" && extractionMethods.includes(value as ExtractionMethod);
+}
+
+export function isReviewApprovalStatus(value: unknown): value is ReviewApprovalStatus {
+  return value === "pending" || value === "approved" || value === "rejected";
 }
 
 export function validateContentWrite(content: Partial<ContentRecord>): string[] {
@@ -190,6 +200,9 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
   if (content.reviewEvidence !== undefined) {
     errors.push(...validateReviewEvidence(content.reviewEvidence));
     errors.push(...validateReviewEvidenceSourceLinks(content.reviewEvidence, sources));
+    if (content.reviewEvidence && content.reviewEvidence.approvalStatus === "rejected") {
+      errors.push("reviewEvidence.approvalStatus cannot be rejected in review");
+    }
   }
 
   return errors;
@@ -240,6 +253,10 @@ export function validateForPublish(content: Partial<ContentRecord>): string[] {
     }
   }
 
+  if (content.reviewEvidence && content.reviewEvidence.approvalStatus !== "approved") {
+    errors.push("reviewEvidence.approvalStatus must be approved before publication");
+  }
+
   return errors;
 }
 
@@ -270,6 +287,25 @@ function validateReviewEvidence(evidence: unknown): string[] {
   }
   if (Number.isInteger(candidate.independentSourceCount) && Array.isArray(candidate.sourceUrls) && candidate.independentSourceCount > candidate.sourceUrls.length) {
     errors.push("reviewEvidence.independentSourceCount must not exceed sourceUrls count");
+  }
+  if (candidate.approvalStatus !== undefined && !isReviewApprovalStatus(candidate.approvalStatus)) {
+    errors.push("reviewEvidence.approvalStatus must be pending, approved, or rejected");
+  }
+  if (candidate.approvalNote !== undefined && (typeof candidate.approvalNote !== "string" || candidate.approvalNote.length > 500)) {
+    errors.push("reviewEvidence.approvalNote must be 500 characters or fewer");
+  }
+  if (candidate.approvedAt !== undefined && !isIsoDateTime(candidate.approvedAt)) {
+    errors.push("reviewEvidence.approvedAt must be an ISO date-time");
+  }
+  if (candidate.approvedBy !== undefined && !isNonEmptyString(candidate.approvedBy)) {
+    errors.push("reviewEvidence.approvedBy is required when provided");
+  }
+  if (candidate.approvalStatus === "approved") {
+    if (!isIsoDateTime(candidate.approvedAt)) errors.push("reviewEvidence.approvedAt is required when approved");
+    if (!isNonEmptyString(candidate.approvedBy)) errors.push("reviewEvidence.approvedBy is required when approved");
+  }
+  if (candidate.approvalStatus === "rejected" && !isNonEmptyString(candidate.approvalNote)) {
+    errors.push("reviewEvidence.approvalNote is required when rejected");
   }
   return errors;
 }
@@ -305,6 +341,12 @@ function isHttpUrl(value: unknown): boolean {
   } catch {
     return false;
   }
+}
+
+function isIsoDateTime(value: unknown): boolean {
+  if (typeof value !== "string" || !value.trim()) return false;
+  const date = new Date(value);
+  return !Number.isNaN(date.getTime()) && value === date.toISOString();
 }
 
 function isDateOnly(value: unknown): boolean {

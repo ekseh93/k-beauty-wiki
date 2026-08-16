@@ -81,18 +81,25 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
   const input = parsed as Partial<ContentRecord>;
   const inputErrors = validateContentWrite(input);
   if (inputErrors.length > 0) return jsonResponse(422, { message: "Invalid content input", errors: inputErrors });
-  const errors = input.status === "published" ? validateForPublish(input) : input.status === "review" ? validateForReview(input) : [];
-  if (input.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
-  if (input.status === "review" && errors.length > 0) return jsonResponse(422, { message: "Content cannot enter review", errors });
+  const updatedBy = event.requestContext.authorizer?.jwt?.claims?.sub ?? "unknown";
+  const now = new Date().toISOString();
+  const normalizedReviewEvidence = input.reviewEvidence ? (() => {
+    const evidence = { ...input.reviewEvidence };
+    delete evidence.approvedAt;
+    delete evidence.approvedBy;
+    return evidence.approvalStatus === "approved" ? { ...evidence, approvedAt: now, approvedBy: updatedBy } : evidence;
+  })() : undefined;
+  const normalizedInput = normalizedReviewEvidence ? { ...input, reviewEvidence: normalizedReviewEvidence } : input;
+  const errors = normalizedInput.status === "published" ? validateForPublish(normalizedInput) : normalizedInput.status === "review" ? validateForReview(normalizedInput) : [];
+  if (normalizedInput.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
+  if (normalizedInput.status === "review" && errors.length > 0) return jsonResponse(422, { message: "Content cannot enter review", errors });
 
-  if (input.status === "published" && input.sources?.some((source) => source.rightsStatus !== "verified" && source.rightsStatus !== "reference-only")) {
+  if (normalizedInput.status === "published" && normalizedInput.sources?.some((source) => source.rightsStatus !== "verified" && source.rightsStatus !== "reference-only")) {
     return jsonResponse(422, { message: "Content cannot be published until every source has verified or reference-only rights", errors: ["source rights must be verified or reference-only"] });
   }
 
-  const now = new Date().toISOString();
-  const item = { ...input, id: input.id ?? randomUUID(), createdAt: input.createdAt ?? now, updatedAt: now, status: input.status ?? "draft" };
+  const item = { ...normalizedInput, id: normalizedInput.id ?? randomUUID(), createdAt: normalizedInput.createdAt ?? now, updatedAt: now, status: normalizedInput.status ?? "draft" };
   await documentClient.send(new PutCommand({ TableName: tableName, Item: item }));
-  const updatedBy = event.requestContext.authorizer?.jwt?.claims?.sub ?? "unknown";
-  await documentClient.send(new PutCommand({ TableName: revisionTableName, Item: { id: item.id, revisionId: randomUUID(), contentId: item.id, action: input.id ? "updated" : "created", snapshot: item, updatedBy, createdAt: now } }));
+  await documentClient.send(new PutCommand({ TableName: revisionTableName, Item: { id: item.id, revisionId: randomUUID(), contentId: item.id, action: normalizedInput.id ? "updated" : "created", snapshot: item, updatedBy, createdAt: now } }));
   return jsonResponse(200, { item, updatedBy });
 };
