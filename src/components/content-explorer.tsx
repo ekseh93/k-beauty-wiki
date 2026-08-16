@@ -41,6 +41,53 @@ function ContentCard({ content, selected, onSelect }: { content: AtlasContent; s
   );
 }
 
+function comparisonValue(content: AtlasContent, field: "type" | "purpose" | "price" | "use" | "caution" | "verified"): string {
+  if (field === "type") return kindLabels[content.kind];
+  if (field === "price") return content.kind === "treatment" ? content.priceRange : `${content.price} ${content.currency}`;
+  if (field === "verified") return content.lastVerifiedAt;
+  if (field === "caution") return content.caution;
+  if (content.kind === "treatment") {
+    if (field === "purpose") return content.purpose;
+    return content.duration ? `所要時間: ${content.duration}` : "本文で確認";
+  }
+  if (field === "purpose") return content.productType;
+  return content.usage[0] ?? "本文で確認";
+}
+
+function ComparisonTable({ contents }: { contents: AtlasContent[] }) {
+  const rows: { label: string; field: Parameters<typeof comparisonValue>[1] }[] = [
+    { label: "分類", field: "type" },
+    { label: "用途・目的", field: "purpose" },
+    { label: "価格基準", field: "price" },
+    { label: "使用・所要情報", field: "use" },
+    { label: "注意事項", field: "caution" },
+    { label: "最終確認日", field: "verified" },
+  ];
+
+  return (
+    <section className="mt-4 overflow-hidden rounded-2xl border border-ink/15 bg-white/95 text-ink" aria-label="比較表">
+      <div className="border-b border-line px-4 py-4 sm:px-5">
+        <p className="text-xs uppercase tracking-[0.2em] text-ink/45">Comparison</p>
+        <h3 className="mt-1 font-display text-xl">共通基準で比較</h3>
+        <p className="mt-1 text-xs leading-5 text-ink/55">価格と使用情報は調査条件や製品によって異なるため、本文と出典もあわせて確認してください。</p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-[44rem] w-full border-collapse text-left text-sm">
+          <thead>
+            <tr className="border-b border-line bg-cream/70">
+              <th scope="col" className="w-36 px-4 py-3 font-medium text-ink/55 sm:px-5">基準</th>
+              {contents.map((content) => <th scope="col" key={content.slug} className="min-w-52 px-4 py-3 font-medium sm:px-5">{content.titleJa}<span className="mt-1 block text-xs font-normal text-ink/50">{content.koreanName}</span></th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => <tr key={row.field} className="border-b border-line/70 align-top last:border-b-0"><th scope="row" className="px-4 py-3 font-medium text-ink/55 sm:px-5">{row.label}</th>{contents.map((content) => <td key={`${content.slug}-${row.field}`} className="px-4 py-3 leading-6 text-ink/75 sm:px-5">{comparisonValue(content, row.field)}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<ContentKind | "all">("all");
@@ -104,6 +151,7 @@ export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
               </div>
             ))}
           </div>
+          <ComparisonTable contents={selected} />
         </section>
       )}
 
