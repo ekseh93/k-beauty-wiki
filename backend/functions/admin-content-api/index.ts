@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda";
-import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, validateForReview, type ContentRecord } from "../../shared/content";
+import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, validateForReview, validatePublicationApproval, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -90,7 +90,9 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
     return evidence.approvalStatus === "approved" ? { ...evidence, approvedAt: now, approvedBy: updatedBy } : evidence;
   })() : undefined;
   const normalizedInput = normalizedReviewEvidence ? { ...input, reviewEvidence: normalizedReviewEvidence } : input;
-  const errors = normalizedInput.status === "published" ? validateForPublish(normalizedInput) : normalizedInput.status === "review" ? validateForReview(normalizedInput) : [];
+  const errors = normalizedInput.status === "published"
+    ? [...validateForPublish(normalizedInput), ...validatePublicationApproval(normalizedInput)]
+    : normalizedInput.status === "review" ? validateForReview(normalizedInput) : [];
   if (normalizedInput.status === "published" && errors.length > 0) return jsonResponse(422, { message: "Content cannot be published", errors });
   if (normalizedInput.status === "review" && errors.length > 0) return jsonResponse(422, { message: "Content cannot enter review", errors });
 
@@ -98,7 +100,13 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
     return jsonResponse(422, { message: "Content cannot be published until every source has verified or reference-only rights", errors: ["source rights must be verified or reference-only"] });
   }
 
-  const item = { ...normalizedInput, id: normalizedInput.id ?? randomUUID(), createdAt: normalizedInput.createdAt ?? now, updatedAt: now, status: normalizedInput.status ?? "draft" };
+  const publicationApproval = normalizedInput.status === "published" && normalizedInput.publicationApproval ? {
+    confirmed: true,
+    note: normalizedInput.publicationApproval.note,
+    approvedAt: now,
+    approvedBy: updatedBy,
+  } : normalizedInput.publicationApproval;
+  const item = { ...normalizedInput, ...(publicationApproval ? { publicationApproval } : {}), id: normalizedInput.id ?? randomUUID(), createdAt: normalizedInput.createdAt ?? now, updatedAt: now, status: normalizedInput.status ?? "draft" };
   await documentClient.send(new PutCommand({ TableName: tableName, Item: item }));
   await documentClient.send(new PutCommand({ TableName: revisionTableName, Item: { id: item.id, revisionId: randomUUID(), contentId: item.id, action: normalizedInput.id ? "updated" : "created", snapshot: item, updatedBy, createdAt: now } }));
   return jsonResponse(200, { item, updatedBy });

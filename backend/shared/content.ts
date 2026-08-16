@@ -47,6 +47,13 @@ export interface ReviewEvidence {
   approvedBy?: string;
 }
 
+export interface PublicationApproval {
+  confirmed: boolean;
+  note: string;
+  approvedAt?: string;
+  approvedBy?: string;
+}
+
 export interface TreatmentDetails {
   kind: "treatment";
   principle: string;
@@ -94,6 +101,7 @@ export interface ContentRecord {
   lastVerifiedAt?: string;
   sources: ContentSource[];
   reviewEvidence?: ReviewEvidence;
+  publicationApproval?: PublicationApproval;
   details?: ContentDetails;
   isFixture?: boolean;
   updatedAt: string;
@@ -258,6 +266,22 @@ export function validateForPublish(content: Partial<ContentRecord>): string[] {
   }
 
   return errors;
+}
+
+export function validatePublicationApproval(content: Partial<ContentRecord>): string[] {
+  if (!content.publicationApproval || typeof content.publicationApproval !== "object" || Array.isArray(content.publicationApproval)) {
+    return ["publicationApproval is required before publication"];
+  }
+  if (content.publicationApproval.confirmed !== true) {
+    return ["publicationApproval.confirmed must be true before publication"];
+  }
+  if (typeof content.publicationApproval.note !== "string" || !content.publicationApproval.note.trim()) {
+    return ["publicationApproval.note is required before publication"];
+  }
+  if (content.publicationApproval.note.length > 1000) {
+    return ["publicationApproval.note must be 1000 characters or fewer"];
+  }
+  return [];
 }
 
 function validateReviewEvidence(evidence: unknown): string[] {

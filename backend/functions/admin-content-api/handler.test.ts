@@ -135,4 +135,64 @@ describe("admin content handler review workflow", () => {
     expect(body.errors).toContain("sources[0] does not have publishable rights status");
     expect(mocks.send).not.toHaveBeenCalled();
   });
+
+  it("rejects publication without an explicit final approval note", async () => {
+    const response = await handler(eventFor({
+      ...reviewPayload,
+      status: "published",
+      reviewEvidence: { ...reviewPayload.reviewEvidence, approvalStatus: "approved" as const },
+      details: {
+        kind: "product",
+        brand: "ブランド",
+        productType: "美容液",
+        volume: "30 ml",
+        price: "3000",
+        currency: "JPY",
+        pricePerVolume: "100 JPY/ml",
+        priceCheckedAt: "2026-08-16",
+        keyIngredients: [{ name: "成分", role: "一般的な役割" }],
+        skinTypes: ["全肌質"],
+        usage: ["適量を使う"],
+        pros: ["検証用"],
+        considerations: ["肌に合わない場合は使用を中止する"],
+      },
+      sources: [{ ...source, rightsStatus: "reference-only" as const }],
+    }));
+    const body = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(422);
+    expect(body.message).toBe("Content cannot be published");
+    expect(body.errors).toContain("publicationApproval is required before publication");
+    expect(mocks.send).not.toHaveBeenCalled();
+  });
+
+  it("records the authenticated administrator and timestamp for final publication approval", async () => {
+    const response = await handler(eventFor({
+      ...reviewPayload,
+      status: "published",
+      reviewEvidence: { ...reviewPayload.reviewEvidence, approvalStatus: "approved" as const },
+      publicationApproval: { confirmed: true, note: "일본 현행 표시와 주의사항을 확인했습니다." },
+      details: {
+        kind: "product",
+        brand: "ブランド",
+        productType: "美容液",
+        volume: "30 ml",
+        price: "3000",
+        currency: "JPY",
+        pricePerVolume: "100 JPY/ml",
+        priceCheckedAt: "2026-08-16",
+        keyIngredients: [{ name: "成分", role: "一般的な役割" }],
+        skinTypes: ["全肌質"],
+        usage: ["適量を使う"],
+        pros: ["検証用"],
+        considerations: ["肌に合わない場合は使用を中止する"],
+      },
+      sources: [{ ...source, rightsStatus: "reference-only" as const }],
+    }));
+    const body = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(200);
+    expect(body.item.publicationApproval).toMatchObject({ confirmed: true, note: "일본 현행 표시와 주의사항을 확인했습니다.", approvedBy: "test-admin" });
+    expect(new Date(body.item.publicationApproval.approvedAt).toISOString()).toBe(body.item.publicationApproval.approvedAt);
+  });
 });

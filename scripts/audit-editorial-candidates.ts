@@ -39,7 +39,11 @@ export function auditEditorialCandidate(value: unknown, file: string): Editorial
     }
   }
 
-  const publishErrors = validateForPublish({ ...content, status: "published" });
+  const publishErrors = validateForPublish({
+    ...content,
+    status: "published",
+    publicationApproval: { confirmed: true, note: "자동 필드 감사용 가상 승인" },
+  });
   const blockingReasons = [...new Set([...draftResult.errors, ...publishErrors])];
   const automatedPublishChecksPassed = blockingReasons.length === 0;
   return {

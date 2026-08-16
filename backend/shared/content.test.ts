@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateContentWrite, validateForPublish, validateForReview, type ContentRecord } from "./content";
+import { validateContentWrite, validateForPublish, validateForReview, validatePublicationApproval, type ContentRecord } from "./content";
 
 const validContent: Partial<ContentRecord> = {
   kind: "skincare",
@@ -19,6 +19,10 @@ const validContent: Partial<ContentRecord> = {
     rightsStatus: "verified",
     extractionMethod: "api",
   }],
+  publicationApproval: {
+    confirmed: true,
+    note: "현행 표시와 출처 권리를 확인했습니다.",
+  },
   details: {
     kind: "product",
     brand: "ブランド",
@@ -274,6 +278,18 @@ describe("validateForReview", () => {
       "reviewEvidence.summary is required",
       "reviewEvidence.sourceUrls must contain http(s) URLs",
     ]));
+  });
+});
+
+describe("validatePublicationApproval", () => {
+  it("requires a confirmed note for an administrator publication request", () => {
+    expect(validatePublicationApproval({})).toContain("publicationApproval is required before publication");
+    expect(validatePublicationApproval({ publicationApproval: { confirmed: false, note: "" } })).toEqual([
+      "publicationApproval.confirmed must be true before publication",
+    ]);
+    expect(validatePublicationApproval({ publicationApproval: { confirmed: true, note: "" } })).toEqual([
+      "publicationApproval.note is required before publication",
+    ]);
   });
 });
 
