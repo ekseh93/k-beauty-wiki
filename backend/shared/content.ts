@@ -174,8 +174,14 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
     }
   }
 
+  const sources = Array.isArray(content.sources) ? content.sources : [];
+  const hasCommunityReviewSource = sources.some((source) => source && typeof source === "object" && !Array.isArray(source) && (source as Partial<ContentSource>).sourceType === "community-review");
+  if (hasCommunityReviewSource && !content.reviewEvidence) {
+    errors.push("reviewEvidence is required when a community-review source is included");
+  }
   if (content.reviewEvidence) {
     errors.push(...validateReviewEvidence(content.reviewEvidence));
+    errors.push(...validateReviewEvidenceSourceLinks(content.reviewEvidence, sources));
   }
 
   return errors;
@@ -241,7 +247,19 @@ function validateReviewEvidence(evidence: ReviewEvidence): string[] {
   if (!evidence.sourceUrls?.length || evidence.sourceUrls.some((url) => !isHttpUrl(url))) {
     errors.push("reviewEvidence.sourceUrls must contain http(s) URLs");
   }
+  if (Array.isArray(evidence.sourceUrls) && new Set(evidence.sourceUrls).size !== evidence.sourceUrls.length) {
+    errors.push("reviewEvidence.sourceUrls must not contain duplicates");
+  }
   return errors;
+}
+
+function validateReviewEvidenceSourceLinks(evidence: ReviewEvidence, sources: unknown[]): string[] {
+  const sourceUrls = new Set(sources
+    .filter((source): source is ContentSource => Boolean(source) && typeof source === "object" && !Array.isArray(source))
+    .map((source) => source.url));
+  return evidence.sourceUrls
+    .filter((url) => !sourceUrls.has(url))
+    .map((url) => `reviewEvidence.sourceUrls must also be listed in sources: ${url}`);
 }
 
 function isHttpUrl(value: string | undefined): boolean {

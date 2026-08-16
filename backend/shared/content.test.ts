@@ -85,6 +85,52 @@ describe("validateForPublish", () => {
     expect(errors).toContain("reviewEvidence.sampleCount must be at least 5");
   });
 
+  it("requires evidence when a community-review source is included", () => {
+    const errors = validateForPublish({
+      ...validContent,
+      sources: [{
+        ...validContent.sources?.[0],
+        sourceType: "community-review",
+        rightsStatus: "verified",
+        extractionMethod: "no-automation",
+      }],
+      reviewEvidence: undefined,
+    });
+
+    expect(errors).toContain("reviewEvidence is required when a community-review source is included");
+  });
+
+  it("requires review evidence URLs to be listed as source records", () => {
+    const errors = validateForPublish({
+      ...validContent,
+      reviewEvidence: {
+        sampleCount: 5,
+        independentSourceCount: 1,
+        collectedAt: "2026-08-14",
+        summary: "원문을 복사하지 않은 집계 요약입니다.",
+        sourceUrls: ["https://example.com/community-post"],
+      },
+    });
+
+    expect(errors).toContain("reviewEvidence.sourceUrls must also be listed in sources: https://example.com/community-post");
+  });
+
+  it("rejects duplicate review evidence URLs", () => {
+    const errors = validateForReview({
+      ...validContent,
+      status: "review",
+      reviewEvidence: {
+        sampleCount: 5,
+        independentSourceCount: 1,
+        collectedAt: "2026-08-14",
+        summary: "원문을 복사하지 않은 집계 요약입니다.",
+        sourceUrls: ["https://example.com/product", "https://example.com/product"],
+      },
+    });
+
+    expect(errors).toContain("reviewEvidence.sourceUrls must not contain duplicates");
+  });
+
   it("requires structured product details before publication", () => {
     const errors = validateForPublish({ ...validContent, details: undefined });
     expect(errors).toContain("details for product content are required");

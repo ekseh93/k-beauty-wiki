@@ -159,11 +159,29 @@ interface AdminContentSummary {
   sources?: { title: string; rightsStatus: RightsStatus }[];
 }
 
-function parseAdditionalSources(value: string): { title: string; url: string }[] {
+interface AdditionalSourceDraft {
+  title: string;
+  url: string;
+  sourceType?: SourceType;
+  rightsStatus?: RightsStatus;
+  extractionMethod?: ExtractionMethod;
+}
+
+function parseAdditionalSources(value: string): AdditionalSourceDraft[] {
   return splitLines(value).map((line) => {
-    const [title, ...urlParts] = line.split("|");
-    return { title: title.trim(), url: urlParts.join("|").trim() };
+    const [title, url, sourceType, rightsStatus, extractionMethod] = line.split("|").map((part) => part.trim());
+    return {
+      title: title ?? "",
+      url: url ?? "",
+      ...(sourceType ? { sourceType: sourceType as SourceType } : {}),
+      ...(rightsStatus ? { rightsStatus: rightsStatus as RightsStatus } : {}),
+      ...(extractionMethod ? { extractionMethod: extractionMethod as ExtractionMethod } : {}),
+    };
   });
+}
+
+function serializeAdditionalSource(source: AdditionalSourceDraft): string {
+  return [source.title, source.url, source.sourceType, source.rightsStatus, source.extractionMethod].filter(Boolean).join(" | ");
 }
 
 function isDateOnly(value: string): boolean {
@@ -334,9 +352,9 @@ export function AdminConsole() {
     const additionalSources = parseAdditionalSources(form.additionalSources).map((additionalSource) => ({
       ...additionalSource,
       checkedAt: form.lastVerifiedAt,
-      sourceType: form.sourceType,
-      rightsStatus: form.rightsStatus,
-      extractionMethod: form.extractionMethod,
+      sourceType: additionalSource.sourceType ?? form.sourceType,
+      rightsStatus: additionalSource.rightsStatus ?? form.rightsStatus,
+      extractionMethod: additionalSource.extractionMethod ?? form.extractionMethod,
     }));
     const reviewEvidence = form.includeReviewEvidence ? {
       sampleCount: Number(form.sampleCount),
@@ -418,6 +436,7 @@ export function AdminConsole() {
     const sources = Array.isArray(item.sources) ? item.sources as { title?: unknown; url?: unknown; sourceType?: unknown; rightsStatus?: unknown; extractionMethod?: unknown }[] : [];
     const primarySource = sources[0] ?? {};
     const details = item.details && typeof item.details === "object" ? item.details as Record<string, unknown> : {};
+    const reviewEvidence = item.reviewEvidence && typeof item.reviewEvidence === "object" ? item.reviewEvidence as Record<string, unknown> : {};
     const ingredients = Array.isArray(details.keyIngredients) ? details.keyIngredients as { name?: unknown; role?: unknown }[] : [];
     setEditingId(item.id);
     setEditingCreatedAt(item.createdAt);
@@ -439,8 +458,20 @@ export function AdminConsole() {
       sourceType: (primarySource.sourceType as SourceType | undefined) ?? "manual-reference",
       rightsStatus: (primarySource.rightsStatus as RightsStatus | undefined) ?? "needs-review",
       extractionMethod: (primarySource.extractionMethod as ExtractionMethod | undefined) ?? "manual",
-      additionalSources: sources.slice(1).map((source) => `${toStringValue(source.title)} | ${toStringValue(source.url)}`).join("\n"),
+      additionalSources: sources.slice(1).map((source) => serializeAdditionalSource({
+        title: toStringValue(source.title),
+        url: toStringValue(source.url),
+        sourceType: source.sourceType as SourceType | undefined,
+        rightsStatus: source.rightsStatus as RightsStatus | undefined,
+        extractionMethod: source.extractionMethod as ExtractionMethod | undefined,
+      })).join("\n"),
       lastVerifiedAt: toStringValue(item.lastVerifiedAt),
+      includeReviewEvidence: Boolean(item.reviewEvidence && typeof item.reviewEvidence === "object"),
+      sampleCount: typeof reviewEvidence.sampleCount === "number" ? String(reviewEvidence.sampleCount) : "5",
+      independentSourceCount: typeof reviewEvidence.independentSourceCount === "number" ? String(reviewEvidence.independentSourceCount) : "1",
+      reviewCollectedAt: toStringValue(reviewEvidence.collectedAt),
+      reviewSummary: toStringValue(reviewEvidence.summary),
+      reviewSourceUrls: toStringList(reviewEvidence.sourceUrls).join("\n"),
       brand: toStringValue(details.brand),
       productType: toStringValue(details.productType),
       volume: toStringValue(details.volume),
@@ -564,12 +595,13 @@ export function AdminConsole() {
         <SelectField label="수집 방식" value={form.extractionMethod} onChange={(value) => updateForm("extractionMethod", value as ExtractionMethod)} options={[{ value: "api", label: "API" }, { value: "licensed-import", label: "허가된 가져오기" }, { value: "manual", label: "수동 입력" }, { value: "no-automation", label: "자동 수집 안 함" }]} />
         <Field label="최종 확인일" type="text" placeholder="YYYY-MM-DD" value={form.lastVerifiedAt} onChange={(value) => updateForm("lastVerifiedAt", value)} required />
       </div>
-      <TextAreaField label="추가 출처 (출처 제목 | URL, 한 줄에 하나)" value={form.additionalSources} onChange={(value) => updateForm("additionalSources", value)} placeholder="COSRX Official product page | https://www.cosrx.com/..." />
+      <TextAreaField label="추가 출처 (제목 | URL | 유형 | 권리 상태 | 수집 방식)" value={form.additionalSources} onChange={(value) => updateForm("additionalSources", value)} placeholder="Glowpick 리뷰 | https://www.glowpick.com/... | community-review | needs-review | no-automation" />
+      <p className="mt-2 text-xs leading-5 text-ink/55">유형·권리 상태·수집 방식은 생략하면 기본 출처 설정을 사용합니다. 리뷰 출처는 커뮤니티 리뷰, 검토 필요, 자동 수집 안 함을 명시하세요.</p>
       {form.sourceType === "short-quote" && <label className="mt-4 block text-sm">짧은 인용문<textarea value={form.quote} onChange={(event) => updateForm("quote", event.target.value)} maxLength={500} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" placeholder="필요한 최소한의 인용만 입력하세요." /></label>}
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={form.includeReviewEvidence} onChange={(event) => updateForm("includeReviewEvidence", event.target.checked)} className="mt-1" /><span><strong>커뮤니티 리뷰 집계 근거 추가</strong><span className="mt-1 block text-ink/60">원문 전체가 아니라 5건 이상의 경험담을 요약한 경우에만 사용합니다.</span></span></label>
-      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label></div>}
+      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /><span className="mt-1 block text-xs text-ink/55">근거 URL은 위 출처 목록에도 같은 URL을 등록해야 합니다.</span></label></div>}
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><SelectField label="상태" value={form.status} onChange={(value) => updateForm("status", value as ContentStatus)} options={[{ value: "draft", label: "초안" }, { value: "review", label: "검수 대기" }, { value: "published", label: "공개" }]} />{form.status === "published" && <p className="mt-3 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">공개 시 백엔드가 필수 필드, 출처 URL, 확인일, 권리 상태, 리뷰 근거를 다시 검증합니다.</p>}</div>
@@ -588,19 +620,29 @@ function ContentPreview({ form }: { form: FormState }) {
     form.caution.trim(),
   );
   const sourceRows = [
-    { title: form.sourceTitle, url: form.sourceUrl, checkedAt: form.lastVerifiedAt, rightsStatus: form.rightsStatus },
-    ...parseAdditionalSources(form.additionalSources).map((source) => ({ ...source, checkedAt: form.lastVerifiedAt, rightsStatus: form.rightsStatus })),
+    { title: form.sourceTitle, url: form.sourceUrl, checkedAt: form.lastVerifiedAt, sourceType: form.sourceType, rightsStatus: form.rightsStatus },
+    ...parseAdditionalSources(form.additionalSources).map((source) => ({
+      ...source,
+      checkedAt: form.lastVerifiedAt,
+      sourceType: source.sourceType ?? form.sourceType,
+      rightsStatus: source.rightsStatus ?? form.rightsStatus,
+    })),
   ];
   const sourceReady = sourceRows.every((source) => source.title.trim() && isHttpUrl(source.url) && isDateOnly(source.checkedAt));
   const rightsReady = sourceRows.length > 0 && sourceRows.every((source) => source.rightsStatus === "verified" || source.rightsStatus === "reference-only");
   const reviewSourceUrls = splitLines(form.reviewSourceUrls);
-  const reviewReady = !form.includeReviewEvidence || (
+  const hasCommunityReviewSource = sourceRows.some((source) => source.sourceType === "community-review");
+  const sourceUrlSet = new Set(sourceRows.map((source) => source.url.trim()));
+  const reviewReady = (!hasCommunityReviewSource && !form.includeReviewEvidence) || (
+    form.includeReviewEvidence &&
+    Number.isInteger(Number(form.sampleCount)) &&
     Number(form.sampleCount) >= 5 &&
+    Number.isInteger(Number(form.independentSourceCount)) &&
     Number(form.independentSourceCount) >= 1 &&
     isDateOnly(form.reviewCollectedAt) &&
     Boolean(form.reviewSummary.trim()) &&
     reviewSourceUrls.length > 0 &&
-    reviewSourceUrls.every(isHttpUrl)
+    reviewSourceUrls.every((url) => isHttpUrl(url) && sourceUrlSet.has(url))
   );
   const listFieldsReady = form.kind === "treatment"
     ? [form.suitableFor, form.consultOrAvoid, form.sideEffects, form.similarTreatments].every((value) => splitLines(value).length > 0)
