@@ -74,8 +74,11 @@ describe("validateForPublish", () => {
     const errors = validateForPublish({
       ...validContent,
       reviewEvidence: {
+        platform: "테스트 플랫폼",
         sampleCount: 4,
         independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
         collectedAt: "2026-08-14",
         summary: "커뮤니티에서 반복적으로 언급된 장단점을 요약했습니다.",
         sourceUrls: ["https://example.com/community-post"],
@@ -104,8 +107,11 @@ describe("validateForPublish", () => {
     const errors = validateForPublish({
       ...validContent,
       reviewEvidence: {
+        platform: "테스트 플랫폼",
         sampleCount: 5,
         independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
         collectedAt: "2026-08-14",
         summary: "원문을 복사하지 않은 집계 요약입니다.",
         sourceUrls: ["https://example.com/community-post"],
@@ -120,8 +126,11 @@ describe("validateForPublish", () => {
       ...validContent,
       status: "review",
       reviewEvidence: {
+        platform: "테스트 플랫폼",
         sampleCount: 5,
         independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
         collectedAt: "2026-08-14",
         summary: "원문을 복사하지 않은 집계 요약입니다.",
         sourceUrls: ["https://example.com/product", "https://example.com/product"],
@@ -179,8 +188,11 @@ describe("validateForReview", () => {
       ...validContent,
       status: "review",
       reviewEvidence: {
+        platform: "테스트 플랫폼",
         sampleCount: 5,
         independentSourceCount: 1,
+        reviewCountAtCollection: 5,
+        reviewWindow: "2026-01~2026-08",
         collectedAt: "2026-08-14",
         summary: 123,
         sourceUrls: "https://example.com/post",

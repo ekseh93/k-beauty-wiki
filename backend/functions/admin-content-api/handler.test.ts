@@ -30,8 +30,11 @@ const reviewPayload = {
   lastVerifiedAt: "2026-08-16",
   sources: [source],
   reviewEvidence: {
+    platform: "検証用コミュニティ",
     sampleCount: 5,
     independentSourceCount: 1,
+    reviewCountAtCollection: 12,
+    reviewWindow: "2026-01~2026-08",
     collectedAt: "2026-08-16",
     summary: "原文を保存せず、5件以上の投稿で共通した傾向だけを独自に要約しました。",
     sourceUrls: [source.url],

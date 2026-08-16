@@ -31,8 +31,11 @@ export interface ContentSource {
 }
 
 export interface ReviewEvidence {
+  platform: string;
   sampleCount: number;
   independentSourceCount: number;
+  reviewCountAtCollection: number;
+  reviewWindow: string;
   collectedAt: string;
   summary: string;
   sourceUrls: string[];
@@ -243,12 +246,17 @@ function validateReviewEvidence(evidence: unknown): string[] {
     return ["reviewEvidence must be an object"];
   }
   const candidate = evidence as Partial<ReviewEvidence>;
+  if (!isNonEmptyString(candidate.platform)) errors.push("reviewEvidence.platform is required");
   if (!Number.isInteger(candidate.sampleCount) || candidate.sampleCount < 5) {
     errors.push("reviewEvidence.sampleCount must be at least 5");
   }
   if (!Number.isInteger(candidate.independentSourceCount) || candidate.independentSourceCount < 1) {
     errors.push("reviewEvidence.independentSourceCount must be at least 1");
   }
+  if (!Number.isInteger(candidate.reviewCountAtCollection) || candidate.reviewCountAtCollection < (candidate.sampleCount ?? 5)) {
+    errors.push("reviewEvidence.reviewCountAtCollection must be at least sampleCount");
+  }
+  if (!isNonEmptyString(candidate.reviewWindow)) errors.push("reviewEvidence.reviewWindow is required");
   if (!isDateOnly(candidate.collectedAt)) errors.push("reviewEvidence.collectedAt must be an ISO date (YYYY-MM-DD)");
   if (!isNonEmptyString(candidate.summary)) errors.push("reviewEvidence.summary is required");
   if (!Array.isArray(candidate.sourceUrls) || !candidate.sourceUrls.length || candidate.sourceUrls.some((url) => !isHttpUrl(url))) {

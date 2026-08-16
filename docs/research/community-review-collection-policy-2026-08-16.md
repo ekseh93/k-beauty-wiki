@@ -30,6 +30,8 @@
 | reviewWindow | 리뷰 작성 기간 또는 확인 불가 여부 |
 | summary | 원문을 재현하지 않는 자체 요약 |
 
+관리자 화면과 백엔드는 `platform`, `sampleCount`, `independentSourceCount`, `reviewCountAtCollection`, `reviewWindow`, `collectedAt`, `summary`, `sourceUrls`를 함께 확인한다. 전체 리뷰 수가 실제 표본 수보다 작거나 플랫폼·기간 메타데이터가 없으면 검수 입력이 완료되지 않은 것으로 처리한다.
+
 원문 텍스트, 작성자 식별자, 사진·영상, 주문 정보, 연락처는 저장하지 않는다.
 
 ## 공개 게이트

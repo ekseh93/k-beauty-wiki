@@ -46,8 +46,11 @@ interface FormState {
   quote: string;
   lastVerifiedAt: string;
   includeReviewEvidence: boolean;
+  reviewPlatform: string;
   sampleCount: string;
   independentSourceCount: string;
+  reviewCountAtCollection: string;
+  reviewWindow: string;
   reviewCollectedAt: string;
   reviewSummary: string;
   reviewSourceUrls: string;
@@ -96,8 +99,11 @@ const initialForm: FormState = {
   quote: "",
   lastVerifiedAt: "",
   includeReviewEvidence: false,
+  reviewPlatform: "",
   sampleCount: "5",
   independentSourceCount: "1",
+  reviewCountAtCollection: "5",
+  reviewWindow: "",
   reviewCollectedAt: "",
   reviewSummary: "",
   reviewSourceUrls: "",
@@ -357,8 +363,11 @@ export function AdminConsole() {
       extractionMethod: additionalSource.extractionMethod ?? form.extractionMethod,
     }));
     const reviewEvidence = form.includeReviewEvidence ? {
+      platform: form.reviewPlatform,
       sampleCount: Number(form.sampleCount),
       independentSourceCount: Number(form.independentSourceCount),
+      reviewCountAtCollection: Number(form.reviewCountAtCollection),
+      reviewWindow: form.reviewWindow,
       collectedAt: form.reviewCollectedAt,
       summary: form.reviewSummary,
       sourceUrls: form.reviewSourceUrls.split("\n").map((url) => url.trim()).filter(Boolean),
@@ -467,8 +476,11 @@ export function AdminConsole() {
       })).join("\n"),
       lastVerifiedAt: toStringValue(item.lastVerifiedAt),
       includeReviewEvidence: Boolean(item.reviewEvidence && typeof item.reviewEvidence === "object"),
+      reviewPlatform: toStringValue(reviewEvidence.platform),
       sampleCount: typeof reviewEvidence.sampleCount === "number" ? String(reviewEvidence.sampleCount) : "5",
       independentSourceCount: typeof reviewEvidence.independentSourceCount === "number" ? String(reviewEvidence.independentSourceCount) : "1",
+      reviewCountAtCollection: typeof reviewEvidence.reviewCountAtCollection === "number" ? String(reviewEvidence.reviewCountAtCollection) : "5",
+      reviewWindow: toStringValue(reviewEvidence.reviewWindow),
       reviewCollectedAt: toStringValue(reviewEvidence.collectedAt),
       reviewSummary: toStringValue(reviewEvidence.summary),
       reviewSourceUrls: toStringList(reviewEvidence.sourceUrls).join("\n"),
@@ -601,7 +613,7 @@ export function AdminConsole() {
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={form.includeReviewEvidence} onChange={(event) => updateForm("includeReviewEvidence", event.target.checked)} className="mt-1" /><span><strong>커뮤니티 리뷰 집계 근거 추가</strong><span className="mt-1 block text-ink/60">원문 전체가 아니라 5건 이상의 경험담을 요약한 경우에만 사용합니다.</span></span></label>
-      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /><span className="mt-1 block text-xs text-ink/55">근거 URL은 위 출처 목록에도 같은 URL을 등록해야 합니다.</span></label></div>}
+      {form.includeReviewEvidence && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="플랫폼" value={form.reviewPlatform} onChange={(value) => updateForm("reviewPlatform", value)} required placeholder="例: Glowpick" /><Field label="표본 수" type="number" value={form.sampleCount} onChange={(value) => updateForm("sampleCount", value)} required /><Field label="독립 출처 수" type="number" value={form.independentSourceCount} onChange={(value) => updateForm("independentSourceCount", value)} required /><Field label="확인 당시 전체 리뷰 수" type="number" value={form.reviewCountAtCollection} onChange={(value) => updateForm("reviewCountAtCollection", value)} required /><Field label="리뷰 기간 또는 확인 불가 사유" value={form.reviewWindow} onChange={(value) => updateForm("reviewWindow", value)} required placeholder="例: 2026-01~2026-08 / 확인 불가" /><Field label="집계일" type="date" value={form.reviewCollectedAt} onChange={(value) => updateForm("reviewCollectedAt", value)} required /><label className="block text-sm sm:col-span-2">요약<textarea required value={form.reviewSummary} onChange={(event) => updateForm("reviewSummary", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /></label><label className="block text-sm sm:col-span-2">근거 URL(한 줄에 하나)<textarea required value={form.reviewSourceUrls} onChange={(event) => updateForm("reviewSourceUrls", event.target.value)} className="mt-2 min-h-20 w-full rounded-xl border border-line bg-cream px-3 py-2" /><span className="mt-1 block text-xs text-ink/55">근거 URL은 위 출처 목록에도 같은 URL을 등록해야 합니다.</span></label></div>}
     </div>
 
     <div className="mt-8 border-t border-line pt-6"><SelectField label="상태" value={form.status} onChange={(value) => updateForm("status", value as ContentStatus)} options={[{ value: "draft", label: "초안" }, { value: "review", label: "검수 대기" }, { value: "published", label: "공개" }]} />{form.status === "published" && <p className="mt-3 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">공개 시 백엔드가 필수 필드, 출처 URL, 확인일, 권리 상태, 리뷰 근거를 다시 검증합니다.</p>}</div>
@@ -635,10 +647,14 @@ function ContentPreview({ form }: { form: FormState }) {
   const sourceUrlSet = new Set(sourceRows.map((source) => source.url.trim()));
   const reviewReady = (!hasCommunityReviewSource && !form.includeReviewEvidence) || (
     form.includeReviewEvidence &&
+    Boolean(form.reviewPlatform.trim()) &&
     Number.isInteger(Number(form.sampleCount)) &&
     Number(form.sampleCount) >= 5 &&
     Number.isInteger(Number(form.independentSourceCount)) &&
     Number(form.independentSourceCount) >= 1 &&
+    Number.isInteger(Number(form.reviewCountAtCollection)) &&
+    Number(form.reviewCountAtCollection) >= Number(form.sampleCount) &&
+    Boolean(form.reviewWindow.trim()) &&
     isDateOnly(form.reviewCollectedAt) &&
     Boolean(form.reviewSummary.trim()) &&
     reviewSourceUrls.length > 0 &&
@@ -683,7 +699,7 @@ function ContentPreview({ form }: { form: FormState }) {
       <div className="mt-5 grid gap-3 text-xs text-ink/60 sm:grid-cols-2">
         <p>출처: {form.sourceTitle || "미입력"}</p>
         <p>최종 확인일: {form.lastVerifiedAt || "미입력"}</p>
-        {form.includeReviewEvidence && <p className="sm:col-span-2">리뷰 근거: {form.sampleCount || "0"}개 게시글 · 독립 출처 {form.independentSourceCount || "0"}개</p>}
+        {form.includeReviewEvidence && <p className="sm:col-span-2">리뷰 근거: {form.reviewPlatform || "플랫폼 미입력"} · 표본 {form.sampleCount || "0"}개 · 전체 리뷰 {form.reviewCountAtCollection || "0"}개 · 독립 출처 {form.independentSourceCount || "0"}개</p>}
       </div>
     </div>
 
