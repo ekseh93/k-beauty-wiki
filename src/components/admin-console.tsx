@@ -631,7 +631,14 @@ export function AdminConsole() {
   </form><ContentPreview form={form} /><ContentQueue apiUrl={apiUrl} session={session} onEdit={editContent} /><CorrectionQueue apiUrl={apiUrl} session={session} /></>;
 }
 
-function ContentPreview({ form }: { form: FormState }) {
+export function previewStatusMessage(status: ContentStatus, publishReady: boolean): string {
+  if (status === "review") return "검수 대기 상태로 저장됩니다. 공개 API에는 노출되지 않습니다.";
+  if (status === "published" && !publishReady) return "현재 상태는 공개로 선택되었지만 검수 조건을 충족하지 않아 API에서 공개가 차단됩니다.";
+  if (status === "published") return "공개 조건을 충족했습니다. 저장 시 서버가 최종 검증한 뒤 공개합니다.";
+  return "초안 상태로 저장됩니다. 관리자 검수 후 공개 상태로 전환할 수 있습니다.";
+}
+
+export function ContentPreview({ form }: { form: FormState }) {
   const requiredReady = Boolean(
     form.titleJa.trim() &&
     form.koreanName.trim() &&
@@ -697,6 +704,7 @@ function ContentPreview({ form }: { form: FormState }) {
   const reviewApprovalReady = !form.includeReviewEvidence || form.reviewApprovalStatus === "approved";
   const publishReady = requiredReady && sourceReady && rightsReady && reviewReady && reviewApprovalReady && detailsReady;
   const kindLabel = { treatment: "시술", skincare: "스킨케어", makeup: "메이크업" }[form.kind];
+  const statusLabel = { draft: "초안", review: "검수 대기", published: "공개" }[form.status];
 
   return <section className="mt-8 rounded-2xl border border-line bg-white/60 p-6">
     <div className="flex flex-wrap items-center justify-between gap-4">
@@ -724,7 +732,7 @@ function ContentPreview({ form }: { form: FormState }) {
       <CheckItem ok={reviewReady} label="리뷰 근거 조건" />
       <CheckItem ok={reviewApprovalReady} label="리뷰 편집 승인" />
     </div>
-    {form.status === "published" && !publishReady && <p className="mt-4 rounded-xl bg-blush/15 p-3 text-sm leading-6 text-ink/70">현재 상태는 공개로 선택되었지만 검수 조건을 충족하지 않아 API에서 공개가 차단됩니다.</p>}
+    <p role="status" className="mt-4 rounded-xl bg-cream p-3 text-sm leading-6 text-ink/70">현재 상태: {statusLabel}. {previewStatusMessage(form.status, publishReady)}</p>
   </section>;
 }
 
