@@ -106,6 +106,8 @@ pnpm validate:content --file=path/to/content.json
 
 AWS 인증 정보와 장기 액세스 키는 저장소에 보관하지 않습니다. 관리자 접근은 Cognito와 IAM 정책으로 제한합니다. 관리자 계정 생성은 [`docs/admin-provisioning.md`](./docs/admin-provisioning.md)를 참고하세요.
 
+구축 중 발생한 문제와 별도로 실행해야 하는 명령은 [`docs/troubleshooting.md`](./docs/troubleshooting.md)에 기록합니다.
+
 ## 디렉터리 구조
 
 ```text

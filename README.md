@@ -106,6 +106,8 @@ pnpm validate:content --file=path/to/content.json
 
 AWS credentials and long-lived access keys are not stored in the repository. Admin access is restricted through Cognito and IAM policies. For administrator provisioning, see [`docs/admin-provisioning.md`](./docs/admin-provisioning.md).
 
+Operational problems and one-off commands are recorded in [`docs/troubleshooting.md`](./docs/troubleshooting.md).
+
 ## Directory structure
 
 ```text

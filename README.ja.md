@@ -106,6 +106,8 @@ pnpm validate:content --file=path/to/content.json
 
 AWSの認証情報や長期アクセスキーをリポジトリに保存しません。管理画面へのアクセスはCognitoとIAMポリシーで制限します。管理者アカウントの作成は[`docs/admin-provisioning.md`](./docs/admin-provisioning.md)をご覧ください。
 
+構築中に発生した問題と個別に実行するコマンドは[`docs/troubleshooting.md`](./docs/troubleshooting.md)に記録します。
+
 ## ディレクトリ構成
 
 ```text
