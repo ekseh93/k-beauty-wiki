@@ -1,0 +1,77 @@
+{
+  "id": "review-tirtir-glide-hide-blurring-concealer",
+  "kind": "makeup",
+  "titleJa": "GLIDE ＆ HIDE BLURRING CONCEALER",
+  "koreanName": "글라이드 앤 하이드 블러링 컨실러",
+  "slug": "tirtir-glide-hide-blurring-concealer",
+  "summary": "TIRTIR日本公式サイトと日本の公式流通販売ページをもとに、色展開、容量、価格、スティック・リキッド別全成分、使用方法を整理した検証待ちのデュアルコンシーラー登録案です。日本向けの安全上の注意を十分に確認するまで公開しません。",
+  "body": [
+    "TIRTIR日本公式サイトでは、『GLIDE ＆ HIDE BLURRING CONCEALER』をベースメイク製品として掲載し、1C、1.3C、3.5Cの3色を案内しています。公式サイトから複数の外部販売プラットフォームへ移動する構成で、価格は販売先の表示を確認する必要があります。",
+    "@cosme SHOPPINGの正規販売ページでは、スティック4gとリキッド4gのデュアル構成を1,815円（税込）で掲載しています。価格、在庫、色、販売条件は確認日や販売先によって変わる可能性があります。",
+    "同ページでは、スティックとリキッドの全成分が色別に掲載されています。1.3Cでは、リキッドに水、酸化チタン、ジメチコン、酸化鉄、グリセリン、3種のヒアルロン酸類など、スティックに酸化チタン、ポリブテン、シリカ、酸化鉄、3種のヒアルロン酸類などを確認できます。成分からカバー力や保湿効果を独自に断定しません。",
+    "使用方法は、カバーしたい部分に適量を塗り、指先で軽くたたくようになじませる案内です。スティックは広い範囲やメイクラインの修正、リキッドは気になる部分のスポットカバーとして案内されています。肌に異常がある場合は使用を避け、日本向け現行パッケージの注意事項を優先します。"
+  ],
+  "tags": ["コンシーラー", "ベースメイク", "デュアルコンシーラー", "TIRTIR"],
+  "aliases": ["Glide and Hide Blurring Concealer", "글라이드 앤 하이드 블러링 컨실러", "ティルティル ブラーリングコンシーラー"],
+  "status": "review",
+  "lastVerifiedAt": "2026-08-16",
+  "sources": [
+    {
+      "title": "TIRTIR日本公式 GLIDE ＆ HIDE BLURRING CONCEALER",
+      "url": "https://tirtir.co.jp/products/glide-hide-blurring-concealer",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "@cosme SHOPPING GLIDE & HIDE BLURRING CONCEALER 1.3C",
+      "url": "https://www.cosme.com/products/detail.php?product_id=403404",
+      "checkedAt": "2026-08-16",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    }
+  ],
+  "details": {
+    "kind": "product",
+    "brand": "TIRTIR",
+    "productType": "スティック・リキッド一体型コンシーラー",
+    "volume": "スティック4g、リキッド4g",
+    "price": "1,815 JPY（税込・確認時表示）",
+    "currency": "JPY",
+    "pricePerVolume": "約226.88 JPY/g（合計8gとして算出）",
+    "keyIngredients": [
+      { "name": "酸化チタン・酸化鉄", "role": "1.3Cのスティック・リキッド全成分で確認" },
+      { "name": "ヒアルロン酸", "role": "1.3Cのスティック・リキッド全成分で確認" },
+      { "name": "加水分解ヒアルロン酸・ヒアルロン酸Na", "role": "1.3Cのスティック・リキッド全成分で確認" }
+    ],
+    "skinTypes": [
+      "部分的なベースメイク補正を行う製品",
+      "肌に異常がある場合は使用せず、現行パッケージ表示を優先する"
+    ],
+    "usage": [
+      "カバーが必要な部分へ適量を塗り、指先で軽くたたいてなじませる",
+      "スティックは広い範囲やメイクラインの修正に使用する",
+      "リキッドは気になる部分のスポットカバーに使用する"
+    ],
+    "pros": [
+      "TIRTIR日本公式サイトで日本向け商品と3色展開を確認できる",
+      "日本の公式流通販売ページで容量、価格、色別全成分、使用方法を確認できる",
+      "スティックとリキッドを一つの製品として用途別に使い分けられる"
+    ],
+    "considerations": [
+      "日本公式サイトに安全上の注意が十分に表示されていないため現行パッケージを追加確認する",
+      "色ごとに全成分が異なる可能性があるため対象色を明示する",
+      "目や傷のある部位を避け、異常が現れた場合は使用を中止する",
+      "肌悩みの改善や医療的な効果を示す製品として扱わない",
+      "@cosmeの評価・利用者レビューを収集・転載しない",
+      "価格、在庫、色展開、販売先は確認日・購入条件により変動する"
+    ],
+    "priceCheckedAt": "2026-08-16"
+  },
+  "isFixture": false,
+  "createdAt": "2026-08-16T23:10:00+09:00",
+  "updatedAt": "2026-08-16T23:10:00+09:00",
+  "relatedSlugs": []
+}
