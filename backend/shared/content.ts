@@ -135,17 +135,17 @@ export function validateContentWrite(content: Partial<ContentRecord>): string[] 
 export function validateForReview(content: Partial<ContentRecord>): string[] {
   const errors: string[] = [];
   if (!isContentKind(content.kind)) errors.push("kind is required and must be one of treatment, skincare, makeup");
-  if (!content.titleJa?.trim()) errors.push("titleJa is required");
-  if (!content.koreanName?.trim()) errors.push("koreanName is required");
-  if (!content.slug?.trim()) errors.push("slug is required");
-  if (!content.summary?.trim()) errors.push("summary is required");
+  if (!isNonEmptyString(content.titleJa)) errors.push("titleJa is required");
+  if (!isNonEmptyString(content.koreanName)) errors.push("koreanName is required");
+  if (!isNonEmptyString(content.slug)) errors.push("slug is required");
+  if (!isNonEmptyString(content.summary)) errors.push("summary is required");
   if (!content.body?.length) errors.push("body is required");
   if (!Array.isArray(content.sources)) {
     errors.push("sources must be an array");
   } else if (!content.sources.length) {
     errors.push("at least one source is required");
   }
-  if (!content.lastVerifiedAt?.trim()) errors.push("lastVerifiedAt is required");
+  if (!isNonEmptyString(content.lastVerifiedAt)) errors.push("lastVerifiedAt is required");
 
   if (content.isFixture === true) errors.push("fixture content cannot enter the review workflow");
 
@@ -159,17 +159,19 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
       continue;
     }
     const candidate = source as Partial<ContentSource>;
-    if (!candidate.title?.trim()) errors.push(`sources[${index}].title is required`);
+    if (!isNonEmptyString(candidate.title)) errors.push(`sources[${index}].title is required`);
     if (!isHttpUrl(candidate.url)) errors.push(`sources[${index}].url must be an http(s) URL`);
     if (!isDateOnly(candidate.checkedAt)) errors.push(`sources[${index}].checkedAt must be an ISO date (YYYY-MM-DD)`);
     if (!isSourceType(candidate.sourceType)) errors.push(`sources[${index}].sourceType must be a supported value`);
     if (!isRightsStatus(candidate.rightsStatus)) errors.push(`sources[${index}].rightsStatus must be a supported value`);
     if (!isExtractionMethod(candidate.extractionMethod)) errors.push(`sources[${index}].extractionMethod must be a supported value`);
     if (candidate.sourceType === "prohibited") errors.push(`sources[${index}] is marked prohibited`);
-    if (candidate.sourceType === "short-quote" && !candidate.quote?.trim()) {
+    if (candidate.sourceType === "short-quote" && !isNonEmptyString(candidate.quote)) {
       errors.push(`sources[${index}].quote is required for short-quote sources`);
     }
-    if (candidate.quote && candidate.quote.length > 500) {
+    if (candidate.quote !== undefined && typeof candidate.quote !== "string") {
+      errors.push(`sources[${index}].quote must be a string`);
+    } else if (candidate.quote && candidate.quote.length > 500) {
       errors.push(`sources[${index}].quote must be 500 characters or fewer`);
     }
   }
@@ -179,7 +181,7 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
   if (hasCommunityReviewSource && !content.reviewEvidence) {
     errors.push("reviewEvidence is required when a community-review source is included");
   }
-  if (content.reviewEvidence) {
+  if (content.reviewEvidence !== undefined) {
     errors.push(...validateReviewEvidence(content.reviewEvidence));
     errors.push(...validateReviewEvidenceSourceLinks(content.reviewEvidence, sources));
   }
@@ -190,7 +192,8 @@ export function validateForReview(content: Partial<ContentRecord>): string[] {
 export function validateForPublish(content: Partial<ContentRecord>): string[] {
   const errors = validateForReview(content).map((error) => error === "fixture content cannot enter the review workflow" ? "fixture content cannot be published" : error);
 
-  for (const [index, source] of (content.sources ?? []).entries()) {
+  const sources = Array.isArray(content.sources) ? content.sources : [];
+  for (const [index, source] of sources.entries()) {
     if (!source || typeof source !== "object" || Array.isArray(source)) continue;
     if (source.rightsStatus === "needs-review" || source.rightsStatus === "rejected") {
       errors.push(`sources[${index}] does not have publishable rights status`);
@@ -234,35 +237,47 @@ export function validateForPublish(content: Partial<ContentRecord>): string[] {
   return errors;
 }
 
-function validateReviewEvidence(evidence: ReviewEvidence): string[] {
+function validateReviewEvidence(evidence: unknown): string[] {
   const errors: string[] = [];
-  if (!Number.isInteger(evidence.sampleCount) || evidence.sampleCount < 5) {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
+    return ["reviewEvidence must be an object"];
+  }
+  const candidate = evidence as Partial<ReviewEvidence>;
+  if (!Number.isInteger(candidate.sampleCount) || candidate.sampleCount < 5) {
     errors.push("reviewEvidence.sampleCount must be at least 5");
   }
-  if (!Number.isInteger(evidence.independentSourceCount) || evidence.independentSourceCount < 1) {
+  if (!Number.isInteger(candidate.independentSourceCount) || candidate.independentSourceCount < 1) {
     errors.push("reviewEvidence.independentSourceCount must be at least 1");
   }
-  if (!isDateOnly(evidence.collectedAt)) errors.push("reviewEvidence.collectedAt must be an ISO date (YYYY-MM-DD)");
-  if (!evidence.summary?.trim()) errors.push("reviewEvidence.summary is required");
-  if (!evidence.sourceUrls?.length || evidence.sourceUrls.some((url) => !isHttpUrl(url))) {
+  if (!isDateOnly(candidate.collectedAt)) errors.push("reviewEvidence.collectedAt must be an ISO date (YYYY-MM-DD)");
+  if (!isNonEmptyString(candidate.summary)) errors.push("reviewEvidence.summary is required");
+  if (!Array.isArray(candidate.sourceUrls) || !candidate.sourceUrls.length || candidate.sourceUrls.some((url) => !isHttpUrl(url))) {
     errors.push("reviewEvidence.sourceUrls must contain http(s) URLs");
   }
-  if (Array.isArray(evidence.sourceUrls) && new Set(evidence.sourceUrls).size !== evidence.sourceUrls.length) {
+  if (Array.isArray(candidate.sourceUrls) && new Set(candidate.sourceUrls).size !== candidate.sourceUrls.length) {
     errors.push("reviewEvidence.sourceUrls must not contain duplicates");
   }
   return errors;
 }
 
-function validateReviewEvidenceSourceLinks(evidence: ReviewEvidence, sources: unknown[]): string[] {
+function validateReviewEvidenceSourceLinks(evidence: unknown, sources: unknown[]): string[] {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) return [];
+  const evidenceSourceUrls = (evidence as Partial<ReviewEvidence>).sourceUrls;
+  if (!Array.isArray(evidenceSourceUrls)) return [];
   const sourceUrls = new Set(sources
     .filter((source): source is ContentSource => Boolean(source) && typeof source === "object" && !Array.isArray(source))
     .map((source) => source.url));
-  return evidence.sourceUrls
+  return evidenceSourceUrls
     .filter((url) => !sourceUrls.has(url))
     .map((url) => `reviewEvidence.sourceUrls must also be listed in sources: ${url}`);
 }
 
-function isHttpUrl(value: string | undefined): boolean {
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isHttpUrl(value: unknown): boolean {
+  if (typeof value !== "string") return false;
   if (!value?.trim()) return false;
   try {
     const url = new URL(value);
@@ -272,8 +287,8 @@ function isHttpUrl(value: string | undefined): boolean {
   }
 }
 
-function isDateOnly(value: string | undefined): boolean {
-  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+function isDateOnly(value: unknown): boolean {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(`${value}T00:00:00.000Z`);
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }

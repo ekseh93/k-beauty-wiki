@@ -154,6 +154,44 @@ describe("validateForReview", () => {
     expect(validateForReview({ ...validContent, sources: [null as never] })).toContain("sources[0] must be an object");
     expect(validateForReview({ ...validContent, sources: "invalid" as never })).toContain("sources must be an array");
   });
+
+  it("returns validation errors for malformed source fields instead of throwing", () => {
+    const errors = validateForReview({
+      ...validContent,
+      status: "review",
+      sources: [{
+        ...validContent.sources?.[0],
+        title: 123,
+        url: { invalid: true },
+        checkedAt: 20260814,
+      }] as never,
+    });
+
+    expect(errors).toEqual(expect.arrayContaining([
+      "sources[0].title is required",
+      "sources[0].url must be an http(s) URL",
+      "sources[0].checkedAt must be an ISO date (YYYY-MM-DD)",
+    ]));
+  });
+
+  it("returns validation errors for malformed review evidence instead of throwing", () => {
+    const errors = validateForReview({
+      ...validContent,
+      status: "review",
+      reviewEvidence: {
+        sampleCount: 5,
+        independentSourceCount: 1,
+        collectedAt: "2026-08-14",
+        summary: 123,
+        sourceUrls: "https://example.com/post",
+      } as never,
+    });
+
+    expect(errors).toEqual(expect.arrayContaining([
+      "reviewEvidence.summary is required",
+      "reviewEvidence.sourceUrls must contain http(s) URLs",
+    ]));
+  });
 });
 
 describe("validateContentWrite", () => {
