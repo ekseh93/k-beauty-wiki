@@ -98,6 +98,15 @@
 - 공식 상품 페이지와 정식 판매 정보 사이의 현행 색상·성분·사용법 일치성을 확정하지 않았고, 판매 정보의 이용자 리뷰도 수집·복사·인용하지 않았다.
 - 결론: 상품명·용량·공식 가격과 보조 성분·주의사항은 확인됐지만 공식 현행 상세 정보와 판매처 정보의 동일성 및 구체적 사용법이 남아 있으므로 `review`를 유지한다.
 
+## TIRTIR Glide & Hide Blurring Concealer
+
+- TIRTIR 일본 공식 상품 페이지에서 `GLIDE ＆ HIDE BLURRING CONCEALER`와 1C·1.3C·3.5C의 3色 전개를 확인했다. 공식 페이지는 여러 외부 판매처로 연결되며, 본문에서 가격·전성분·구체적인 안전 주의사항은 확인하지 않았다.
+- 로프트넷스토어의 일본어 상품 페이지에서 스틱 4g와 리퀴드 4g, 1,815엔(세금 포함), 3색 전개, 스틱은 넓은 부위·메이크업 라인 수정, 리퀴드는 스폿 커버에 사용한다는 설명을 확인했다.
+- 같은 로프트 페이지에서 적당량을 바르고 손끝으로 가볍게 두드려 펴 바르는 사용법과 피부 이상 발생 시 사용 중지·상담, 직사광선·고온다습 회피, 사용 후 캡 밀폐 등 일본어 주의·보관 표시를 확인했다. 이는 해당 판매 페이지의 표시 사실로만 기록하고 의학적 안전성을 추가로 추정하지 않는다.
+- @cosme SHOPPING의 1.3C 페이지에서 색상별 스틱·리퀴드 전성분과 JAN 8800288648770, 같은 사용법을 확인했고, 3.5C 페이지에서 4g+4g·1,815엔·색상 변형 정보를 보조 확인했다. @cosme의 평점과 이용자 리뷰는 수집·복사·인용하지 않았다.
+- 전성분은 1.3C 표시 성분명으로만 기록하며, 산화티탄·산화철·히알루론산류에서 커버력·보습·안전성 등의 효과를 독자적으로 단정하지 않는다.
+- 결론: 일본향 상품 정보와 주의·보관 표시는 보강됐지만 현행 패키지와의 표시 일치 및 최종 편집 승인이 남아 있으므로 `review`를 유지한다.
+
 ## 공개 경계
 
 - 이번 재점검 대상 콘텐츠는 출처 재점검만 수행했으며 공개 상태로 전환하지 않았다.
@@ -113,6 +122,7 @@
 - CLIO Superproof Pen Liner는 일본 공식 상품 페이지에서 0.55mL·1,870엔을 재확인하고 정식 판매 정보에서 01·02 성분과 주의사항을 보조 확인했지만, 공식 현행 상세 정보와 판매처 표시의 동일성·구체적 사용법을 추가 확인하고 최종 편집 승인하기 전까지 공개하지 않는다.
 - rom&nd Better Than Palette 03 Rosebud Garden은 일본 정식 판매 페이지와 브랜드 승인 상품정보에서 10색·7.5g·3,190엔·색상별 전성분·사용법·주의사항을 재확인했지만, 현행 패키지와의 표시 일치 및 최종 편집 승인 전까지 공개하지 않는다.
 - rom&nd Better Than Cheek B03 Black Balm은 일본 공식 유통사 출시자료와 브랜드 승인 상품정보에서 2025년 12월 12일 출시·돈키호테 수량 한정·2.7g·1,320엔·기본 사용법·전성분을 재확인했지만, 현행 패키지의 안전 주의사항과 보관방법을 확인하지 못해 최종 편집 승인 전까지 공개하지 않는다.
+- TIRTIR Glide & Hide Blurring Concealer는 일본 공식 사이트에서 1C·1.3C·3.5C의 3색 전개를 확인했고, 로프트넷스토어와 @cosme SHOPPING에서 4g+4g·1,815엔·사용법을 보조 확인했다. 로프트넷스토어의 일본어 표시에서 피부 이상 발생 시 중지·상담, 직사광선·고온다습 회피와 캡 밀폐 등 주의·보관 정보를 확인했지만, 현행 패키지와의 표시 일치 및 최종 편집 승인 전까지 공개하지 않는다.
 
 ## 출처
 
@@ -136,3 +146,7 @@
 - [마츠키요코코카라 온라인 rom&nd Better Than Palette 03 상품 페이지](https://www.matsukiyococokara-online.com/store/catalog/product/view/id/4582356617867)
 - [@cosme rom&nd Better Than Palette 03 상품 정보](https://www.cosme.net/variations/1089089/)
 - [rom&nd Better Than Cheek B03 BLACK BALM @cosme 상품 정보](https://www.cosme.net/variations/1234789/)
+- [TIRTIR 일본 공식 GLIDE ＆ HIDE BLURRING CONCEALER](https://tirtir.co.jp/products/glide-hide-blurring-concealer)
+- [로프트넷스토어 TIRTIR GLIDE ＆ HIDE BLURRING CONCEALER](https://www.loft.co.jp/store/g/g8800288648763/)
+- [@cosme SHOPPING TIRTIR GLIDE & HIDE BLURRING CONCEALER 1.3C](https://www.cosme.com/products/detail.php?product_id=403404)
+- [@cosme SHOPPING TIRTIR GLIDE & HIDE BLURRING CONCEALER 3.5C](https://www.cosme.com/products/detail.php?product_id=403094)
