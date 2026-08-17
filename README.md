@@ -6,6 +6,14 @@ An independent, free K-beauty knowledge wiki for Japanese users considering a tr
 
 The project organizes treatments, skincare, and makeup information with sources, last-verified dates, safety notes, and comparisons. It is not a shop, clinic booking service, medical diagnosis service, or advertising platform.
 
+## Why this project
+
+After moving to Japan, I met many Japanese friends who were interested in Korean beauty. When a friend asked for skincare and treatment recommendations before a trip to Korea, I noticed that information already existed across official sites, blogs, communities, and YouTube, but users still had to search, compare, and connect each source themselves.
+
+People preparing for important events such as coming-of-age ceremonies, job-offer ceremonies, or weddings may want choices that fit their purpose and remaining time. This project started from the idea that the problem was not a lack of information, but a lack of connections between information. K-Beauty Atlas Japan links treatment and product information with purpose, schedule, price, precautions, sources, and last-verified dates for Japanese users.
+
+The requirements are derived not only from what users explicitly ask for, but also from unmet needs observed in their research process. The project applies source, rights, and editorial review rules, including a policy not to republish community review text without permission.
+
 ## Live deployment
 
 - Website: https://main.d1ece7jdtq0bus.amplifyapp.com/
