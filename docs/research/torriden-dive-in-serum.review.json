@@ -4,22 +4,22 @@
   "titleJa": "ダイブイン セラム",
   "koreanName": "다이브인 세럼",
   "slug": "torriden-dive-in-serum",
-  "summary": "Torriden日本公式商品ページと公式FAQ・ガイドを再確認し、容量、価格、全成分、日本国内販売表示を整理した検証待ちの美容液登録案です。製品固有の使用順序・使用量・注意事項は十分に確認できないため、公開前の追加確認が必要です。",
+  "summary": "Torriden日本公式商品ページと公式FAQ・ガイドを2026-08-21に再確認し、容量、価格、SKU、全成分、日本国内販売表示を整理した検証待ちの美容液登録案です。製品固有の使用順序・使用量・注意事項は十分に確認できないため、公開前の追加確認が必要です。",
   "body": [
     "Torriden日本公式商品ページでは、『ダイブイン セラム』を美容液として掲載し、50mlを2,420円（税込）、80mlを3,300円（税込）で表示しています。再確認時点ではいずれも在庫ありと表示されています。",
     "同ページには、水、BG、グリセリン、ヒアルロン酸Na、加水分解ヒアルロン酸、パンテノール、セラミドNPなどの全成分が掲載されています。成分の一般的な役割は保湿成分・整肌成分として整理し、個別の肌効果を保証する表現は避けます。",
     "公式ページのシリーズ案内では、DIVE INを乾燥やうるおい不足が気になる人向けの水分補給ケアシリーズとして説明しています。これはブランドの案内であり、すべての肌質への適合性や個人の結果を保証するものではありません。",
-    "公式FAQでは日本総代理店による日本語パッケージ・日本語ラベルの販売と、韓国販売品と成分・処方が同一という案内を確認しました。これは公式販売者の説明として記録し、地域差がないことを独立に検証したものとは扱いません。公式ガイドには開封後なるべく早めに使用する案内がありますが、製品固有の使用量・使用順序・具体的な使用上の注意は十分に確認できません。公式ページに表示された購入者レビュー5件は独立コミュニティのレビュー根拠ではないため、収集・引用せず、公開前の追加確認対象として残します。"
+    "2026-08-21の再確認では、公式商品ページで50ml（SKU 4228441）と80ml（SKU 4229472）の在庫表示、全成分、税込価格を確認しました。公式FAQとご利用ガイドでは、日本総代理店による日本語表示の販売、開封後はなるべく早めに使用する案内を確認しました。これらは公式販売者の案内として記録し、地域差がないことを独立に検証したものとは扱いません。製品固有の使用量・使用順序・具体的な使用上の注意は十分に確認できないため、公開前の追加確認対象として残します。公式ページに表示された購入者レビューは独立コミュニティのレビュー根拠ではないため、収集・引用しません。"
   ],
   "tags": ["美容液", "保湿", "ヒアルロン酸", "Torriden"],
   "aliases": ["Dive-In Serum", "DIVE IN Serum", "다이브인 세럼"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-16",
+  "lastVerifiedAt": "2026-08-21",
   "sources": [
     {
       "title": "Torriden日本公式商品ページ",
       "url": "https://torriden.jp/products/no0001",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -27,7 +27,7 @@
     {
       "title": "Torriden日本公式FAQ",
       "url": "https://torriden.jp/pages/faq",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -35,7 +35,7 @@
     {
       "title": "Torriden日本公式ご利用ガイド",
       "url": "https://torriden.jp/pages/guide",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -45,7 +45,7 @@
     "kind": "product",
     "brand": "Torriden",
     "productType": "美容液",
-    "volume": "50ml（80mlバリエーションあり）",
+    "volume": "50ml（SKU 4228441）・80ml（SKU 4229472）",
     "price": "50ml 2,420 JPY / 80ml 3,300 JPY（税込・確認時表示）",
     "currency": "JPY",
     "pricePerVolume": "50ml 48.4 JPY/ml / 80ml 41.25 JPY/ml（確認時表示）",
@@ -74,7 +74,7 @@
       "価格、在庫、送料は確認日・販売地域・購入条件により変動する",
       "肌に異常が出た場合は使用を中止し、商品の表示と専門家の案内を優先する"
     ],
-    "priceCheckedAt": "2026-08-16"
+    "priceCheckedAt": "2026-08-21"
   },
   "isFixture": false,
   "createdAt": "2026-08-16T12:00:00+09:00",
