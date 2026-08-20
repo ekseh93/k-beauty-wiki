@@ -10,18 +10,18 @@
     "過去の公式資料にはSPF表示と紫外線防御試験の案内がありますが、第三者による引用・公開を制限する記載がある試験PDFは今回のコンテンツ根拠から除外します。",
     "グローバル公式サイトでは別の商品名『Birch Moisturizing Sunscreen UVLock SPF45+』として50mlと全成分が表示されています。韓国公式の『자작나무 수분 선크림 50ml』と地域別仕様が異なる可能性があるため、韓国商品の根拠には使用しません。",
     "日本向け販売ページでは、50ml、SPF50+ PA++++、日本語の全成分、使用方法、韓国コルマ製造・ソリンカンパニー販売の表示を確認できます。販売者ページの情報は公式ブランド情報と分けて扱います。",
-    "日本向け販売ページでは、紫外線を浴びやすい部位に均一に塗り広げる使用方法、肌の異常時の中止・相談、傷のある部位への使用回避、直射日光を避ける保管方法が表示されています。販売者ページの表示事実として記録し、医学的な安全性は推定しません。",
+    "日本向け販売ページでは、紫外線を浴びやすい部位に均一に塗り広げる使用方法、肌の異常時の中止・相談、傷のある部位への使用回避、直射日光を避ける保管方法が表示されています。販売者ページの表示事実として記録し、医学的な安全性は推定しません。Round Lab公式FAQでは、本製品は肌への密着力が高いため、きれいに落とすために二重洗顔を推奨すると案内しています。",
     "過去の公式PRESSでは、消費者調査をもとに敏感肌でも使いやすい製品として紹介されています。これはブランド資料の評価であり、個人の肌適合性を保証するものではありません。全成分と現行商品の肌タイプ表示は追加確認が必要です。"
   ],
   "tags": ["日焼け止め", "白樺", "Round Lab"],
   "aliases": ["Birch Juice Moisturizing Sunscreen", "Birch Sunscreen", "자작나무 선크림"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-16",
+  "lastVerifiedAt": "2026-08-21",
   "sources": [
     {
       "title": "Round Lab韓国公式商品ページ",
       "url": "https://roundlab.co.kr/product/%EC%9E%90%EC%9E%91%EB%82%98%EB%AC%B4-%EC%88%98%EB%B6%84-%EC%84%A0%ED%81%AC%EB%A6%BC-50ml/138/category/26/display/1/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -29,7 +29,7 @@
     {
       "title": "Round Lab公式リニューアル情報",
       "url": "https://roundlab.co.kr/article/press/8/3087/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -37,7 +37,7 @@
     {
       "title": "Round Lab公式紫外線試験概要PDF（第三者公開制限のため不使用）",
       "url": "https://roundlab.co.kr/exec/front/Board/download/?filename=%E1%84%8E%E1%85%A5%E1%86%B7%E1%85%AE.pdf&no=2956&realname=2021%2F02%2F24%2F01c056e07c0ec31e7d719d3f668ca26a.pdf",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -45,7 +45,7 @@
     {
       "title": "Round Lab公式FAQ（洗浄方法）",
       "url": "https://roundlab.co.kr/article/faq/2/3954/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -53,7 +53,7 @@
     {
       "title": "Round Lab公式PRESS（Glowpick survey）",
       "url": "https://m.roundlab.co.kr/article/press/8/4072/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -61,7 +61,7 @@
     {
       "title": "Round Lab公式PRESS一覧（2021年製品説明）",
       "url": "https://m.roundlab.co.kr/board/gallery/list.html?board_no=8&page=6",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -69,7 +69,7 @@
     {
       "title": "Round Labグローバル公式サンケア商品ページ",
       "url": "https://roundlab.com/products/round-lab-birch-moisturizing-sunscreen-spf-50-pa",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -77,7 +77,7 @@
     {
       "title": "Round Lab日本向け販売ページ（plusq）",
       "url": "https://plus-q.jp/products/roundlab-birch-juice-moisturizing-suncream",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -106,12 +106,13 @@
       "グローバル公式ページのUVLock SPF45+・全成分表示は韓国商品の現行仕様と一致すると確認できないため、韓国商品フィールドに流用しない",
       "過去の公式試験PDFは第三者による引用・公開を制限する記載があるため、数値や試験結果を本コンテンツに使用しない",
       "価格は韓国公式モールの確認日表示であり、セール・送料・販売地域で変動する",
+      "Round Lab公式FAQでは本製品について二重洗顔を推奨している。これはブランドの洗浄案内であり、すべての人に同じ洗浄方法が必要だと一般化しない",
       "紫外線防御効果や肌への適合性には個人差がある"
     ],
-    "priceCheckedAt": "2026-08-16"
+    "priceCheckedAt": "2026-08-21"
   },
   "isFixture": false,
   "createdAt": "2026-08-15T13:55:00+09:00",
-  "updatedAt": "2026-08-15T13:55:00+09:00",
+  "updatedAt": "2026-08-21T17:10:00+09:00",
   "relatedSlugs": []
 }
