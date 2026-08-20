@@ -42,6 +42,8 @@ function publishedProduct(overrides: Record<string, unknown> = {}): Record<strin
 }
 
 describe("filterPublicContentItems", () => {
+  const asOf = new Date("2026-08-21T00:00:00.000Z");
+
   it("returns only verified, non-fixture content matching query and kind", () => {
     const valid = publishedProduct();
     const fixture = publishedProduct({ isFixture: true, slug: "fixture-cica-cream" });
@@ -58,13 +60,20 @@ describe("filterPublicContentItems", () => {
     });
     const review = publishedProduct({ status: "review", slug: "review-cica-cream" });
 
-    expect(filterPublicContentItems([valid, fixture, unverified, review], "skincare", "centella")).toEqual([valid]);
-    expect(filterPublicContentItems([valid], "makeup")).toEqual([]);
+    expect(filterPublicContentItems([valid, fixture, unverified, review], "skincare", "centella", asOf)).toEqual([valid]);
+    expect(filterPublicContentItems([valid], "makeup", "", asOf)).toEqual([]);
   });
 
   it("handles malformed searchable fields without exposing the item", () => {
     const valid = publishedProduct({ tags: "skincare", aliases: null });
-    expect(filterPublicContentItems([valid], undefined, "cica")).toEqual([valid]);
+    expect(filterPublicContentItems([valid], undefined, "cica", asOf)).toEqual([valid]);
+  });
+
+  it("hides published content that needs freshness re-verification", () => {
+    const stale = publishedProduct({ slug: "stale-cica-cream", lastVerifiedAt: "2025-01-01" });
+    const invalid = publishedProduct({ slug: "invalid-cica-cream", lastVerifiedAt: "2026-02-30" });
+
+    expect(filterPublicContentItems([stale, invalid], undefined, "", asOf, 180)).toEqual([]);
   });
 });
 

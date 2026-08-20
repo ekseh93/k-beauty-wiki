@@ -52,7 +52,7 @@ export class KBeautyAtlasStack extends cdk.Stack {
       return fn;
     };
 
-    const publicApi = createFunction("PublicContentApi", "backend/functions/public-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, ALLOWED_ORIGIN: "*" });
+    const publicApi = createFunction("PublicContentApi", "backend/functions/public-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, MAINTENANCE_MAX_AGE_DAYS: "180", ALLOWED_ORIGIN: "*" });
     const adminApi = createFunction("AdminContentApi", "backend/functions/admin-content-api/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, REVISION_TABLE_NAME: revisionTable.tableName, ADMIN_GROUP_NAME: "admin", MAINTENANCE_MAX_AGE_DAYS: "180", ALLOWED_ORIGIN: "*" });
     const correctionApi = createFunction("CorrectionApi", "backend/functions/correction-api/index.ts", { CORRECTION_TABLE_NAME: correctionTable.tableName, CONTENT_TABLE_NAME: contentTable.tableName, REVISION_TABLE_NAME: revisionTable.tableName, ADMIN_GROUP_NAME: "admin", ALLOWED_ORIGIN: "*" });
     const maintenanceJob = createFunction("MaintenanceJob", "backend/functions/maintenance-job/index.ts", { CONTENT_TABLE_NAME: contentTable.tableName, MAINTENANCE_MAX_AGE_DAYS: "180" });
