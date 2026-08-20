@@ -14,12 +14,12 @@
   "tags": ["アイシャドウ", "アイパレット", "ポイントメイク", "rom&nd"],
   "aliases": ["Better Than Palette 03 Rosebud Garden", "베러 댄 팔레트 03 로즈버드 가든", "ロムアンド ベターザンパレット 03"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-16",
+  "lastVerifiedAt": "2026-08-21",
   "sources": [
     {
       "title": "ロフトネットストア ベターザンパレット 03 商品ページ",
       "url": "https://www.loft.co.jp/store/g/g4582356617867/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -35,7 +35,7 @@
     {
       "title": "マツキヨココカラオンラインストア ベターザンパレット 03 商品ページ",
       "url": "https://www.matsukiyococokara-online.com/store/catalog/product/view/id/4582356617867",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -43,7 +43,7 @@
     {
       "title": "@cosme ベターザンパレット 03 ローズバッドガーデン商品情報",
       "url": "https://www.cosme.net/variations/1089089/",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -57,6 +57,7 @@
     "price": "3,190 JPY（税込・確認時表示）",
     "currency": "JPY",
     "pricePerVolume": "約425.33 JPY/g（確認時表示）",
+    "janCode": "4582356617867",
     "keyIngredients": [
       { "name": "タルク・マイカ・酸化鉄", "role": "複数の色の全成分表示で確認した成分名。機能や効果は独自評価しない" },
       { "name": "ホウケイ酸（Ca/Al）・酸化チタン・酸化スズ", "role": "グリッター系色の全成分表示で確認した成分名。発色や安全性を一般化しない" },
@@ -82,10 +83,10 @@
       "販売ページや口コミの利用者レビューを収集・転載しない",
       "価格、在庫、仕様は確認日・販売地域・購入条件により変動する"
     ],
-    "priceCheckedAt": "2026-08-16"
+    "priceCheckedAt": "2026-08-21"
   },
   "isFixture": false,
   "createdAt": "2026-08-16T18:30:00+09:00",
-  "updatedAt": "2026-08-16T18:30:00+09:00",
+  "updatedAt": "2026-08-21T23:30:00+09:00",
   "relatedSlugs": []
 }
