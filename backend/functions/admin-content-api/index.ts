@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2WithJWTAuthorizer } from "aws-lambda";
+import { DEFAULT_MAX_AGE_DAYS, getContentFreshness } from "../../shared/content-freshness";
 import { isContentStatus, jsonResponse, validateContentWrite, validateForPublish, validateForReview, validatePublicationApproval, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -79,7 +80,11 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
     }))));
     const items = results.flatMap((result) => result.Items ?? [])
       .sort((a, b) => String(b.updatedAt ?? "").localeCompare(String(a.updatedAt ?? "")))
-      .map((item) => ({ ...item, publicationReadiness: summarizePublicationReadiness(item as Record<string, unknown>) }));
+      .map((item) => ({
+        ...item,
+        publicationReadiness: summarizePublicationReadiness(item as Record<string, unknown>),
+        freshness: getContentFreshness(item as Record<string, unknown>, new Date(), Number(process.env.MAINTENANCE_MAX_AGE_DAYS ?? DEFAULT_MAX_AGE_DAYS)),
+      }));
     return jsonResponse(200, { items });
   }
 

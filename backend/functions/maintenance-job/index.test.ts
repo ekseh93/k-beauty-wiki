@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findStalePublishedContent } from "./index";
+import { findStalePublishedContent } from "../../shared/content-freshness";
 
 describe("maintenance freshness checks", () => {
   it("finds missing, invalid, and older published content only", () => {
