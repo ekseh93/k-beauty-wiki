@@ -23,6 +23,22 @@
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
+    },
+    {
+      "title": "＠cosme ブランド提供・承認商品情報",
+      "url": "https://www.cosme.net/products/10240099/",
+      "checkedAt": "2026-08-21",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
+      "title": "アモーレパシフィックジャパン公式発売資料",
+      "url": "https://prtimes.jp/main/html/rd/p/000000162.000031376.html",
+      "checkedAt": "2026-08-21",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
     }
   ],
   "details": {
@@ -64,6 +80,6 @@
   },
   "isFixture": false,
   "createdAt": "2026-08-16T15:45:00+09:00",
-  "updatedAt": "2026-08-16T15:45:00+09:00",
+  "updatedAt": "2026-08-21T08:55:09.3212913+09:00",
   "relatedSlugs": []
 }
