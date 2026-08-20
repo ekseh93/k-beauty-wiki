@@ -14,12 +14,12 @@
   "tags": ["マスカラ", "アイメイク", "ウォータープルーフ", "ETUDE"],
   "aliases": ["Curl Fix Mascara", "컬 픽스 마스카라", "ラッシュパーム カールフィックスマスカラ"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-16",
+  "lastVerifiedAt": "2026-08-21",
   "sources": [
     {
       "title": "ETUDE日本公式商品ページ",
       "url": "https://etude.jp/etude_product/219030051",
-      "checkedAt": "2026-08-16",
+      "checkedAt": "2026-08-21",
       "sourceType": "manual-reference",
       "rightsStatus": "reference-only",
       "extractionMethod": "manual"
@@ -60,10 +60,10 @@
       "公式ページの利用者レビューを収集・転載せず、一般的な評価として扱わない",
       "価格、在庫、対象カラー、セット条件は確認日・販売地域・購入条件により変動する"
     ],
-    "priceCheckedAt": "2026-08-16"
+    "priceCheckedAt": "2026-08-21"
   },
   "isFixture": false,
   "createdAt": "2026-08-16T17:15:00+09:00",
-  "updatedAt": "2026-08-16T17:15:00+09:00",
+  "updatedAt": "2026-08-21T21:30:00+09:00",
   "relatedSlugs": []
 }
