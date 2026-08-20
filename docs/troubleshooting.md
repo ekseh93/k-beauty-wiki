@@ -131,3 +131,23 @@ git push origin main
 - SKIN1004 Madagascar Centella Ampoule: 일본 현행 전성분 확인 필요
 
 두 항목은 조건이 충족되기 전까지 `review` 상태를 유지하며 공개하지 않는다.
+
+## 9. 로컬 검증 전 Node.js와 AWS 자격증명 사전 점검
+
+PowerShell에서 `node`가 인식되지 않으면 `pnpm` 스크립트도 실행되지 않는다. 새 터미널에서 다음을 먼저 확인한다.
+
+```powershell
+node --version
+pnpm --version
+```
+
+Node.js 22 이상과 저장소의 `packageManager`에 지정된 pnpm 버전을 설치한 뒤, 터미널을 다시 열고 검증 명령을 실행한다. CI는 워크플로에서 Node.js와 pnpm을 별도로 설정하므로 로컬 PATH 문제와 CI 결과를 혼동하지 않는다.
+
+CDK 배포나 DynamoDB 운영 데이터 확인 전에는 AWS 자격증명을 임의로 만들거나 이메일·비밀번호를 추정하지 않는다. 먼저 현재 인증 주체를 읽기 전용으로 확인한다.
+
+```powershell
+$env:CDK_DEFAULT_REGION = "ap-northeast-1"
+aws sts get-caller-identity
+```
+
+`Unable to locate credentials`가 나오면 AWS CLI 로그인 또는 IAM Identity Center 프로필을 먼저 구성하고, 사용하려는 프로필을 명시한 뒤 같은 확인 명령을 다시 실행한다. 인증이 확인되기 전에는 DynamoDB 조회, CDK 배포, 관리자 계정 생성 명령을 실행하지 않는다.
