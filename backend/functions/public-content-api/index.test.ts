@@ -112,6 +112,19 @@ describe("sanitizePublicContentItem", () => {
     expect(sanitized).not.toHaveProperty("publicationApproval");
   });
 
+  it("exposes only the documented public content fields", () => {
+    const sanitized = sanitizePublicContentItem(publishedProduct({
+      internalAuditTrail: [{ actor: "admin", action: "approved" }],
+      internalModerationNote: "Do not expose this note",
+      sourceRightsEvidence: { contractId: "internal-contract" },
+    }));
+
+    expect(sanitized).not.toHaveProperty("internalAuditTrail");
+    expect(sanitized).not.toHaveProperty("internalModerationNote");
+    expect(sanitized).not.toHaveProperty("sourceRightsEvidence");
+    expect(sanitized).toHaveProperty("slug", "cica-cream");
+  });
+
   it("does not expose review evidence that is pending editorial approval", () => {
     const sanitized = sanitizePublicContentItem(publishedProduct({
       reviewEvidence: { approvalStatus: "pending", summary: "pending" },
