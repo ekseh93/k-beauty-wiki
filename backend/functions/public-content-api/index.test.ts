@@ -99,6 +99,19 @@ describe("sanitizePublicContentItem", () => {
     expect(sanitized.reviewEvidence).toMatchObject({ platform: "Example community", sampleCount: 5, reviewCountAtCollection: 20 });
   });
 
+  it("does not expose internal publication approval metadata", () => {
+    const sanitized = sanitizePublicContentItem(publishedProduct({
+      publicationApproval: {
+        confirmed: true,
+        note: "Internal approval note",
+        approvedAt: "2026-08-14T10:00:00.000Z",
+        approvedBy: "admin@example.com",
+      },
+    }));
+
+    expect(sanitized).not.toHaveProperty("publicationApproval");
+  });
+
   it("does not expose review evidence that is pending editorial approval", () => {
     const sanitized = sanitizePublicContentItem(publishedProduct({
       reviewEvidence: { approvalStatus: "pending", summary: "pending" },

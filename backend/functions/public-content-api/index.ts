@@ -12,6 +12,7 @@ function stringList(value: unknown): string[] {
 export function sanitizePublicContentItem(item: Record<string, unknown>): Record<string, unknown> {
   const publicItem = { ...item };
   delete publicItem.reviewEvidence;
+  delete publicItem.publicationApproval;
   const sources = Array.isArray(item.sources) ? item.sources
     .filter((source): source is Record<string, unknown> => Boolean(source) && typeof source === "object" && !Array.isArray(source))
     .map((source) => ({
