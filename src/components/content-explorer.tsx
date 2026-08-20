@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { COMPARISON_LIMIT, toggleComparisonSelection } from "@/lib/comparison";
 import { kindLabels, type AtlasContent, type ContentKind } from "@/lib/content";
 import { searchContents } from "@/lib/search";
 
@@ -12,7 +13,7 @@ const filterOptions: { value: ContentKind | "all"; label: string }[] = [
   { value: "makeup", label: "メイクアップ" },
 ];
 
-function ContentCard({ content, selected, onSelect }: { content: AtlasContent; selected: boolean; onSelect: () => void }) {
+function ContentCard({ content, selected, comparisonDisabled, onSelect }: { content: AtlasContent; selected: boolean; comparisonDisabled: boolean; onSelect: () => void }) {
   return (
     <article className="flex h-full flex-col rounded-2xl border border-line bg-white/65 p-5 shadow-sm shadow-ink/5 transition hover:-translate-y-0.5 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
@@ -31,10 +32,12 @@ function ContentCard({ content, selected, onSelect }: { content: AtlasContent; s
         <button
           type="button"
           aria-pressed={selected}
+          aria-label={selected ? content.titleJa + "を比較から外す" : comparisonDisabled ? "比較上限に達しています" : content.titleJa + "を比較に追加"}
+          disabled={comparisonDisabled}
           onClick={onSelect}
-          className={`shrink-0 rounded-full border px-3 py-1.5 text-xs transition ${selected ? "border-ink bg-ink text-white" : "border-ink/20 hover:border-ink/50"}`}
+          className={selected ? "shrink-0 rounded-full border border-ink bg-ink px-3 py-1.5 text-xs text-white transition" : comparisonDisabled ? "shrink-0 cursor-not-allowed rounded-full border border-ink/10 px-3 py-1.5 text-xs text-ink/35 transition" : "shrink-0 rounded-full border border-ink/20 px-3 py-1.5 text-xs transition hover:border-ink/50"}
         >
-          {selected ? "比較中" : "比較に追加"}
+          {selected ? "比較中" : comparisonDisabled ? "比較上限" : "比較に追加"}
         </button>
       </div>
     </article>
@@ -96,11 +99,7 @@ export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
   const selected = contents.filter((content) => selectedSlugs.includes(content.slug));
 
   function toggleSelection(slug: string) {
-    setSelectedSlugs((current) => {
-      if (current.includes(slug)) return current.filter((item) => item !== slug);
-      if (current.length >= 3) return current;
-      return [...current, slug];
-    });
+    setSelectedSlugs((current) => toggleComparisonSelection(current, slug));
   }
 
   return (
@@ -119,6 +118,7 @@ export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
             {filterOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
           </select>
         </div>
+        <p className="mt-2 text-xs leading-5 text-ink/50">日本語タイトル・韓国語原名・別名・タグから検索できます。</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {filterOptions.map((option) => (
             <button key={option.value} type="button" onClick={() => setKind(option.value)} className={`rounded-full border px-3 py-1.5 text-xs transition ${kind === option.value ? "border-ink bg-ink text-white" : "border-line hover:border-ink/50"}`}>
@@ -130,7 +130,7 @@ export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
 
       <div className="mt-6 flex items-center justify-between gap-4">
         <p className="text-sm text-ink/60">{results.length}件のコンテンツ</p>
-        <p className="text-xs text-ink/45">最大3件まで比較できます</p>
+        <p className="text-xs text-ink/45">最大{COMPARISON_LIMIT}件まで比較できます</p>
       </div>
 
       {selected.length > 0 && (
@@ -156,7 +156,10 @@ export function ContentExplorer({ contents }: { contents: AtlasContent[] }) {
       )}
 
       <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {results.map((content) => <ContentCard key={content.id} content={content} selected={selectedSlugs.includes(content.slug)} onSelect={() => toggleSelection(content.slug)} />)}
+        {results.map((content) => {
+          const selectedItem = selectedSlugs.includes(content.slug);
+          return <ContentCard key={content.id} content={content} selected={selectedItem} comparisonDisabled={!selectedItem && selectedSlugs.length >= COMPARISON_LIMIT} onSelect={() => toggleSelection(content.slug)} />;
+        })}
       </div>
       {results.length === 0 && <p className="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-ink/55">条件に一致するコンテンツがありません。</p>}
     </div>
