@@ -26,6 +26,15 @@ export function sortRevisions(items: Record<string, unknown>[]): Record<string, 
   return [...items].sort((a, b) => String(b.createdAt ?? "").localeCompare(String(a.createdAt ?? "")));
 }
 
+export function summarizePublicationReadiness(item: Record<string, unknown>): { ready: boolean; errors: string[] } {
+  const candidate = { ...item, status: "published" } as Partial<ContentRecord>;
+  const errors = [...validateForPublish(candidate), ...validatePublicationApproval(candidate)];
+  if (Array.isArray(candidate.sources) && candidate.sources.some((source) => source.rightsStatus !== "verified" && source.rightsStatus !== "reference-only")) {
+    errors.push("source rights must be verified or reference-only");
+  }
+  return { ready: errors.length === 0, errors: [...new Set(errors)] };
+}
+
 export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) => {
   const claims = event.requestContext.authorizer?.jwt?.claims;
   if (!hasAdminGroup(claims)) {
@@ -68,7 +77,9 @@ export const handler: APIGatewayProxyHandlerV2WithJWTAuthorizer = async (event) 
       ExpressionAttributeValues: { ":status": status },
       ScanIndexForward: false,
     }))));
-    const items = results.flatMap((result) => result.Items ?? []).sort((a, b) => String(b.updatedAt ?? "").localeCompare(String(a.updatedAt ?? "")));
+    const items = results.flatMap((result) => result.Items ?? [])
+      .sort((a, b) => String(b.updatedAt ?? "").localeCompare(String(a.updatedAt ?? "")))
+      .map((item) => ({ ...item, publicationReadiness: summarizePublicationReadiness(item as Record<string, unknown>) }));
     return jsonResponse(200, { items });
   }
 
