@@ -35,7 +35,7 @@
     "currency": "JPY",
     "pricePerVolume": "通常 11.8 JPY/ml / 確認時割引 10.6 JPY/ml",
     "keyIngredients": [
-      { "name": "ドクダミエキス", "role": "公式ページで整肌成分として案内" },
+      { "name": "ドクダミ花／葉／茎水", "role": "公式ページで整肌成分として案内" },
       { "name": "ヒアルロン酸Na", "role": "公式ページで保湿成分として案内" },
       { "name": "パンテノール", "role": "公式ページで整肌・保湿成分として案内" }
     ],
@@ -66,6 +66,6 @@
   },
   "isFixture": false,
   "createdAt": "2026-08-16T15:00:00+09:00",
-  "updatedAt": "2026-08-16T15:00:00+09:00",
+  "updatedAt": "2026-08-21T08:46:51+09:00",
   "relatedSlugs": []
 }
