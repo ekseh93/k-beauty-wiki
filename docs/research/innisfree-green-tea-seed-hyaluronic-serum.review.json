@@ -25,6 +25,14 @@
       "extractionMethod": "manual"
     },
     {
+      "title": "イニスフリー日本公式商品詳細ページ（全成分表示）",
+      "url": "https://www.innisfree.jp/product/green-tea-seed-hyaluronic-serum/detail/1608?optno=2052",
+      "checkedAt": "2026-08-21",
+      "sourceType": "manual-reference",
+      "rightsStatus": "reference-only",
+      "extractionMethod": "manual"
+    },
+    {
       "title": "＠cosme ブランド提供・承認商品情報",
       "url": "https://www.cosme.net/products/10240099/",
       "checkedAt": "2026-08-21",
@@ -80,6 +88,6 @@
   },
   "isFixture": false,
   "createdAt": "2026-08-16T15:45:00+09:00",
-  "updatedAt": "2026-08-21T08:55:09.3212913+09:00",
+  "updatedAt": "2026-08-21T10:02:34.9822546+09:00",
   "relatedSlugs": []
 }
