@@ -14,7 +14,7 @@
   "tags": ["化粧水", "保湿", "セラミド", "ナイアシンアミド", "LANEIGE"],
   "aliases": ["Gel Cream Skin Lotion", "Cream Skin Zincpep Toner & Gel Moisturizer", "젤 크림 스킨 로션"],
   "status": "review",
-  "lastVerifiedAt": "2026-08-16",
+  "lastVerifiedAt": "2026-08-21",
   "sources": [
     {
       "title": "LANEIGE日本公式商品ページ",
@@ -82,6 +82,6 @@
   },
   "isFixture": false,
   "createdAt": "2026-08-16T16:45:00+09:00",
-  "updatedAt": "2026-08-21T16:45:00+09:00",
+  "updatedAt": "2026-08-21T09:11:50.8848880+09:00",
   "relatedSlugs": []
 }
