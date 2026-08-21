@@ -70,10 +70,11 @@
 
 ## TIRTIR GLIDE ＆ HIDE BLURRING CONCEALER
 
-- 확인 대상: [TIRTIR 일본 공식 상품 페이지](https://tirtir.co.jp/products/glide-hide-blurring-concealer), [@cosme 공식 통신판매 1.3C](https://www.cosme.com/products/detail.php?product_id=403404), [@cosme 공식 통신판매 3.5C](https://www.cosme.com/products/detail.php?product_id=403094), [Loft 상품 페이지](https://www.loft.co.jp/store/g/g8800288648763/)
-- 확인한 사실: TIRTIR 일본 공식 페이지에서 1C·1.3C·3.5C 3색과 일본 내 판매처 링크를 재확인했다. @cosme 공식 통신판매 페이지에서 1.3C와 3.5C 모두 스틱 4g+리퀴드 4g, 1,815엔, 재고 있음, 스틱·리퀴드 용도별 사용법과 색상별 전성분을 확인했다. 1.3C JAN 8800288648770, 3.5C JAN 8800288648787도 확인했다.
+- 확인 대상: [TIRTIR 일본 공식 상품 페이지](https://tirtir.co.jp/products/glide-hide-blurring-concealer), [@cosme 공식 통신판매 1C](https://www.cosme.com/products/detail.php?product_id=403096), [@cosme 공식 통신판매 1.3C](https://www.cosme.com/products/detail.php?product_id=403404), [@cosme 공식 통신판매 3.5C](https://www.cosme.com/products/detail.php?product_id=403094), [Loft 상품 페이지](https://www.loft.co.jp/store/g/g8800288648763/)
+- 확인한 사실: TIRTIR 일본 공식 페이지에서 1C·1.3C·3.5C 3색과 일본 내 판매처 링크를 재확인했다. @cosme 공식 통신판매 페이지에서 1C·1.3C·3.5C 모두 스틱4g+리퀴드4g, 1,815엔, 재고 있음, 스틱·리퀴드 용도별 사용법과 색상별 전성분을 확인했다. 1C JAN 8800288648763, 1.3C JAN 8800288648770, 3.5C JAN 8800288648787도 확인했다.
 - 판매 페이지 처리: 공식 페이지 자체에서 가격과 세부 전성분을 확인할 수 없어 가격·용량·성분은 @cosme 표시로 분리 기록한다. Loft 페이지는 이번 자동 재확인에서 본문을 가져오지 못했으므로 신규 사실의 근거로 사용하지 않는다.
 - 권리 처리: 공식·판매 페이지의 상품 이미지와 이용자 리뷰는 수집·복사·인용하지 않았다. 성분명에서 커버력·보습효과를 독자적으로 추론하지 않는다.
+- 최신 재확인: 일본 공식 페이지의 3색·판매처 링크와 @cosme의 3색 현행 상품 표시를 다시 대조했다. 상품 고유의 안전·보관 주의사항은 현재 확인 가능한 페이지에 확실히 노출되지 않아 공개 필드에서 단정하지 않는다.
 - 공개 판단: `review` 유지. 현행 패키지 표시와 최종 편집 승인이 남아 있어 공개하지 않는다.
 
 ## CLIO グレーズ リップ セラム
