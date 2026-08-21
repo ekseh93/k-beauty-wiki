@@ -2,7 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DEFAULT_MAX_AGE_DAYS, getContentFreshness } from "../../shared/content-freshness";
-import { corsHeaders, jsonResponse, validateForPublish, type ContentRecord } from "../../shared/content";
+import { corsHeaders, jsonResponse, validateForPublish, validatePublicationApproval, type ContentRecord } from "../../shared/content";
 
 const documentClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
@@ -66,7 +66,7 @@ export function sanitizePublicContentItem(item: Record<string, unknown>): Record
 export function filterPublicContentItems(items: Record<string, unknown>[], kind?: string, query = "", asOf = new Date(), maxAgeDays = DEFAULT_MAX_AGE_DAYS): Record<string, unknown>[] {
   const normalizedQuery = query.trim().toLocaleLowerCase("ja-JP");
   return items.filter((item) => {
-    if (item.status !== "published" || item.isFixture === true || getContentFreshness(item, asOf, maxAgeDays).status !== "fresh" || validateForPublish(item as Partial<ContentRecord>).length > 0) return false;
+    if (item.status !== "published" || item.isFixture === true || getContentFreshness(item, asOf, maxAgeDays).status !== "fresh" || validateForPublish(item as Partial<ContentRecord>).length > 0 || validatePublicationApproval(item as Partial<ContentRecord>).length > 0) return false;
     if (kind && item.kind !== kind) return false;
     if (!normalizedQuery) return true;
     return [item.titleJa, item.koreanName, item.summary, ...stringList(item.tags), ...stringList(item.aliases)]

@@ -22,6 +22,10 @@ function publishedProduct(overrides: Record<string, unknown> = {}): Record<strin
       rightsStatus: "reference-only",
       extractionMethod: "manual",
     }],
+    publicationApproval: {
+      confirmed: true,
+      note: "현행 표시와 출처 권리를 확인했습니다.",
+    },
     details: {
       kind: "product",
       brand: "Example",
@@ -74,6 +78,12 @@ describe("filterPublicContentItems", () => {
     const invalid = publishedProduct({ slug: "invalid-cica-cream", lastVerifiedAt: "2026-02-30" });
 
     expect(filterPublicContentItems([stale, invalid], undefined, "", asOf, 180)).toEqual([]);
+  });
+
+  it("hides legacy published content without final publication approval", () => {
+    const legacy = publishedProduct({ publicationApproval: undefined, slug: "legacy-without-approval" });
+
+    expect(filterPublicContentItems([legacy], undefined, "", asOf)).toEqual([]);
   });
 });
 
